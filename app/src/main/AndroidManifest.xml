@@ -9,15 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConfigActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MonitorStressLevel" />
+        <activity android:name=".MonitorBloodPressure" />
+        <activity android:name=".MonitorHeartRate" />
+        <activity android:name=".ConfigActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/MaterialCardTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Temperatura"></activity>
+        <activity android:name=".MonitorTemperature" />
     </application>
 
 </manifest>

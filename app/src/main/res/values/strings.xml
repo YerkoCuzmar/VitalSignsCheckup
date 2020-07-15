@@ -3,5 +3,13 @@
     <string name="contentDescriptionTemperature">Thermometer</string>
     <string name="contentDescriptionHeartRate">Heart</string>
     <string name="contentDescriptionBloodPessure">BloodPressure</string>
-    <string name="contentDescriptionStress">Stress</string>
+    <string name="contentDescriptionStressLevel">Stress</string>
+
+    <string name="MonitorTemperatureTitle">Temperatura Corporal</string>
+    <string name="MonitorBloodPressureTitle">Presión Sanguinea</string>
+    <string name="MonitorStressLevelTitle">Niveles de Estrés</string>
+    <string name="MonitorHeartRateTitle">Ritmo Cardíaco</string>
+
+    <string name="WIP">Trabajo en Progreso</string>
+
 </resources>
