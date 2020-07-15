@@ -5,11 +5,10 @@
     <string name="contentDescriptionBloodPressure">BloodPressure</string>
     <string name="contentDescriptionStressLevel">Stress</string>
 
-    <string name="MonitorTemperatureTitle">Temperatura Corporal</string>
+    <string name="MonitorTemperatureTitle">Temperatura</string>
     <string name="MonitorBloodPressureTitle">Presión Sanguinea</string>
     <string name="MonitorStressLevelTitle">Niveles de Estrés</string>
     <string name="MonitorHeartRateTitle">Ritmo Cardíaco</string>
 
     <string name="WIP">Trabajo en Progreso</string>
-
 </resources>

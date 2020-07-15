@@ -1,18 +1,27 @@
 package com.example.vitalsignscheckup;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.custom_app_bar);
+        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
+        actionBarTitle.setText(R.string.app_name);
 
         MaterialCardView temperatureCard   = findViewById(R.id.temperatureCard);
         MaterialCardView heartRateCard     = findViewById(R.id.heartRateCard);

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.Objects;
 
@@ -15,9 +16,13 @@ public class MonitorHeartRate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_heart_rate);
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.custom_app_bar);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.MonitorHeartRateTitle);
+
+        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
+        actionBarTitle.setText(R.string.MonitorHeartRateTitle);
     }
 
     @Override
