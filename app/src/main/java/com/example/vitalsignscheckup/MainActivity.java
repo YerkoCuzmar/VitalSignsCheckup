@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
-                startActivity(monitorTemperatureIntent);
+//                startActivity(monitorTemperatureIntent);
+                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
         heartRateCard.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
-                startActivity(monitorStressLevelIntent);
+//                startActivity(monitorStressLevelIntent);
+                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
     }
