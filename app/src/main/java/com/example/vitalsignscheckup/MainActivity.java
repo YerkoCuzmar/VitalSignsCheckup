@@ -5,22 +5,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import com.google.android.material.card.MaterialCardView;
 
 public class MainActivity extends AppCompatActivity {
-    private Button button;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button next = (Button) findViewById(R.id.button);
-        next.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), Temperatura.class);
-                startActivityForResult(myIntent, 0);
-            }
+        MaterialCardView temperatureCard   = findViewById(R.id.temperatureCard);
+        MaterialCardView heartRateCard     = findViewById(R.id.heartRateCard);
+        MaterialCardView bloodPressureCard = findViewById(R.id.bloodPressureCard);
+        MaterialCardView stressLevelCard   = findViewById(R.id.stressLevelCard);
 
+        temperatureCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+                startActivity(monitorTemperatureIntent);
+            }
+        });
+        heartRateCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+                startActivity(monitorHeartRateIntent);
+            }
+        });
+        bloodPressureCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+                startActivity(monitorBloodPressureIntent);
+            }
+        });
+        stressLevelCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
+                startActivity(monitorStressLevelIntent);
+            }
         });
     }
 }

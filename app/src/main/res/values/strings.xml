@@ -2,7 +2,7 @@
     <string name="app_name">VitalSignsCheckup</string>
     <string name="contentDescriptionTemperature">Thermometer</string>
     <string name="contentDescriptionHeartRate">Heart</string>
-    <string name="contentDescriptionBloodPessure">BloodPressure</string>
+    <string name="contentDescriptionBloodPressure">BloodPressure</string>
     <string name="contentDescriptionStressLevel">Stress</string>
 
     <string name="MonitorTemperatureTitle">Temperatura Corporal</string>

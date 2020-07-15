@@ -20,7 +20,7 @@
             android:layout_width="197dp"
             android:layout_height="154dp"
             app:srcCompat="@drawable/work_in_progress"
-            android:contentDescription="Work in progress"/>
+            android:contentDescription="@string/WIP"/>
 
         <TextView
             android:id="@+id/textView"

@@ -1,8 +1,6 @@
 package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ActionBar;
 import android.os.Bundle;
 
 public class ConfigActivity extends AppCompatActivity {
