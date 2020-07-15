@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VitalSignsCheckup</string>
+    <string name="contentDescriptionTemperature">Thermometer</string>
+    <string name="contentDescriptionHeartRate">Heart</string>
+    <string name="contentDescriptionBloodPessure">BloodPressure</string>
+    <string name="contentDescriptionStress">Stress</string>
 </resources>
