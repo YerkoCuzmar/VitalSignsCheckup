@@ -6,7 +6,7 @@
     <string name="contentDescriptionStressLevel">Stress</string>
 
     <string name="MonitorTemperatureTitle">Temperatura</string>
-    <string name="MonitorBloodPressureTitle">Presión Sangínea</string>
+    <string name="MonitorBloodPressureTitle">Presión Sanguínea</string>
     <string name="MonitorStressLevelTitle">Niveles de Estrés</string>
     <string name="MonitorHeartRateTitle">Ritmo Cardíaco</string>
 
