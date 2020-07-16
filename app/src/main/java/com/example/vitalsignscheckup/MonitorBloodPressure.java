@@ -24,6 +24,17 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
         TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
         actionBarTitle.setText(R.string.MonitorBloodPressureTitle);
+
+        //set valor de 1
+        TextView bp_medicion_mmhg = (TextView)findViewById(R.id.bp_medicion_mmhg);
+        bp_medicion_mmhg.setText("meditionuno");
+        //set valor de 2
+        TextView bp_medicion_mmhg2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
+        bp_medicion_mmhg2.setText("meditiondos");
+        //set alert type
+        TextView estado = (TextView)findViewById(R.id.estado);
+        estado.setText("presión alta");
+
     }
 
     @Override
