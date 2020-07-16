@@ -52,6 +52,7 @@
         android:layout_marginEnd="150dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"
         app:srcCompat="@drawable/ic_blood_pressure" />
@@ -63,7 +64,7 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/bp_imagen"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.29000002" />
@@ -75,7 +76,7 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/bp_imagen"
         app:layout_constraintTop_toBottomOf="@+id/bp_medicion_mmhg"
         app:layout_constraintVertical_bias="0.32" />
@@ -88,6 +89,7 @@
         android:text="mmHg"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toEndOf="@+id/bp_medicion_mmhg"
         app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
@@ -100,6 +102,7 @@
         android:text="mmHg"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toEndOf="@+id/bp_medicion_mmhg2"
         app:layout_constraintTop_toBottomOf="@+id/med_mmhg1"
         app:layout_constraintVertical_bias="0.52" />
