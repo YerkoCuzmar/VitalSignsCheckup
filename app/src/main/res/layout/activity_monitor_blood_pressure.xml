@@ -33,6 +33,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mostrar alerta"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/bp_imagen"
+        app:layout_constraintVertical_bias="0.488" />
+
     <ImageView
         android:id="@+id/bp_imagen"
         android:layout_width="wrap_content"
@@ -48,25 +60,25 @@
         android:id="@+id/bp_medicion_mmhg"
         android:layout_width="81dp"
         android:layout_height="45dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginBottom="70dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toEndOf="@+id/bp_imagen"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29000002" />
 
     <TextView
         android:id="@+id/bp_medicion_mmhg2"
         android:layout_width="81dp"
         android:layout_height="45dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="60dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toEndOf="@+id/bp_imagen"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/bp_medicion_mmhg"
+        app:layout_constraintVertical_bias="0.32" />
 
     <TextView
         android:id="@+id/med_mmhg1"
@@ -83,22 +95,14 @@
         android:id="@+id/med_mmhg2"
         android:layout_width="64dp"
         android:layout_height="27dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginBottom="140dp"
         android:text="mmHg"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintStart_toEndOf="@+id/bp_medicion_mmhg2"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
-
-    <TextView
-        android:id="@+id/estado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="mostrar alerta"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/bp_imagen" />
+        app:layout_constraintTop_toBottomOf="@+id/med_mmhg1"
+        app:layout_constraintVertical_bias="0.52" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
