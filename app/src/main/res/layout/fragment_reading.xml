@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_centerInParent="true"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/heartRate_img"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_heart" />
+
+            <TextView
+                android:id="@+id/heartRate_reading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:layout_gravity="center"
+                android:text="6"
+                android:textSize="90sp"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_marginStart="@dimen/default_gap"/>
+
+            <TextView
+                android:id="@+id/heartRate_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:padding="10dp"
+                android:text="ppm"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/heartRate_alert_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="Alerta!"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimaryText">
+
+        </TextView>
+
+    </LinearLayout>
+</RelativeLayout>
