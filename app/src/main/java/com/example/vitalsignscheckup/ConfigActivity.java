@@ -2,13 +2,14 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 import android.view.View;
 import android.widget.Toast;
@@ -18,10 +19,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ConfigActivity extends AppCompatActivity {
 
-    int pvsPort = 1;
-    int pvsInterval = 1;
-    int ecgPort = 2;
-    int ecgInterval = 1;
+    int pvsPort = MainActivity.getPvsPort();
+    int pvsInterval = MainActivity.getPvsInterval();
+    int ecgPort = MainActivity.getEcgPort();
+    int ecgInterval = MainActivity.getEcgInterval();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,9 @@ public class ConfigActivity extends AppCompatActivity {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     pvsPort = Integer.valueOf(inPortHint1.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Port 1:" + String.valueOf(pvsPort), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigActivity.this, "Sensor PVS conectado en el puerto: " + String.valueOf(pvsPort), Toast.LENGTH_SHORT).show();
+                    MainActivity.setPvsPort(pvsPort);
+                    closeKeyboard();
                     return true;
                 }
                 return false;
@@ -69,7 +72,9 @@ public class ConfigActivity extends AppCompatActivity {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     pvsInterval = Integer.valueOf(inIntervalHint1.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Interval 1:" + String.valueOf(pvsInterval), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigActivity.this, "PVS se medirá cada " + String.valueOf(pvsInterval) + " segundos", Toast.LENGTH_SHORT).show();
+                    MainActivity.setPvsInterval(pvsInterval);
+                    closeKeyboard();
                     return true;
                 }
                 return false;
@@ -80,7 +85,9 @@ public class ConfigActivity extends AppCompatActivity {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     ecgPort = Integer.valueOf(inPortHint2.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Port 2:" + String.valueOf(ecgPort), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigActivity.this, "Sensor ECG conectado en el puerto: " + String.valueOf(ecgPort), Toast.LENGTH_SHORT).show();
+                    MainActivity.setEcgPort(ecgPort);
+                    closeKeyboard();
                     return true;
                 }
                 return false;
@@ -91,7 +98,9 @@ public class ConfigActivity extends AppCompatActivity {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     ecgInterval = Integer.valueOf(inIntervalHint2.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Interval 2:" + String.valueOf(ecgInterval), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigActivity.this, "ECG se medirá cada " + String.valueOf(ecgInterval) + " segundos", Toast.LENGTH_SHORT).show();
+                    MainActivity.setEcgInterval(ecgInterval);
+                    closeKeyboard();
                     return true;
                 }
                 return false;
@@ -115,5 +124,28 @@ public class ConfigActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void closeKeyboard()
+    {
+        // this will give us the view
+        // which is currently focus
+        // in this layout
+        View view = this.getCurrentFocus();
+
+        // if nothing is currently
+        // focus then this will protect
+        // the app from crash
+        if (view != null) {
+
+            // now assign the system
+            // service to InputMethodManager
+            InputMethodManager manager
+                    = (InputMethodManager)
+                    getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+            manager
+                    .hideSoftInputFromWindow(
+                            view.getWindowToken(), 0);
+        }
+    }
 
 }
