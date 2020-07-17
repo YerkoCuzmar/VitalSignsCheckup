@@ -76,12 +76,5 @@ public class MonitorHeartRate extends AppCompatActivity {
     }
 
     
-    public void ShowAlerta(){
-        TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
-        tv1.setText("Mostrar Alerta");
-    }
-    public void ShowData(){
-        TextView tv2 = (TextView)findViewById(R.id.medida_heart);
-        tv2.setText("55 BPM");
-    }
+
 }
