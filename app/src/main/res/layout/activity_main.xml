@@ -194,7 +194,15 @@
                 </TextView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/configBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONFIG"
+            />
     </GridLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
