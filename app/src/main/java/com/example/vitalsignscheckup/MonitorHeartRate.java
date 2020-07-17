@@ -7,14 +7,24 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class MonitorHeartRate extends AppCompatActivity {
 
 
     int count = 0;
+
+
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
+    String dateformatted = dateFormat.format(date);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_heart_rate);
@@ -27,8 +37,8 @@ public class MonitorHeartRate extends AppCompatActivity {
         TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
         actionBarTitle.setText(R.string.MonitorHeartRateTitle);
 
-        //TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
-        //tv1.setText("Mostrar Alerta");
+        TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
+        tv1.setText("Mostrar Alerta");
 
         TextView tv2 = (TextView)findViewById(R.id.medida_heart);
         tv2.setText("Midiendo");
@@ -37,25 +47,31 @@ public class MonitorHeartRate extends AppCompatActivity {
         tv3.setText("ppm");
 
 
-
         final TextView textView = (TextView)findViewById(R.id.medida_heart);
+
+
+        final TextView h1 = (TextView)findViewById(R.id.heart1);
+
         Thread t=new Thread(){
             @Override
             public void run(){
-                while(!isInterrupted()){
-                    try {
-                        Thread.sleep(1000);  //1000ms = 1 sec
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                count++;
-                                textView.setText(String.valueOf(count));
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            while(!isInterrupted()){
+                try {
+                    Thread.sleep(1000);  //1000ms = 1 sec
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            count++;
+                            textView.setText(String.valueOf(count));
+                            date = new Date();
+                            dateformatted = dateFormat.format(date);
+                            h1.setText(dateformatted + "                     " + count + " ppm");
+                        }
+                    });
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
             }
         };
         t.start();
