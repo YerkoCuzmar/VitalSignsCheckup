@@ -2,6 +2,7 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -28,15 +29,18 @@ public class ConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.ConfigTitle);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
+        setSupportActionBar(toolbar);
 
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         final TextInputLayout inPort1 = findViewById(R.id.ConfiginPort1);
         final TextInputEditText inPortHint1 = findViewById(R.id.ConfiginPortHint1);

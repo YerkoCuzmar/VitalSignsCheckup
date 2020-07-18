@@ -2,9 +2,11 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -17,15 +19,16 @@ public class MonitorBloodPressure extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_blood_pressure);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bloodPressureToolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.MonitorBloodPressureTitle);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //set valor de 1
         //TextView bp_medicion_mmhg = (TextView)findViewById(R.id.bp_medicion_mmhg);

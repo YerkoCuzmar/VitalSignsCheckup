@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintStart_toEndOf="@id/guideline_top"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_top">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/temperatureCard"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/colorCard"
+            android:theme="@style/MenuCardViewTopLeft"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.30"
+                    android:contentDescription="@string/contentDescriptionTemperature"
+                    android:src="@drawable/ic_thermometer">
+                </ImageView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:gravity="center"
+                    android:text="@string/MonitorTemperatureTitle"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
+                </TextView>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heartRateCard"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@color/colorCard"
+            android:theme="@style/MenuCardViewTopRight"
+            app:layout_columnWeight="2"
+            app:layout_rowWeight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.30"
+                    android:contentDescription="@string/contentDescriptionHeartRate"
+                    android:src="@drawable/ic_heart">
+                </ImageView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:gravity="center"
+                    android:text="@string/MonitorHeartRateTitle"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bloodPressureCard"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/colorCard"
+            android:theme="@style/MenuCardViewBottomLeft"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/contentDescriptionBloodPressure"
+                    android:src="@drawable/ic_blood_pressure"
+                    android:layout_weight="0.3">
+                </ImageView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:gravity="center"
+                    android:text="@string/MonitorBloodPressureTitle"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/stressLevelCard"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/colorCard"
+            android:theme="@style/MenuCardViewBottomRight"
+            app:layout_columnWeight="2"
+            app:layout_rowWeight="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:contentDescription="@string/contentDescriptionStressLevel"
+                    android:src="@drawable/ic_stress">
+                </ImageView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:gravity="center"
+                    android:text="@string/MonitorStressLevelTitle"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,12 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 
@@ -28,14 +31,17 @@ public class MonitorHeartRate extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_heart_rate);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
+        setSupportActionBar(toolbar);
 
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.MonitorHeartRateTitle);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
         tv1.setText("Mostrar Alerta");

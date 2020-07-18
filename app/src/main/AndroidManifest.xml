@@ -14,7 +14,7 @@
         <activity android:name=".MonitorHeartRate" />
         <activity android:name=".ConfigActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity2"
             android:theme="@style/MaterialCardTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

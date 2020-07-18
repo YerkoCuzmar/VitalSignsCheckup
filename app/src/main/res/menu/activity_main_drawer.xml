@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_awesome_user_circle"
+            android:title="@string/menu_perfil" />
+        <item
+            android:id="@+id/nav_mi_cuidador"
+            android:icon="@drawable/ic_awesome_user_md"
+            android:title="@string/menu_mi_cuidador" />
+        <item
+            android:id="@+id/nav_mis_familiares"
+            android:icon="@drawable/ic_awesome_user_friends"
+            android:title="@string/menu_mis_familiares" />
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/ic_feather_settings"
+            android:title="@string/menu_configuracion" />
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/ic_material_exit_to_app"
+            android:title="@string/menu_cerrar_sesion" />
+    </group>
+</menu>

@@ -2,6 +2,8 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -13,14 +15,10 @@ public class MonitorTemperature extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_temperature);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
+        setSupportActionBar(toolbar);
+        
 
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.MonitorTemperatureTitle);
     }
 
     @Override
