@@ -1,4 +1,4 @@
-package info.plux.android.sample;
+package com.example.vitalsignscheckup;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,10 +10,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void startScanActivity(){
-        Intent intent = new Intent(SplashScreenActivity.this, ScanActivity.class);
+        Intent intent = new Intent(SplashScreenActivity.this, MainActivity2.class);
         startActivity(intent);
 
         //close this activity
