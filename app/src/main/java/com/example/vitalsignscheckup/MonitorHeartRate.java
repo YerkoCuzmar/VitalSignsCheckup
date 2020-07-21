@@ -2,7 +2,9 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,20 +29,29 @@ public class MonitorHeartRate extends AppCompatActivity {
 
 
     int count = 0;
+
+
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
+    String dateformatted = dateFormat.format(date);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_heart_rate);
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
+        setSupportActionBar(toolbar);
 
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.MonitorHeartRateTitle);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        //TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
-        //tv1.setText("Mostrar Alerta");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
+        tv1.setText("Mostrar Alerta");
 
         TextView tv2 = (TextView)findViewById(R.id.medida_heart);
         tv2.setText("Midiendo");
@@ -45,11 +60,31 @@ public class MonitorHeartRate extends AppCompatActivity {
         tv3.setText("ppm");
 
 
-
         final TextView textView = (TextView)findViewById(R.id.medida_heart);
+
+
+        final TextView h1 = (TextView)findViewById(R.id.heart1);
+
         Thread t=new Thread(){
             @Override
             public void run(){
+            while(!isInterrupted()){
+                try {
+                    Thread.sleep(1000);  //1000ms = 1 sec
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            count++;
+                            textView.setText(String.valueOf(count));
+                            date = new Date();
+                            dateformatted = dateFormat.format(date);
+                            h1.setText(dateformatted + "                     " + count + " ppm");
+                        }
+                    });
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
                 while(!isInterrupted()){
                     try {
                         Thread.sleep(1000);  //1000ms = 1 sec
@@ -96,13 +131,6 @@ public class MonitorHeartRate extends AppCompatActivity {
         startActivity(viewHistoryIntent);
     }
 
-    
-    public void ShowAlerta(){
-        TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
-        tv1.setText("Mostrar Alerta");
-    }
-    public void ShowData(){
-        TextView tv2 = (TextView)findViewById(R.id.medida_heart);
-        tv2.setText("55 BPM");
-    }
+
+
 }

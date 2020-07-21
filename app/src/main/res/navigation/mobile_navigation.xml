@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_perfil">
+
+    <fragment
+        android:id="@+id/nav_perfil"
+        android:name="com.example.vitalsignscheckup.ui.home.HomeFragment"
+        android:label="@string/menu_perfil"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_mi_cuidador"
+        android:name="com.example.vitalsignscheckup.ui.gallery.GalleryFragment"
+        android:label="@string/menu_mi_cuidador"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_mis_familiares"
+        android:name="com.example.vitalsignscheckup.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_mis_familiares"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_configuracion"
+        android:name="com.example.vitalsignscheckup.ConfigActivity"
+        android:label="@string/menu_configuracion"
+        tools:layout="@layout/activity_config" />
+
+    <fragment
+        android:id="@+id/nav_cerrar_sesion"
+        android:name="com.example.vitalsignscheckup.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_cerrar_sesion"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>
