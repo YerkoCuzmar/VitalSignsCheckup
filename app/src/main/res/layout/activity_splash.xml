@@ -8,8 +8,8 @@
     android:gravity="center">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="294dp"
+        android:layout_height="61dp"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/logo1"/>
+        app:srcCompat="@drawable/logo1" />
 </LinearLayout>
