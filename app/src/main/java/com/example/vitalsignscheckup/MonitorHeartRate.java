@@ -104,6 +104,9 @@ public class MonitorHeartRate extends AppCompatActivity {
         double valor = 0;
         int pulsaciones = 0;
         int dif = 0;
+        final int sample_rate = 360;
+        int ppm = 0;
+        int pulsaciones2 = 0;
         for (int i = 0; i < signalsList.size(); i++) {
             //if (signalsList.get(i) != 0) {
                 dif = dif + 1;
@@ -113,6 +116,7 @@ public class MonitorHeartRate extends AppCompatActivity {
                         if (signalsList.get(i+1) == 1){
                             valor = signalsList.get(i);
                             pulsaciones = pulsaciones + 1;
+                            pulsaciones2 = pulsaciones2 + 1;
                             //System.out.println("PULSACION EN LA MEDICION: "+ i);
                             System.out.println("VALOR DE DIF " + dif);
                             dif = 0;
@@ -126,6 +130,7 @@ public class MonitorHeartRate extends AppCompatActivity {
                         if (signalsList.get(i+1) == 1){
                             valor = signalsList.get(i);
                             pulsaciones = pulsaciones + 1;
+                            pulsaciones2 = pulsaciones2 + 1;
                             //System.out.println("PULSACION EN LA MEDICION: "+ i);
                             System.out.println("VALOR DE DIF " + dif);
                             dif = 0;
@@ -139,6 +144,12 @@ public class MonitorHeartRate extends AppCompatActivity {
                     }
 
                 }
+                if (i % (sample_rate*2) == 0){
+                    ppm = (ppm + (pulsaciones2*60/2))/2;
+                    System.out.println("PPM ES: "+ ppm);
+                    System.out.println("ENTRA AL i = "+ i);
+                    pulsaciones2 = 0;
+                }
                 //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
             //}
         }
@@ -146,6 +157,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         n = data.size();
         System.out.println("valor de n es " + n);
         final int finalPulsaciones = pulsaciones;
+
         Thread t=new Thread(){
             @Override
             public void run(){
