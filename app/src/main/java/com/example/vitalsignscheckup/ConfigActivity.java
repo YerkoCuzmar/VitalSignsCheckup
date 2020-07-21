@@ -54,18 +54,18 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
         connectDeviceButton = (Button) findViewById(R.id.button_scanDevice);
-        disconnectDeviceButton = (Button) findViewById(R.id.button_stopDevice);
+//        disconnectDeviceButton = (Button) findViewById(R.id.button_stopDevice);
         SharedPreferences preferences;
         preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
         boolean connected = preferences.getBoolean("connected", false);
-        if (connected){
-            disconnectDeviceButton.setVisibility(View.VISIBLE);
-            connectDeviceButton.setVisibility(View.GONE);
-        }
-        else {
-            connectDeviceButton.setVisibility(View.VISIBLE);
-            disconnectDeviceButton.setVisibility(View.GONE);
-        }
+//        if (connected){
+//            disconnectDeviceButton.setVisibility(View.VISIBLE);
+//            connectDeviceButton.setVisibility(View.GONE);
+//        }
+//        else {
+//            connectDeviceButton.setVisibility(View.VISIBLE);
+//            disconnectDeviceButton.setVisibility(View.GONE);
+//        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
@@ -165,38 +165,38 @@ public class ConfigActivity extends AppCompatActivity {
         spEditor.putString("interval", interECG.getText().toString());
         spEditor.apply();
 
-        // Stops scanning after a pre-defined scan period.
-        String connectText = connectDeviceButton.getText().toString();
-        connectDeviceButton.setText("Conectando...");
-//        deviceScan.doDiscovery();
-        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
-        spEditor = preferences.edit();
-        spEditor.putBoolean("connected", true);
-        spEditor.apply();
-        connectDeviceButton.setVisibility(View.GONE);
-        disconnectDeviceButton.setVisibility(View.VISIBLE);
-        connectDeviceButton.setText(connectText);
+        Intent intent = new Intent(this, ScanActivity.class);
         System.out.println("Scan Fin");
+        startActivity(intent);
+
+
+//        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
+//        spEditor = preferences.edit();
+//        spEditor.putBoolean("connected", true);
+//        spEditor.apply();
+//        connectDeviceButton.setVisibility(View.GONE);
+//        disconnectDeviceButton.setVisibility(View.VISIBLE);
+//        connectDeviceButton.setText(connectText);
     }
 
-    public void stopDevice(View view) {
-        SharedPreferences preferences;
-        SharedPreferences.Editor spEditor;
-        System.out.println("Stop Inicio");
-        String disconnectText = disconnectDeviceButton.getText().toString();
-        disconnectDeviceButton.setText("Desconectando...");
-        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
-        spEditor = preferences.edit();
-        spEditor.putBoolean("connected", false);
-        spEditor.apply();
-//        deviceScan.stopScan();
-        disconnectDeviceButton.setVisibility(View.GONE);
-        connectDeviceButton.setVisibility(View.VISIBLE);
-        disconnectDeviceButton.setText(disconnectText);
-        preferences = view.getContext().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
-        preferences = view.getContext().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        preferences.edit().clear().apply();
-        System.out.println("Stop Fin");
-    }
+//    public void stopDevice(View view) {
+//        SharedPreferences preferences;
+//        SharedPreferences.Editor spEditor;
+//        System.out.println("Stop Inicio");
+//        String disconnectText = disconnectDeviceButton.getText().toString();
+//        disconnectDeviceButton.setText("Desconectando...");
+//        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
+//        spEditor = preferences.edit();
+//        spEditor.putBoolean("connected", false);
+//        spEditor.apply();
+////        deviceScan.stopScan();
+//        disconnectDeviceButton.setVisibility(View.GONE);
+//        connectDeviceButton.setVisibility(View.VISIBLE);
+//        disconnectDeviceButton.setText(disconnectText);
+//        preferences = view.getContext().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+//        preferences.edit().clear().apply();
+//        preferences = view.getContext().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+//        preferences.edit().clear().apply();
+//        System.out.println("Stop Fin");
+//    }
 }

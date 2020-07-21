@@ -35,4 +35,7 @@
     <string name="ConfigECG">Sensor de Electrocardiograma</string>
     <string name="ConfigOptions">Puerto, intervalos de medición</string>
 
+
+    <string name="scan_activity_title">Scan</string>
+
 </resources>

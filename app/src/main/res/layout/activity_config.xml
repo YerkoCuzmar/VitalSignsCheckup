@@ -199,12 +199,12 @@
             android:layout_height="wrap_content"
             android:text="Conectar dispositivo"
             android:onClick="scanDevice" />
-        <Button
-            android:id="@+id/button_stopDevice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Desconectar dispositivo"
-            android:onClick="stopDevice" />
+<!--        <Button-->
+<!--            android:id="@+id/button_stopDevice"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Desconectar dispositivo"-->
+<!--            android:onClick="stopDevice" />-->
 
     </RelativeLayout>
 
