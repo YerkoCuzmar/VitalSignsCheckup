@@ -1,6 +1,8 @@
 package com.example.vitalsignscheckup.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +66,39 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", null);
+        String interbvp = preferences.getString("interval", null);
+        System.out.println("puertoBVP: " + portbvp);
+        System.out.println("interBVP: " + interbvp);
+
+        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", null);
+        String interecg = preferences.getString("interval", null);
+        System.out.println("puertoECG: " + portecg);
+        System.out.println("interECG: " + interecg);
+
          return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", null);
+        String interbvp = preferences.getString("interval", null);
+        System.out.println("puertoBVP: " + portbvp);
+        System.out.println("interBVP: " + interbvp);
+
+        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", null);
+        String interecg = preferences.getString("interval", null);
+        System.out.println("puertoECG: " + portecg);
+        System.out.println("interECG: " + interecg);
+
+        preferences = this.getActivity().getSharedPreferences("Device", Context.MODE_PRIVATE);
+        boolean connected = preferences.getBoolean("connected", false);
+        System.out.println( connected);
     }
 
     // This event is triggered soon after onCreateView().

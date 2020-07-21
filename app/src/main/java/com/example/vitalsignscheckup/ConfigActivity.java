@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,15 +36,14 @@ import info.plux.api.interfaces.Constants;
 
 public class ConfigActivity extends AppCompatActivity {
 
-    int pvsPort = MainActivity.getPvsPort();
-    int pvsInterval = MainActivity.getPvsInterval();
-    int ecgPort = MainActivity.getEcgPort();
-    int ecgInterval = MainActivity.getEcgInterval();
-
     private Handler handler = new Handler();
 
     Button connectDeviceButton;
     Button disconnectDeviceButton;
+    EditText portBVP;
+    EditText interBVP;
+    EditText portECG;
+    EditText interECG;
     private DeviceScan deviceScan;
 
     // Stops scanning after 10 seconds.
@@ -54,9 +55,17 @@ public class ConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config);
         connectDeviceButton = (Button) findViewById(R.id.button_scanDevice);
         disconnectDeviceButton = (Button) findViewById(R.id.button_stopDevice);
-        connectDeviceButton.setVisibility(View.VISIBLE);
-        disconnectDeviceButton.setVisibility(View.GONE);
-
+        SharedPreferences preferences;
+        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
+        boolean connected = preferences.getBoolean("connected", false);
+        if (connected){
+            disconnectDeviceButton.setVisibility(View.VISIBLE);
+            connectDeviceButton.setVisibility(View.GONE);
+        }
+        else {
+            connectDeviceButton.setVisibility(View.VISIBLE);
+            disconnectDeviceButton.setVisibility(View.GONE);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
@@ -70,81 +79,27 @@ public class ConfigActivity extends AppCompatActivity {
 
         deviceScan = new DeviceScan(this);
 
-        final TextInputLayout inPort1 = findViewById(R.id.ConfiginPort1);
-        final TextInputEditText inPortHint1 = findViewById(R.id.ConfiginPortHint1);
-        inPortHint1.setHint(String.valueOf(pvsPort));
+        portBVP = (EditText) findViewById(R.id.text_portBVP);
+        interBVP = (EditText) findViewById(R.id.text_interBVP);
+        portECG = (EditText) findViewById(R.id.text_portECG);
+        interECG = (EditText) findViewById(R.id.text_interECG);
 
-        final TextInputLayout inInterval1 = findViewById(R.id.ConfiginInterv1);
-        final TextInputEditText inIntervalHint1 = findViewById(R.id.ConfiginIntervHint1);
-        inIntervalHint1.setHint(String.valueOf(pvsInterval));
+        preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", "");
+        String interbvp = preferences.getString("interval", "");
+        portBVP.setText(portbvp);
+        interBVP.setText(interbvp);
 
-
-        final TextInputLayout inPort2 = findViewById(R.id.ConfiginPort2);
-        final TextInputEditText inPortHint2 = findViewById(R.id.ConfiginPortHint2);
-        inPortHint2.setHint(String.valueOf(ecgPort));
-
-        final TextInputLayout inInterval2 = findViewById(R.id.ConfiginInterv2);
-        final TextInputEditText inIntervalHint2 = findViewById(R.id.ConfiginIntervHint2);
-        inIntervalHint2.setHint(String.valueOf(ecgInterval));
-
-        inPortHint1.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    pvsPort = Integer.valueOf(inPortHint1.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Sensor PVS conectado en el puerto: " + String.valueOf(pvsPort), Toast.LENGTH_SHORT).show();
-                    MainActivity.setPvsPort(pvsPort);
-                    closeKeyboard();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        inIntervalHint1.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    pvsInterval = Integer.valueOf(inIntervalHint1.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "PVS se medirá cada " + String.valueOf(pvsInterval) + " segundos", Toast.LENGTH_SHORT).show();
-                    MainActivity.setPvsInterval(pvsInterval);
-                    closeKeyboard();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        inPortHint2.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    ecgPort = Integer.valueOf(inPortHint2.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "Sensor ECG conectado en el puerto: " + String.valueOf(ecgPort), Toast.LENGTH_SHORT).show();
-                    MainActivity.setEcgPort(ecgPort);
-                    closeKeyboard();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        inIntervalHint2.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
-                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    ecgInterval = Integer.valueOf(inIntervalHint2.getText().toString());
-                    Toast.makeText(ConfigActivity.this, "ECG se medirá cada " + String.valueOf(ecgInterval) + " segundos", Toast.LENGTH_SHORT).show();
-                    MainActivity.setEcgInterval(ecgInterval);
-                    closeKeyboard();
-                    return true;
-                }
-                return false;
-            }
-        });
-
+        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", "");
+        String interecg = preferences.getString("interval", "");
+        portECG.setText(portecg);
+        interECG.setText(interecg);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        stopDevice(disconnectDeviceButton);
     }
 
     @Override
@@ -196,17 +151,28 @@ public class ConfigActivity extends AppCompatActivity {
 
     public void scanDevice(View view) {
         System.out.println("Scan Inicio");
+        SharedPreferences preferences;
+        SharedPreferences.Editor spEditor;
+        preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        spEditor = preferences.edit();
+        spEditor.putString("port", portBVP.getText().toString());
+        spEditor.putString("interval", interBVP.getText().toString());
+        spEditor.apply();
+
+        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        spEditor = preferences.edit();
+        spEditor.putString("port", portECG.getText().toString());
+        spEditor.putString("interval", interECG.getText().toString());
+        spEditor.apply();
+
         // Stops scanning after a pre-defined scan period.
         String connectText = connectDeviceButton.getText().toString();
         connectDeviceButton.setText("Conectando...");
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                deviceScan.stopScan();
-//                invalidateOptionsMenu();
-//            }
-//        }, SCAN_PERIOD);
 //        deviceScan.doDiscovery();
+        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
+        spEditor = preferences.edit();
+        spEditor.putBoolean("connected", true);
+        spEditor.apply();
         connectDeviceButton.setVisibility(View.GONE);
         disconnectDeviceButton.setVisibility(View.VISIBLE);
         connectDeviceButton.setText(connectText);
@@ -214,13 +180,23 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     public void stopDevice(View view) {
+        SharedPreferences preferences;
+        SharedPreferences.Editor spEditor;
         System.out.println("Stop Inicio");
         String disconnectText = disconnectDeviceButton.getText().toString();
         disconnectDeviceButton.setText("Desconectando...");
+        preferences = getSharedPreferences("Device", Context.MODE_PRIVATE );
+        spEditor = preferences.edit();
+        spEditor.putBoolean("connected", false);
+        spEditor.apply();
 //        deviceScan.stopScan();
         disconnectDeviceButton.setVisibility(View.GONE);
         connectDeviceButton.setVisibility(View.VISIBLE);
         disconnectDeviceButton.setText(disconnectText);
+        preferences = view.getContext().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        preferences.edit().clear().apply();
+        preferences = view.getContext().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        preferences.edit().clear().apply();
         System.out.println("Stop Fin");
     }
 }

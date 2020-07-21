@@ -16,21 +16,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int pvsPort = 1;
-    private static int pvsInterval = 1;
-    private static int ecgPort = 2;
-    private static int ecgInterval = 1;
-
-    public static void setPvsPort(int newPort){ pvsPort = newPort; }
-    public static void setPvsInterval(int newInterval){ pvsInterval = newInterval; }
-    public static void setEcgPort(int newPort){ ecgPort = newPort; }
-    public static void setEcgInterval(int newInterval){ ecgInterval = newInterval; }
-
-    public static int getPvsPort(){return pvsPort;}
-    public static int getPvsInterval(){return pvsInterval;}
-    public static int getEcgPort(){return ecgPort;}
-    public static int getEcgInterval(){return ecgInterval;}
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,5 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
