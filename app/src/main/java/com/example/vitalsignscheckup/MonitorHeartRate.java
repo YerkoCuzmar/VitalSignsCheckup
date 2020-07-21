@@ -3,12 +3,20 @@ package com.example.vitalsignscheckup;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Objects;
 
 public class MonitorHeartRate extends AppCompatActivity {
@@ -50,6 +58,13 @@ public class MonitorHeartRate extends AppCompatActivity {
                             public void run() {
                                 count++;
                                 textView.setText(String.valueOf(count));
+                                try {
+                                    OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
+                                    output.append(count+"\n");
+                                    output.flush();
+                                    output.close();
+                                } catch (IOException e) {
+                                }
                             }
                         });
                     } catch (InterruptedException e) {
@@ -73,6 +88,12 @@ public class MonitorHeartRate extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void viewHistory(View view){
+        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
+        viewHistoryIntent.putExtra("origin", "heartRate");
+        startActivity(viewHistoryIntent);
     }
 
     

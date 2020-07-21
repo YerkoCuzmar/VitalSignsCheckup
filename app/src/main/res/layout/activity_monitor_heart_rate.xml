@@ -11,9 +11,9 @@
         android:layout_width="410dp"
         android:layout_height="257dp"
         android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="0dp">
 
     </LinearLayout>
 
@@ -83,5 +83,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.060000002" />
+
+    <Button
+        android:id="@+id/button_HeartRateFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="292dp"
+        android:layout_weight="1"
+        android:text="Ver Historial"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="viewHistory"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

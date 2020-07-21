@@ -3,10 +3,15 @@ package com.example.vitalsignscheckup;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Objects;
 
 public class MonitorBloodPressure extends AppCompatActivity {
@@ -51,6 +56,13 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 count++;
                                 textView.setText(String.valueOf(count));
                                 textView2.setText(String.valueOf(count+80));
+                                try {
+                                    OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
+                                    output.append(count + "/" + (count+80) +"\n");
+                                    output.flush();
+                                    output.close();
+                                } catch (IOException e) {
+                                }
                             }
                         });
                     } catch (InterruptedException e) {
@@ -74,5 +86,11 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void viewHistory(View view){
+        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
+        viewHistoryIntent.putExtra("origin", "bloodPressure");
+        startActivity(viewHistoryIntent);
     }
 }
