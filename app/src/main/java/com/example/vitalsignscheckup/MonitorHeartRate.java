@@ -107,7 +107,7 @@ public class MonitorHeartRate extends AppCompatActivity {
             if (signalsList.get(i) != 0) {
                 if (signalsList.get(i) != valor && signalsList.get(i) != -1){
                     valor = signalsList.get(i);
-                    pulsaciones = pulsaciones + 1;//se halla peak
+                    pulsaciones = pulsaciones + 1;
                 }
                 //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
             }
