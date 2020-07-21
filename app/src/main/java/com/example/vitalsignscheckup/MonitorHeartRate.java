@@ -39,6 +39,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     int count = 0;
 
 
+
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
     String dateformatted = dateFormat.format(date);
@@ -67,7 +68,6 @@ public class MonitorHeartRate extends AppCompatActivity {
 
     List<Integer> signalsList = resultsMap.get("signals");
     List<Double> filteredDataList = resultsMap.get("filteredData");
-
 
 
     protected void onCreate(Bundle savedInstanceState) {
