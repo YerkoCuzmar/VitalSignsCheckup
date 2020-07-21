@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="410dp" />
+        app:layout_constraintGuide_begin="447dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
@@ -134,8 +134,8 @@
 
     <LinearLayout
         android:id="@+id/Historial"
-        android:layout_width="296dp"
-        android:layout_height="381dp"
+        android:layout_width="266dp"
+        android:layout_height="426dp"
         android:layout_marginStart="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -148,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Historial"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/hist1"
@@ -168,11 +168,11 @@
         android:id="@+id/button_checkHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="292dp"
+        android:onClick="viewHistory"
         android:text="Ver Historial"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        android:onClick="viewHistory"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="308dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
