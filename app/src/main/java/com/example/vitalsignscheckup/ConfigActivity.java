@@ -165,7 +165,7 @@ public class ConfigActivity extends AppCompatActivity {
         spEditor.putString("interval", interECG.getText().toString());
         spEditor.apply();
 
-        Intent intent = new Intent(this, ScanActivity.class);
+        Intent intent = new Intent(ConfigActivity.this, ScanActivity.class);
         System.out.println("Scan Fin");
         startActivity(intent);
 

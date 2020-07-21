@@ -60,7 +60,7 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void startScanActivity(){
-        Intent intent = new Intent(SplashScreenActivity.this, ScanActivity.class);
+        Intent intent = new Intent(SplashScreenActivity.this, MainActivity2.class);
         startActivity(intent);
 
         //close this activity

@@ -1,15 +1,5 @@
 package com.example.vitalsignscheckup;
 
-/*
- *
- * Copyright (c) PLUX S.A., All Rights Reserved.
- * (www.plux.info)
- *
- * This software is the proprietary information of PLUX S.A.
- * Use is subject to license terms.
- *
- */
-
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
+
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -129,7 +121,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle(bluetoothDevice.getAddress());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -665,7 +657,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
          * ---------------------------------------------------------------------------------------*/
 
         //add the necessary sources following the instructions above
-        sources.add(new Source(9, 16, (byte) 0x03, 1));
+        sources.add(new Source(1, 16, (byte) 0x01, 100));
 
         //Comment this try-catch block for fNIRS
         try {
