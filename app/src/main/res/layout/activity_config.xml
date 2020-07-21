@@ -58,7 +58,8 @@
             <TextView
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="right"
                 android:text="@string/ConfigPortTitle"
                 android:textSize="16sp" />
 
@@ -79,7 +80,8 @@
             <TextView
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="right"
                 android:text="@string/ConfigIntervalTitle"
                 android:textSize="16sp" />
 
@@ -141,7 +143,8 @@
             <TextView
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="right"
                 android:text="@string/ConfigPortTitle"
                 android:textSize="16sp" />
 
@@ -162,7 +165,8 @@
             <TextView
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="right"
                 android:text="@string/ConfigIntervalTitle"
                 android:textSize="16sp" />
 
