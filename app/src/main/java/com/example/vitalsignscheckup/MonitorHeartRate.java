@@ -142,7 +142,6 @@ public class MonitorHeartRate extends AppCompatActivity {
                     else if(signalsList.get(i) == 1){
                         continue;
                     }
-
                 }
                 if (i % (sample_rate*2) == 0){
                     ppm = (ppm + (pulsaciones2*60/2))/2;
