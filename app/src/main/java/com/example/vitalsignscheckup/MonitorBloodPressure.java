@@ -20,12 +20,13 @@ import java.util.Objects;
 
 public class MonitorBloodPressure extends AppCompatActivity {
 
-    int count = 0;
-    int count2 = 80;
+    int count = 32700; // este valor es ADC
+    int count2 = 32600; // este valor es ADC
+    int n = 16; //para transformación. Cantidad de canales.
 
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
-    String dateformatted = dateFormat.format(date);
+    String dateFormatted = dateFormat.format(date);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +63,18 @@ public class MonitorBloodPressure extends AppCompatActivity {
                             public void run() {
                                 count++;
                                 count2++;
-                                textView.setText(String.valueOf(count));
-                                textView2.setText(String.valueOf(count2));
+
+                                double transformed = transformECG(n, count);
+                                double transformed2 = transformECG(n, count2);
+
+                                textView.setText(String.valueOf(String.format("%.6f", transformed)));
+                                textView2.setText(String.valueOf(String.format("%.6f", transformed2)));
 
                                 date = new Date();
-                                dateformatted = dateFormat.format(date);
-                                hist1.setText(dateformatted + "                     " + count2 + " mmHg");
-                                hist2.setText(dateformatted + "                     " + count + " mmHg");
-                                textView2.setText(String.valueOf(count+80));
+                                dateFormatted = dateFormat.format(date);
+                                hist1.setText(dateFormatted + "                     " + String.format("%.8f", transformed) + " mmHg"); //info historial
+                                hist2.setText(dateFormatted + "                     " + String.format("%.8f", transformed2) + " mmHg");  //info historial
+                                //textView2.setText(String.valueOf(count+80));
                                 try {
                                     OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
                                     output.append(count + "/" + (count+80) +"\n");
@@ -107,4 +112,20 @@ public class MonitorBloodPressure extends AppCompatActivity {
         viewHistoryIntent.putExtra("origin", "bloodPressure");
         startActivity(viewHistoryIntent);
     }
+
+
+    public static double transformECG(int n, int ADC){
+        double ECG_V, ECG_mV;
+        int G_ECG, VCC;
+
+        VCC = 3;      // operating voltage
+        G_ECG = 1000; // sensor gain
+
+        ECG_V = (ADC/Math.pow(2, n) - 0.5)*VCC/G_ECG;
+
+        ECG_mV = ECG_V*1000;
+
+        return ECG_mV;
+    }
+
 }
