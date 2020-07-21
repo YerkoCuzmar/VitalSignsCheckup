@@ -34,6 +34,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
     String dateformatted = dateFormat.format(date);
+    String histroy_log;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,34 +79,21 @@ public class MonitorHeartRate extends AppCompatActivity {
                             textView.setText(String.valueOf(count));
                             date = new Date();
                             dateformatted = dateFormat.format(date);
-                            h1.setText(dateformatted + "                     " + count + " ppm");
+                            histroy_log = dateformatted + ": " + count + " ppm";
+                            h1.setText(histroy_log);
+                            try {
+                                OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
+                                output.append(histroy_log+"\n");
+                                output.flush();
+                                output.close();
+                            } catch (IOException e) {
+                            }
                         }
                     });
                 }catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-                while(!isInterrupted()){
-                    try {
-                        Thread.sleep(1000);  //1000ms = 1 sec
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                count++;
-                                textView.setText(String.valueOf(count));
-                                try {
-                                    OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
-                                    output.append(count+"\n");
-                                    output.flush();
-                                    output.close();
-                                } catch (IOException e) {
-                                }
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         };
         t.start();
