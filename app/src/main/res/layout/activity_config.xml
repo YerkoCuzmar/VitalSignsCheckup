@@ -20,19 +20,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-        <Button
-            android:id="@+id/button_scan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Conectar dispositivo" />
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -238,5 +225,25 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_scanDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Conectar dispositivo"
+            android:onClick="scanDevice" />
+        <Button
+            android:id="@+id/button_stopDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desconectar dispositivo"
+            android:onClick="stopDevice" />
+
+    </RelativeLayout>
 
 </LinearLayout>

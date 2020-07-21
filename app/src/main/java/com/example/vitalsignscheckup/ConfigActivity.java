@@ -1,22 +1,36 @@
 package com.example.vitalsignscheckup;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import java.util.Objects;
 
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+
+import info.plux.api.DeviceScan;
+import info.plux.api.interfaces.Constants;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -25,22 +39,36 @@ public class ConfigActivity extends AppCompatActivity {
     int ecgPort = MainActivity.getEcgPort();
     int ecgInterval = MainActivity.getEcgInterval();
 
+    private Handler handler = new Handler();
+
+    Button connectDeviceButton;
+    Button disconnectDeviceButton;
+    private DeviceScan deviceScan;
+
+    // Stops scanning after 10 seconds.
+    private static final long SCAN_PERIOD = 10000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+        connectDeviceButton = (Button) findViewById(R.id.button_scanDevice);
+        disconnectDeviceButton = (Button) findViewById(R.id.button_stopDevice);
+        connectDeviceButton.setVisibility(View.VISIBLE);
+        disconnectDeviceButton.setVisibility(View.GONE);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_back);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        deviceScan = new DeviceScan(this);
 
         final TextInputLayout inPort1 = findViewById(R.id.ConfiginPort1);
         final TextInputEditText inPortHint1 = findViewById(R.id.ConfiginPortHint1);
@@ -111,8 +139,21 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopDevice(disconnectDeviceButton);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(deviceScan != null){
+            deviceScan.closeScanReceiver();
+        }
     }
 
     @Override
@@ -152,4 +193,34 @@ public class ConfigActivity extends AppCompatActivity {
         }
     }
 
+
+    public void scanDevice(View view) {
+        System.out.println("Scan Inicio");
+        // Stops scanning after a pre-defined scan period.
+        String connectText = connectDeviceButton.getText().toString();
+        connectDeviceButton.setText("Conectando...");
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                deviceScan.stopScan();
+//                invalidateOptionsMenu();
+//            }
+//        }, SCAN_PERIOD);
+//        deviceScan.doDiscovery();
+        connectDeviceButton.setVisibility(View.GONE);
+        disconnectDeviceButton.setVisibility(View.VISIBLE);
+        connectDeviceButton.setText(connectText);
+        System.out.println("Scan Fin");
+    }
+
+    public void stopDevice(View view) {
+        System.out.println("Stop Inicio");
+        String disconnectText = disconnectDeviceButton.getText().toString();
+        disconnectDeviceButton.setText("Desconectando...");
+//        deviceScan.stopScan();
+        disconnectDeviceButton.setVisibility(View.GONE);
+        connectDeviceButton.setVisibility(View.VISIBLE);
+        disconnectDeviceButton.setText(disconnectText);
+        System.out.println("Stop Fin");
+    }
 }
