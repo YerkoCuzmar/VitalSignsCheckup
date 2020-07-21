@@ -31,7 +31,7 @@
     <string name="ConfigTitle">Configuración</string>
     <string name="ConfigPortTitle">Puerto:</string>
     <string name="ConfigIntervalTitle">Intervalo:</string>
-    <string name="ConfigPVS">Sensor de Pulso de volúmen sanguíneo</string>
+    <string name="ConfigPVS">Sensor de Pulso de volumen sanguíneo</string>
     <string name="ConfigECG">Sensor de Electrocardiograma</string>
     <string name="ConfigOptions">Puerto, intervalos de medición</string>
 
