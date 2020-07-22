@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +30,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
     String dateformatted = dateFormat.format(date);
+
+    BroadcastReceiver br;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +57,48 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
         final TextView textView = (TextView)findViewById(R.id.bp_medicion_mmhg);
         final TextView textView2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
+
+        SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        int portbvp = Integer.valueOf(preferences.getString("port", null));
+
+        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        int portecg = Integer.valueOf(preferences.getString("port", null));
+
+        final int posbvp, posecg;
+        if(portbvp > portecg){
+            posecg = 0;
+            posbvp = 1;
+        }else{
+            posecg = 1;
+            posbvp = 0;
+        }
+
         Thread t = new Thread(){
             @Override
             public void run(){
+
+                br = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        int strecg = intent.getExtras().getIntArray("analogData")[posecg];
+                        textView.setText(String.valueOf(strecg));
+                        textView2.setText(String.valueOf(strecg));
+
+                        date = new Date();
+                        dateformatted = dateFormat.format(date);
+                        hist1.setText(dateformatted + "                     " + String.valueOf(strecg) + " mmHg");
+                        hist2.setText(dateformatted + "                     " + String.valueOf(strecg) + " mmHg");
+                        try {
+                            OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
+                            output.append(String.valueOf(strecg) + "\n");
+                            output.flush();
+                            output.close();
+                        } catch (IOException e) {
+                        }
+                    }
+                };
+
+                /*
                 while(!isInterrupted()){
                     try {
                         Thread.sleep(1000);  //1000ms = 1 sec
@@ -65,28 +110,31 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 textView.setText(String.valueOf(count));
                                 textView2.setText(String.valueOf(count2));
 
-                                date = new Date();
-                                dateformatted = dateFormat.format(date);
-                                hist1.setText(dateformatted + "                     " + count2 + " mmHg");
-                                hist2.setText(dateformatted + "                     " + count + " mmHg");
-                                textView2.setText(String.valueOf(count+80));
-                                try {
-                                    OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
-                                    output.append(count + "/" + (count+80) +"\n");
-                                    output.flush();
-                                    output.close();
-                                } catch (IOException e) {
-                                }
+
                             }
                         });
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                 */
             }
         };
         t.start();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filt = new IntentFilter("analogData");
+        this.registerReceiver(br, filt);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(br);
     }
 
     @Override

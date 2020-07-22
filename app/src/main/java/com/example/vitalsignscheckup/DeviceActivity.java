@@ -36,6 +36,7 @@ import info.plux.api.bioplux.utils.*;
 import info.plux.api.bitalino.*;
 import info.plux.api.interfaces.OnDataAvailable;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static info.plux.api.interfaces.Constants.*;
@@ -88,27 +89,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
     private Button startButton;
     private Button stopButton;
 
-    private LinearLayout bitalinoLinearLayout;
-    private Button stateButton;
-    private RadioButton digital1RadioButton;
-    private RadioButton digital2RadioButton;
-    private RadioButton digital3RadioButton;
-    private RadioButton digital4RadioButton;
-    private Button triggerButton;
-    private SeekBar batteryThresholdSeekBar;
-    private Button batteryThresholdButton;
-    private SeekBar pwmSeekBar;
-    private Button pwmButton;
-    private TextView resultsTextView;
-
     private LinearLayout biopluxLinearLayout;
-    private Button versionButton;
-    private Button descriptionButton;
-    private Button batteryButton;
     private TextView biopluxResultsTextView;
-
-    private boolean isDigital1RadioButtonChecked = false;
-    private boolean isDigital2RadioButtonChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +123,6 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     if (frame.getClass().equals(BiopluxFrame.class)) { //biosignalsplux
                         System.out.println(frame.toString());
                         biopluxResultsTextView.setText(frame.toString());
-                    } else if (frame.getClass().equals(BITalinoFrame.class)) { //BITalino
-                        resultsTextView.setText(frame.toString());
                     }
                 } else if (bundle.containsKey(ELAPSED_TIME_EVENT)) {
                     final long elapsedTime = bundle.getLong(ELAPSED_TIME_EVENT);
@@ -214,25 +194,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         startButton = findViewById(R.id.start_button);
         stopButton = findViewById(R.id.stop_button);
 
-        //BITalino UI elements
-        bitalinoLinearLayout = findViewById(R.id.bitalino_linear_layout);
-        stateButton = findViewById(R.id.state_button);
-        digital1RadioButton = findViewById(R.id.digital_1_radio_button);
-        digital2RadioButton = findViewById(R.id.digital_2_radio_button);
-        digital3RadioButton = findViewById(R.id.digital_3_radio_button);
-        digital4RadioButton = findViewById(R.id.digital_4_radio_button);
-        triggerButton = findViewById(R.id.trigger_button);
-        batteryThresholdSeekBar = findViewById(R.id.battery_threshold_seek_bar);
-        batteryThresholdButton = findViewById(R.id.battery_threshold_button);
-        pwmSeekBar = findViewById(R.id.pwm_seek_bar);
-        pwmButton = findViewById(R.id.pwm_button);
-        resultsTextView = findViewById(R.id.results_text_view);
-
         //biosignalsplux UI elements
         biopluxLinearLayout = findViewById(R.id.bioplux_linear_layout);
-        versionButton = findViewById(R.id.version_button);
-        descriptionButton = findViewById(R.id.description_button);
-        batteryButton = findViewById(R.id.battery_button);
         biopluxResultsTextView = findViewById(R.id.bioplux_results_text_view);
     }
 
@@ -278,20 +241,6 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         disconnectButton.setOnClickListener(this);
         startButton.setOnClickListener(this);
         stopButton.setOnClickListener(this);
-        stateButton.setOnClickListener(this);
-        digital1RadioButton.setOnClickListener(this);
-        digital2RadioButton.setOnClickListener(this);
-        digital3RadioButton.setOnClickListener(this);
-        digital4RadioButton.setOnClickListener(this);
-        triggerButton.setOnClickListener(this);
-        batteryThresholdButton.setOnClickListener(this);
-        pwmButton.setOnClickListener(this);
-
-        versionButton.setOnClickListener(this);
-        descriptionButton.setOnClickListener(this);
-        batteryButton.setOnClickListener(this);
-
-        bitalinoLinearLayout.setVisibility(isBioplux ? View.GONE : View.VISIBLE);
         biopluxLinearLayout.setVisibility(isBioplux ? View.VISIBLE : View.GONE);
     }
 
@@ -315,9 +264,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                 if (intent.hasExtra(EXTRA_DATA)) {
                     Parcelable parcelable = intent.getParcelableExtra(EXTRA_DATA);
                     if (parcelable.getClass().equals(BiopluxFrame.class)) { //biosignals
-                        biopluxResultsTextView.setText(parcelable.toString());
-                    } else if (parcelable.getClass().equals(BITalinoFrame.class)) { //BITalino
-                        resultsTextView.setText(parcelable.toString());
+                        biopluxResultsTextView.setText(parcelable.toString().subSequence(0,1));
                     }
                 }
             } else if (ACTION_DEVICE_READY.equals(action)) {
@@ -362,12 +309,6 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
                     } else if (parcelable instanceof Schedules) { //biosignals
 
-                    } else if (parcelable instanceof BITalinoState) { //BITalino
-                        Log.d(TAG, ((BITalinoState) parcelable).toString());
-                        resultsTextView.setText(parcelable.toString());
-                    } else if (parcelable instanceof BITalinoDescription) { //BITalino
-                        isBITalino2 = ((BITalinoDescription) parcelable).isBITalino2();
-                        resultsTextView.setText(String.format("isBITalino2: %b; FwVersion: %.1f", isBITalino2, ((BITalinoDescription) parcelable).getFwVersion()));
                     }
                 }
             } else if (ACTION_EVENT_AVAILABLE.equals(action)) {
@@ -426,7 +367,12 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if (frame instanceof BiopluxFrame) {
             final BiopluxFrame biopluxFrame = (BiopluxFrame) frame;
 
-            Log.d(TAG, biopluxFrame.toString());
+            Log.d("TAG", Arrays.toString(biopluxFrame.getAnalogData()));
+
+            Intent i = new Intent();
+            i.putExtra("analogData", biopluxFrame.getAnalogData());
+            i.setAction("analogData");
+            sendBroadcast(i);
 
             Message message = handler.obtainMessage();
             Bundle bundle = new Bundle();
@@ -523,99 +469,6 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     } catch (PLUXException e) {
                         e.printStackTrace();
                     }
-                }
-                break;
-            case R.id.state_button:
-                if (!isBioplux) {
-                    try {
-                        bitalino.state();
-                    } catch (PLUXException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case R.id.trigger_button:
-                if (!isBioplux) {
-                    int[] digitalChannels = new int[isBITalino2 ? 2 : 4];
-
-                    digitalChannels[0] = (digital1RadioButton.isChecked()) ? 1 : 0;
-                    digitalChannels[1] = (digital2RadioButton.isChecked()) ? 1 : 0;
-
-                    if (!isBITalino2) {
-                        digitalChannels[2] = (digital3RadioButton.isChecked()) ? 1 : 0;
-                        digitalChannels[3] = (digital4RadioButton.isChecked()) ? 1 : 0;
-                    }
-
-                    try {
-                        bitalino.trigger(digitalChannels);
-                    } catch (PLUXException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case R.id.digital_1_radio_button:
-                if (isDigital1RadioButtonChecked) {
-                    digital1RadioButton.setChecked(false);
-                } else {
-                    digital1RadioButton.setChecked(true);
-                }
-                isDigital1RadioButtonChecked = digital1RadioButton.isChecked();
-                break;
-            case R.id.digital_2_radio_button:
-                if (isDigital2RadioButtonChecked) {
-                    digital2RadioButton.setChecked(false);
-                } else {
-                    digital2RadioButton.setChecked(true);
-                }
-                isDigital2RadioButtonChecked = digital2RadioButton.isChecked();
-                break;
-            case R.id.digital_3_radio_button:
-                if (digital3RadioButton.isChecked()) {
-                    digital3RadioButton.setChecked(false);
-                } else {
-                    digital3RadioButton.setChecked(true);
-                }
-                break;
-            case R.id.digital_4_radio_button:
-                if (digital4RadioButton.isChecked()) {
-                    digital4RadioButton.setChecked(false);
-                } else {
-                    digital4RadioButton.setChecked(true);
-                }
-                break;
-            case R.id.battery_threshold_button:
-                try {
-                    bitalino.battery(batteryThresholdSeekBar.getProgress());
-                } catch (PLUXException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.pwm_button:
-                try {
-                    bitalino.pwm(pwmSeekBar.getProgress());
-                } catch (PLUXException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.version_button:
-                try {
-                    bioplux.getVersion();
-                } catch (PLUXException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.description_button:
-                try {
-                    bioplux.getDescription();
-                } catch (PLUXException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.battery_button:
-                try {
-                    bioplux.getBattery();
-                } catch (PLUXException e) {
-                    e.printStackTrace();
                 }
                 break;
         }
