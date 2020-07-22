@@ -62,6 +62,10 @@ public class MonitorBloodPressure extends AppCompatActivity {
     List<Integer> signalsList = resultsMap.get("signals");
 
     //datos del otro sensor ecg
+
+    MonitorHeartRate ECG = new MonitorHeartRate();
+    ArrayList<Double> data2 = ECG.data;
+
     HashMap<String, List> resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag, threshold, influence);
     List<Integer> signalsList2 = resultsMap2.get("signals");
 
@@ -79,6 +83,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
 
         TextView estado = (TextView)findViewById(R.id.estado);
