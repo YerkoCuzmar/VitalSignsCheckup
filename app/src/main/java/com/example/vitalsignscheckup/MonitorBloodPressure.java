@@ -80,17 +80,17 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 br = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        int strecg = intent.getExtras().getIntArray("analogData")[posecg];
-                        textView.setText(String.valueOf(strecg));
-                        textView2.setText(String.valueOf(strecg));
+                        int strbvp = intent.getExtras().getIntArray("analogData")[posbvp];
+                        textView.setText(String.valueOf(strbvp));
+                        textView2.setText(String.valueOf(strbvp));
 
                         date = new Date();
                         dateformatted = dateFormat.format(date);
-                        hist1.setText(dateformatted + "                     " + String.valueOf(strecg) + " mmHg");
-                        hist2.setText(dateformatted + "                     " + String.valueOf(strecg) + " mmHg");
+                        hist1.setText(dateformatted + "                     " + String.valueOf(strbvp) + " mmHg");
+                        hist2.setText(dateformatted + "                     " + String.valueOf(strbvp) + " mmHg");
                         try {
                             OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
-                            output.append(String.valueOf(strecg) + "\n");
+                            output.append(String.valueOf(strbvp) + "\n");
                             output.flush();
                             output.close();
                         } catch (IOException e) {

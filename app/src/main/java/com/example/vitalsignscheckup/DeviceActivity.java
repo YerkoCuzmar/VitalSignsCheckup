@@ -121,7 +121,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     final Parcelable frame = bundle.getParcelable(FRAME);
 
                     if (frame.getClass().equals(BiopluxFrame.class)) { //biosignalsplux
-                        System.out.println(frame.toString());
+                        //System.out.println(frame.toString());
                         biopluxResultsTextView.setText(frame.toString());
                     }
                 } else if (bundle.containsKey(ELAPSED_TIME_EVENT)) {
