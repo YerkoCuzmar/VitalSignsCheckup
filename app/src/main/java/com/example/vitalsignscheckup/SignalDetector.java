@@ -34,18 +34,21 @@ public class SignalDetector {
         // init avgFilter and stdFilter
         double ECG_V, ECG_mV;
         int G_ECG, VCC;
-        /*for (int i = 0; i < data.size(); i ++){
+        if (data.get(0) >15000){
+            for (int i = 0; i < data.size(); i ++){
 
-            VCC = 3;      // operating voltage
-            G_ECG = 1000; // sensor gain
+                VCC = 3;      // operating voltage
+                G_ECG = 1000; // sensor gain
 
-            ECG_V = (data.get(i)/Math.pow(2, 16) - 0.5)*VCC/G_ECG;
+                ECG_V = (data.get(i)/Math.pow(2, 16) - 0.5)*VCC/G_ECG;
 
-            ECG_mV = ECG_V*1000;
+                ECG_mV = ECG_V*1000;
 
-            data.set(i,ECG_mV);
+                data.set(i,ECG_mV);
 
-        }*/
+            }
+        }
+
         for (int i = 0; i < lag; i++) {
             stats.accept(data.get(i));
         }
