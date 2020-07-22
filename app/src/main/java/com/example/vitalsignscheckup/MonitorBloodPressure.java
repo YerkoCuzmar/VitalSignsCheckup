@@ -27,8 +27,8 @@ import java.util.Objects;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorBloodPressure extends AppCompatActivity {
 
-    int count = 32700; // este valor es ADC
-    int count2 = 32600; // este valor es ADC
+    int count = 0; // este valor es ADC
+    int count2 = 0; // este valor es ADC
     int n = 16; //para transformación. Cantidad de canales.
 
     int m, m2;
@@ -85,6 +85,11 @@ public class MonitorBloodPressure extends AppCompatActivity {
     int value_rate = 1;
 
     double arrayTiempos[] = new double[40];
+
+    int presion_arterial1 = 0;
+    int presion_arterial2 = 0;
+
+    boolean flag1 = true, flag2 = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,8 +253,9 @@ public class MonitorBloodPressure extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                for (i = value_i; i < value_rate*sample_rate; i++) {
+                                for (i = value_i; i < sample_rate*value_rate; i++) {
                                     //ECG
+                                    System.out.println("valor de i "+ i );
                                     dif = dif + 1;
                                     if ((i + 1) != signalsList.size()){
                                         if (signalsList.get(i) == 0){
@@ -259,8 +265,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                                 pulsaciones2 = pulsaciones2 + 1;
                                                 //System.out.println("PULSACION EN LA MEDICION: "+ i);
                                                 System.out.println("VALOR DE DIF " + dif);
-                                                arrayTiempos[j] = Double.valueOf(dif);
+                                                //arrayTiempos[j] = Double.valueOf(dif);
+                                                presion_arterial1 = Integer.valueOf(dif);
+                                                presion_arterial2 = Integer.valueOf(dif);
+                                                System.out.println("Valor de presion es: " + presion_arterial1);
                                                 dif = 0;
+                                                flag1 = true;
 
                                             }
                                             else if(signalsList.get(i+1) == -1){
@@ -274,8 +284,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                                 pulsaciones2 = pulsaciones2 + 1;
                                                 //System.out.println("PULSACION EN LA MEDICION: "+ i);
                                                 System.out.println("VALOR DE DIF " + dif);
-                                                arrayTiempos[j] = Double.valueOf(dif);
+                                                //arrayTiempos[j] = Double.valueOf(dif);
+                                                presion_arterial1 = Integer.valueOf(dif);
+                                                presion_arterial2 = Integer.valueOf(dif);
+                                                System.out.println("Valor de presion es: " + presion_arterial1);
                                                 dif = 0;
+                                                flag1=true;
                                             }
                                             else if(signalsList.get(i+1) == 0){
                                                 continue;
@@ -288,7 +302,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                     }
                                     if (i % (sample_rate*2) == 0){
                                         ppm = (ppm + (pulsaciones2*60/2))/2;
-                                        System.out.println("PPM ES: "+ ppm);
+                                        //System.out.println("PPM ES: "+ ppm);
                                         System.out.println("ENTRA AL i = "+ i);
                                         pulsaciones2 = 0;
                                     }
@@ -301,11 +315,15 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                                 //valor = signalsList2.get(i);
                                                 pulsaciones_ = pulsaciones_ + 1;
                                                 pulsaciones_2 = pulsaciones_2 + 1;
-                                                //System.out.println("PULSACION EN LA MEDICION: "+ i);
+                                                System.out.println("PULSACION EN LA MEDICION: "+ i);
                                                 System.out.println("VALOR DE DIF2" + dif2);
-                                                arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
+                                                //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
+                                                presion_arterial1 = (Integer.valueOf(dif2) - presion_arterial1)/sample_rate;
+                                                presion_arterial2 = (Integer.valueOf(dif2) - presion_arterial2)/sample_rate;
+                                                System.out.println("Valor de presion es: " + presion_arterial1);
                                                 dif2 = 0;
                                                 j = j + 1;
+                                                flag2 = true;
                                             }
                                             else if(signalsList2.get(i+1) == -1){
                                                 continue;
@@ -316,11 +334,15 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                                 //valor2 = signalsList2.get(i);
                                                 pulsaciones_ = pulsaciones_ + 1;
                                                 pulsaciones_2 = pulsaciones_2 + 1;
-                                                //System.out.println("PULSACION EN LA MEDICION: "+ i);
+                                                System.out.println("PULSACION EN LA MEDICION: "+ i);
                                                 System.out.println("VALOR DE DIF2" + dif2);
-                                                arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
+                                                //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
+                                                presion_arterial1 = (Integer.valueOf(dif2) - presion_arterial1)/sample_rate;
+                                                presion_arterial2 = (Integer.valueOf(dif2) - presion_arterial2)/sample_rate;
+                                                System.out.println("Valor de presion es: " + presion_arterial1);
                                                 dif2 = 0;
                                                 j = j + 1;
+                                                flag2= true;
                                             }
                                             else if(signalsList2.get(i+1) == 0){
                                                 continue;
@@ -331,18 +353,21 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                         }
 
                                     }
-                                    if (i % (sample_rate*2) == 0){
+                                    if (flag1 == true && flag2 == true){
                                         ppm2 = (ppm2 + (pulsaciones_2*60/2))/2;
-                                        //System.out.println("BVP ES: "+ ppm2);
-                                        //System.out.println("ENTRA AL i = "+ i);
+                                        System.out.println("BVP ES: "+ presion_arterial1);
+                                        System.out.println("ENTRA AL i = "+ i);
 
-                                        textView.setText(String.valueOf(String.format("%.6f", arrayTiempos[j])));
-                                        textView2.setText(String.valueOf(String.format("%.6f", arrayTiempos[i])));
+                                        textView2.setText(String.valueOf(presion_arterial1*1000*(-0.5) + 200));
+                                        textView.setText(String.valueOf(presion_arterial2 * 1000 * (-0.08) + 80 ));
 
                                         pulsaciones_2 = 0;
+                                        flag1 = false;
+                                        flag2 = false;
+
                                     }
                                 }
-
+                                System.out.println("SALIENDO DEL FOR");
                                 count++;
                                 count2++;
 
