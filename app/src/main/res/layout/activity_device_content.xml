@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:background="@android:color/background_light"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Name:"
+                android:id="@+id/textView" android:layout_weight="1" android:textSize="16dp"
+                android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="name"
+                android:id="@+id/device_name_text_view" android:layout_weight="1" android:textSize="16dp"
+                android:gravity="center_vertical" android:paddingLeft="10dp"
+                android:textColor="@color/material_grey_600" android:textStyle="italic"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="MAC address:"
+                  android:id="@+id/textView2" android:layout_weight="1" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
+                  android:textStyle="bold"/>
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="00:00:00:00:00:00"
+                  android:id="@+id/mac_address_text_view" android:layout_weight="1" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp"
+                  android:textColor="@color/material_grey_600" android:textStyle="italic"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Elapsed time:"
+                  android:id="@+id/textView6" android:layout_weight="1" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
+                  android:textStyle="bold"/>
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="00:00:00"
+                  android:id="@+id/elapsed_time_Text_view" android:layout_weight="1" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp"
+                  android:textColor="@color/material_grey_600" android:textStyle="italic"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="State:"
+                  android:id="@+id/textView4" android:layout_weight="1" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
+                  android:textStyle="bold"/>
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:text="state" android:id="@+id/state_text_view" android:layout_weight="1"
+                  android:textSize="16dp" android:gravity="center_vertical" android:paddingLeft="10dp"
+                  android:textColor="@color/material_grey_600" android:textStyle="italic"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp" android:layout_marginTop="2dp" android:layout_marginBottom="2dp"
+            android:background="@android:color/holo_blue_dark">
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Connect"
+                    android:id="@+id/connect_button" android:layout_weight="1"/>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Disconnect"
+                    android:id="@+id/disconnect_button" android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Start"
+                    android:id="@+id/start_button" android:layout_weight="1"/>
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Stop"
+                    android:id="@+id/stop_button" android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bioplux_linear_layout">
+
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Results:"
+                  android:textSize="16dp" android:gravity="center_vertical"
+                  android:paddingLeft="10dp" android:textColor="@android:color/black" android:textStyle="bold"
+                  android:id="@+id/textView5"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="..."
+                  android:id="@+id/bioplux_results_text_view" android:textSize="16dp"
+                  android:gravity="center_vertical" android:paddingLeft="10dp"
+                  android:textColor="@color/material_grey_600" android:textStyle="italic"/>
+    </LinearLayout>
+</LinearLayout>

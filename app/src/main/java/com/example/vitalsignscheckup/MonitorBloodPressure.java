@@ -6,7 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -91,6 +95,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
     boolean flag1 = true, flag2 = true;
 
+    BroadcastReceiver br;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +112,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
             }
         });
 
+
         TextView estado = (TextView)findViewById(R.id.estado);
         estado.setText("presión alta");
 
@@ -114,6 +121,21 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
         final TextView textView = (TextView)findViewById(R.id.bp_medicion_mmhg);
         final TextView textView2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
+
+        SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        int portbvp = Integer.valueOf(preferences.getString("port", null));
+
+        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        int portecg = Integer.valueOf(preferences.getString("port", null));
+
+        final int posbvp, posecg;
+        if(portbvp > portecg){
+            posecg = 0;
+            posbvp = 1;
+        }else{
+            posecg = 1;
+            posbvp = 0;
+        }
 
 
         System.out.println("CANTIDAD DE PULSACIONES ECG " + pulsaciones);
@@ -135,6 +157,30 @@ public class MonitorBloodPressure extends AppCompatActivity {
         Thread t = new Thread(){
             @Override
             public void run(){
+/*                RECIBO DE DATOS
+                br = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        int strbvp = intent.getExtras().getIntArray("analogData")[posbvp];
+                        textView.setText(String.valueOf(strbvp));
+                        textView2.setText(String.valueOf(strbvp));
+
+                        date = new Date();
+                        dateformatted = dateFormat.format(date);
+                        hist1.setText(dateformatted + "                     " + String.valueOf(strbvp) + " mmHg");
+                        hist2.setText(dateformatted + "                     " + String.valueOf(strbvp) + " mmHg");
+                        try {
+                            OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
+                            output.append(String.valueOf(strbvp) + "\n");
+                            output.flush();
+                            output.close();
+                        } catch (IOException e) {
+                        }
+                    }
+                };
+                FIN RECIBO DE DATOS
+ */
+
                 while(!isInterrupted()){
                     try {
                         Thread.sleep(1000);  //1000ms = 1 sec
@@ -292,6 +338,19 @@ public class MonitorBloodPressure extends AppCompatActivity {
         };
         t.start();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filt = new IntentFilter("analogData");
+        this.registerReceiver(br, filt);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(br);
     }
 
     @Override
