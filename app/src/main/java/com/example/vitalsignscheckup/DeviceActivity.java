@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -138,6 +139,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     final Parcelable frame = bundle.getParcelable(FRAME);
 
                     if (frame.getClass().equals(BiopluxFrame.class)) { //biosignalsplux
+                        System.out.println(frame.toString());
                         biopluxResultsTextView.setText(frame.toString());
                     } else if (frame.getClass().equals(BITalinoFrame.class)) { //BITalino
                         resultsTextView.setText(frame.toString());
@@ -424,15 +426,14 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if (frame instanceof BiopluxFrame) {
             final BiopluxFrame biopluxFrame = (BiopluxFrame) frame;
 
-            if (biopluxFrame.getSequence() % samplingRate == 0) {
-                Log.d(TAG, biopluxFrame.toString());
+            Log.d(TAG, biopluxFrame.toString());
 
-                Message message = handler.obtainMessage();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(FRAME, biopluxFrame);
-                message.setData(bundle);
-                handler.sendMessage(message);
-            }
+            Message message = handler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(FRAME, biopluxFrame);
+            message.setData(bundle);
+            handler.sendMessage(message);
+
         } else { //BITalinoFrame
             Message message = handler.obtainMessage();
             Bundle bundle = new Bundle();
@@ -497,7 +498,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
                 if (isBioplux) {
                     startBioplux();
-
+                    Intent intent = new Intent(DeviceActivity.this, MainActivity2.class);
+                    startActivity(intent);
                 } else {
                     try {
                         bitalino.start(samplingRate, new int[]{0, 1, 2, 3, 4, 5});
@@ -656,8 +658,18 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
          *
          * ---------------------------------------------------------------------------------------*/
 
+        SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", null);
+        String interbvp = preferences.getString("interval", null);
+
+        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", null);
+        String interecg = preferences.getString("interval", null);
+
+
         //add the necessary sources following the instructions above
-        sources.add(new Source(1, 16, (byte) 0x01, 100));
+        sources.add(new Source(Integer.parseInt(portbvp), 16, (byte) 0x01, 100));
+        sources.add(new Source(Integer.parseInt(portecg), 16, (byte) 0x01, 100));
 
         //Comment this try-catch block for fNIRS
         try {

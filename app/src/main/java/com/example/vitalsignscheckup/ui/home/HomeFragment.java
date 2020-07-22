@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
         System.out.println("puertoECG: " + portecg);
         System.out.println("interECG: " + interecg);
 
-         return root;
+        return root;
     }
 
     @Override
