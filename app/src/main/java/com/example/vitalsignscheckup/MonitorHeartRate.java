@@ -1,13 +1,8 @@
 package com.example.vitalsignscheckup;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -15,19 +10,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Objects;
 
 public class MonitorHeartRate extends AppCompatActivity {
 
@@ -38,6 +30,16 @@ public class MonitorHeartRate extends AppCompatActivity {
     String dateformatted = dateFormat.format(date);
     String histroy_log;
 
+
+    TextView tv1;
+    TextView tv2;
+    TextView tv3;
+    TextView textView;
+    TextView h1;
+    SharedPreferences preferences;
+    int portbvp;
+    int portecg;
+    int posbvp, posecg;
     BroadcastReceiver br;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +57,25 @@ public class MonitorHeartRate extends AppCompatActivity {
             }
         });
 
-        TextView tv1 = (TextView)findViewById(R.id.alerta_heart);
+        tv1 = (TextView)findViewById(R.id.alerta_heart);
         tv1.setText("Mostrar Alerta");
 
-        TextView tv2 = (TextView)findViewById(R.id.medida_heart);
+        tv2 = (TextView)findViewById(R.id.medida_heart);
         tv2.setText("Midiendo");
 
-        TextView tv3 = (TextView)findViewById(R.id.med_ppm);
+        tv3 = (TextView)findViewById(R.id.med_ppm);
         tv3.setText("ppm");
 
-        final TextView textView = (TextView)findViewById(R.id.medida_heart);
+        textView = (TextView)findViewById(R.id.medida_heart);
 
-        final TextView h1 = (TextView)findViewById(R.id.heart1);
+        h1 = (TextView)findViewById(R.id.heart1);
 
-        SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        int portbvp = Integer.valueOf(preferences.getString("port", null));
+        preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        portbvp = Integer.valueOf(preferences.getString("port", null));
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        int portecg = Integer.valueOf(preferences.getString("port", null));
+        portecg = Integer.valueOf(preferences.getString("port", null));
 
-        final int posbvp, posecg;
         if(portbvp > portecg){
             posecg = 0;
             posbvp = 1;
@@ -87,26 +88,7 @@ public class MonitorHeartRate extends AppCompatActivity {
             @Override
             public void run(){
 
-                br = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        int strecg = intent.getExtras().getIntArray("analogData")[posecg];
-                        textView.setText(String.valueOf(strecg));
-
-                        date = new Date();
-                        dateformatted = dateFormat.format(date);
-                        histroy_log = dateformatted + ": " + String.valueOf(strecg) + " ppm";
-                        h1.setText(histroy_log);
-                        try {
-                            OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
-                            output.append(histroy_log+"\n");
-                            output.flush();
-                            output.close();
-                        } catch (IOException e) {
-                        }
-                    }
-                };
-
+                br = new DataReciever();
                 /*
                 while(!isInterrupted()){
                     try {
@@ -164,6 +146,28 @@ public class MonitorHeartRate extends AppCompatActivity {
         Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
         viewHistoryIntent.putExtra("origin", "heartRate");
         startActivity(viewHistoryIntent);
+    }
+
+    private class DataReciever extends BroadcastReceiver {
+        private ArrayList<Double> data;
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int strbvp = intent.getExtras().getIntArray("analogData")[posbvp];
+            textView.setText(String.valueOf(strbvp));
+
+            date = new Date();
+            dateformatted = dateFormat.format(date);
+            histroy_log = dateformatted + ": " + String.valueOf(strbvp) + " ppm";
+            h1.setText(histroy_log);
+            try {
+                OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
+                output.append(histroy_log+"\n");
+                output.flush();
+                output.close();
+            } catch (IOException e) {
+            }
+
+        }
     }
 
 
