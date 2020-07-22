@@ -23,7 +23,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -115,22 +114,21 @@ public class MonitorHeartRate extends AppCompatActivity {
         final int finalPulsaciones = pulsaciones;
 
         Thread t=new Thread(){
+            List<Integer> signalsList;
+            List<Double> filteredDataList;
+            List<Double> datos;
             @Override
             public void run(){
-                while(!isInterrupted()){
-                    //                        Thread.sleep(1000);  //1000ms = 1 sec
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //data.clear();
 
-                            while (data.size() < DATA_SIZE) {
-                                br = new BroadcastReceiver() {
-                                    @Override
-                                    public void onReceive(Context context, Intent intent) {
-                                        double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
-                                        System.out.println("bvp value " + bvp_value);
-                                        data.add(bvp_value);
+                //data.clear();
+
+                while (data.size() < DATA_SIZE) {
+                    br = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
+                            System.out.println("bvp value " + bvp_value);
+                            data.add(bvp_value);
 
 //                                  date = new Date();
 //                                  dateformatted = dateFormat.format(date);
@@ -142,23 +140,28 @@ public class MonitorHeartRate extends AppCompatActivity {
 //                                      output.flush();
 //                                      output.close();
 //                                  } catch (IOException e) { }
-                                    }
-                                };
+                        }
+                    };
 
-                                System.out.println("dataSize " + data.size());
-                            }
+                    System.out.println("dataSize " + data.size());
+                }
 
-                            System.out.println("dataSize Final " + data.size());
+                System.out.println("dataSize Final " + data.size());
 
-                            HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence);
+                HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence);
 
-                            List<Integer> signalsList = resultsMap.get("signals");
-                            List<Double> filteredDataList = resultsMap.get("filteredData");
-                            List<Double> datos = resultsMap.get("data");
+                signalsList = resultsMap.get("signals");
+                filteredDataList = resultsMap.get("filteredData");
+                datos = resultsMap.get("data");
 
-                            //System.out.println(data);
-                            Log.d("TAG", String.valueOf(data.get(1)));
+                //System.out.println(data);
+                Log.d("TAG", String.valueOf(data.get(1)));
 
+                while(!isInterrupted()){
+                    //                        Thread.sleep(1000);  //1000ms = 1 sec
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             for (i = value_i; i < sample_rate*value_rate ; i++) {
                                 dif = dif + 1;
                                 //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
