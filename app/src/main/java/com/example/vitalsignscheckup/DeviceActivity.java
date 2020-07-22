@@ -434,6 +434,11 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
             message.setData(bundle);
             handler.sendMessage(message);
 
+            Intent i = new Intent();
+            i.putExtra("Extra data name", "Super secret data");
+            i.setAction("FILTER");
+            sendBroadcast(i);
+
         } else { //BITalinoFrame
             Message message = handler.obtainMessage();
             Bundle bundle = new Bundle();
