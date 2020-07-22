@@ -115,118 +115,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
         final TextView textView = (TextView)findViewById(R.id.bp_medicion_mmhg);
         final TextView textView2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
 
-        //arreglo tiempos
-        //double arrayTiempos[] = new double[40];
 
-        //ecg
-        //double valor = 0;
-        //int dif = 0;
-        //int ppm = 0;
-        //int pulsaciones = 0;
-        //int pulsaciones2 = 0;
-
-        //bvp
-        //double valor2 = 0;
-        //int dif2 = 0;
-        //int ppm2 = 0; //unidad medida sensor bvp
-        //int pulsaciones_ = 0;
-        //int pulsaciones_2 = 0;
-
-        //int sample_rate = 50;
-        //int j = 0;
-/*
-        for (int i = 0; i < signalsList2.size(); i++) {
-            //ECG
-            dif = dif + 1;
-            if ((i + 1) != signalsList.size()){
-                if (signalsList.get(i) == 0){
-                    if (signalsList.get(i + 1) == 1){ //halla peak
-                        valor = signalsList.get(i);
-                        pulsaciones = pulsaciones + 1;
-                        pulsaciones2 = pulsaciones2 + 1;
-                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
-                        arrayTiempos[j] = Double.valueOf(dif);
-                        dif = 0;
-
-                    }
-                    else if(signalsList.get(i+1) == -1){
-                        continue;
-                    }
-                }
-                else if(signalsList.get(i) == -1){
-                    if (signalsList.get(i+1) == 1){ //halla peak
-                        valor = signalsList.get(i);
-                        pulsaciones = pulsaciones + 1;
-                        pulsaciones2 = pulsaciones2 + 1;
-                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
-                        arrayTiempos[j] = Double.valueOf(dif);
-                        dif = 0;
-                    }
-                    else if(signalsList.get(i+1) == 0){
-                        continue;
-                    }
-                }
-                else if(signalsList.get(i) == 1){
-                    continue;
-                }
-
-            }
-            if (i % (sample_rate*2) == 0){
-                ppm = (ppm + (pulsaciones2*60/2))/2;
-                System.out.println("PPM ES: "+ ppm);
-                System.out.println("ENTRA AL i = "+ i);
-                pulsaciones2 = 0;
-            }
-
-            //BVP
-            dif2 = dif2 + 1;
-            if ((i + 1) != signalsList2.size()){
-                if (signalsList2.get(i) == 0){
-                    if (signalsList2.get(i + 1) == 1){ //halla peak
-                        valor = signalsList2.get(i);
-                        pulsaciones_ = pulsaciones_ + 1;
-                        pulsaciones_2 = pulsaciones_2 + 1;
-                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
-                        arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
-                        dif2 = 0;
-                        j = j + 1;
-                    }
-                    else if(signalsList2.get(i+1) == -1){
-                        continue;
-                    }
-                }
-                else if(signalsList2.get(i) == -1){
-                    if (signalsList2.get(i+1) == 1){ //halla peak
-                        valor2 = signalsList2.get(i);
-                        pulsaciones_ = pulsaciones_ + 1;
-                        pulsaciones_2 = pulsaciones_2 + 1;
-                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
-                        arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
-                        dif2 = 0;
-                        j = j + 1;
-                    }
-                    else if(signalsList2.get(i+1) == 0){
-                        continue;
-                    }
-                }
-                else if(signalsList2.get(i) == 1){
-                    continue;
-                }
-
-            }
-            if (i % (sample_rate*2) == 0){
-                ppm2 = (ppm2 + (pulsaciones_2*60/2))/2;
-                System.out.println("BVP ES: "+ ppm2);
-                System.out.println("ENTRA AL i = "+ i);
-                pulsaciones_2 = 0;
-            }
-
-
-        }*/
         System.out.println("CANTIDAD DE PULSACIONES ECG " + pulsaciones);
         m = data.size();
         System.out.println("valor de m es " + m);
@@ -271,7 +160,6 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                                 System.out.println("Valor de presion es: " + presion_arterial1);
                                                 dif = 0;
                                                 flag1 = true;
-
                                             }
                                             else if(signalsList.get(i+1) == -1){
                                                 continue;

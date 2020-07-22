@@ -106,60 +106,7 @@ public class MonitorHeartRate extends AppCompatActivity {
 
 
         final TextView textView = (TextView)findViewById(R.id.medida_heart);
-
-
         final TextView h1 = (TextView)findViewById(R.id.heart1);
-
-
-
-/*
-        for (i = 0; i < signalsList.size(); i++) {
-                dif = dif + 1;
-                //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
-                if ((i + 1) != signalsList.size()){
-                    if (signalsList.get(i) == 0){
-                        if (signalsList.get((i+1)) == 1){
-                            //valor = signalsList.get(i);
-                            pulsaciones = pulsaciones + 1;
-                            pulsaciones2 = pulsaciones2 + 1;
-                            //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                            System.out.println("VALOR DE DIF " + dif);
-                            dif = 0;
-
-                        }
-                        else if(signalsList.get((i+1)) == -1){
-                            continue;
-                        }
-                    }
-                    else if(signalsList.get(i) == -1){
-                        if (signalsList.get((i+1)) == 1){
-                            //valor = signalsList.get(i);
-                            pulsaciones = pulsaciones + 1;
-                            pulsaciones2 = pulsaciones2 + 1;
-                            System.out.println("PULSACION EN LA MEDICION: "+ i);
-                            System.out.println("VALOR DE DIF " + dif);
-                            dif = 0;
-                        }
-                        else if(signalsList.get((i+1)) == 0){
-                            continue;
-                        }
-                    }
-                    else if(signalsList.get(i) == 1){
-                        continue;
-                    }
-                }
-
-                if ((i % (sample_rate*2)) == 0){
-                    ppm = (ppm + (pulsaciones2*60/2))/2;
-                    System.out.println("PPM ES: "+ ppm);
-                    System.out.println("ENTRA AL i = "+ i);
-                    pulsaciones2 = 0;
-                }
-                //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
-            //}
-            System.out.println("VALOR DE I ES: " + i);
-        }
-        */
 
         System.out.println("CANTIDAD DE PULSACIONES ES " + pulsaciones);
         n = signalsList.size();
