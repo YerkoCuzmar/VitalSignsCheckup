@@ -215,6 +215,7 @@ public class MonitorHeartRate extends AppCompatActivity {
                                 output.flush();
                                 output.close();
                             } catch (IOException e) { }
+                            data.clear();
                             COLLECT_DATA = true;
                         }
                     });
