@@ -37,6 +37,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
     int m, m2;
 
+    int DATA_SIZE = 3500;
+
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
     String dateFormatted = dateFormat.format(date);
@@ -64,7 +66,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
     double influence = 0;
 
     //datos de un sensor bvp
-    HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence);
+    HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, DATA_SIZE);
     List<Integer> signalsList = resultsMap.get("signals");
 
     //datos del otro sensor ecg
@@ -72,7 +74,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
     //MonitorHeartRate ECG = new MonitorHeartRate();
     //ArrayList<Double> data2 = ECG.data;
 
-    HashMap<String, List> resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag, threshold, influence);
+    HashMap<String, List> resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag, threshold, influence, DATA_SIZE);
     List<Integer> signalsList2 = resultsMap2.get("signals");
 
 

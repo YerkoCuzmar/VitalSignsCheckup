@@ -14,28 +14,29 @@ import java.util.LongSummaryStatistics;
 public class SignalDetector {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public HashMap<String, List> analyzeDataForSignals(List<Double> data, int lag, Double threshold, Double influence) {
+    public HashMap<String, List> analyzeDataForSignals(List<Double> data, int lag, Double threshold, Double influence, int DATA_SIZE) {
 
         // init stats instance
         DoubleSummary stats = new DoubleSummary();
 
         // the results (peaks, 1 or -1) of our algorithm
-        List<Integer> signals = new ArrayList<Integer>(Collections.nCopies(data.size(), 0));
+        List<Integer> signals = new ArrayList<Integer>(Collections.nCopies(DATA_SIZE, 0));
 
         // filter out the signals (peaks) from our original list (using influence arg)
         List<Double> filteredData = new ArrayList<Double>(data);
 
         // the current average of the rolling window
-        List<Double> avgFilter = new ArrayList<Double>(Collections.nCopies(data.size(), 0.0d));
+        List<Double> avgFilter = new ArrayList<Double>(Collections.nCopies(DATA_SIZE, 0.0d));
 
         // the current standard deviation of the rolling window
-        List<Double> stdFilter = new ArrayList<Double>(Collections.nCopies(data.size(), 0.0d));
+        List<Double> stdFilter = new ArrayList<Double>(Collections.nCopies(DATA_SIZE, 0.0d));
 
         // init avgFilter and stdFilter
         double ECG_V, ECG_mV;
         int G_ECG, VCC;
+        /*
         if (data.get(0) >15000){
-            for (int i = 0; i < data.size(); i ++){
+            for (int i = 0; i < DATA_SIZE; i ++){
 
                 VCC = 3;      // operating voltage
                 G_ECG = 1000; // sensor gain
@@ -49,6 +50,8 @@ public class SignalDetector {
             }
         }
 
+         */
+
         for (int i = 0; i < lag; i++) {
             stats.accept(data.get(i));
         }
@@ -57,7 +60,7 @@ public class SignalDetector {
 
 
         // loop input starting at end of rolling window
-        for (int i = lag; i < data.size(); i++) {
+        for (int i = lag; i < DATA_SIZE; i++) {
 
             // if the distance between the current value and average is enough standard deviations (threshold) away
             if (Math.abs((data.get(i) - avgFilter.get(i - 1))) > threshold * stdFilter.get(i - 1)) {
