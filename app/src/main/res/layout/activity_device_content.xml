@@ -13,7 +13,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Name:"
+                android:text="Nombre :"
                 android:id="@+id/textView" android:layout_weight="1" android:textSize="16dp"
                 android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
                 android:textStyle="bold"/>
@@ -26,7 +26,7 @@
                 android:textColor="@color/material_grey_600" android:textStyle="italic"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="MAC address:"
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Direccion MAC:"
                   android:id="@+id/textView2" android:layout_weight="1" android:textSize="16dp"
                   android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
                   android:textStyle="bold"/>
@@ -36,7 +36,7 @@
                   android:textColor="@color/material_grey_600" android:textStyle="italic"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Elapsed time:"
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Tiempo de medicion:"
                   android:id="@+id/textView6" android:layout_weight="1" android:textSize="16dp"
                   android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
                   android:textStyle="bold"/>
@@ -46,7 +46,7 @@
                   android:textColor="@color/material_grey_600" android:textStyle="italic"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="30dp">
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="State:"
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Estado:"
                   android:id="@+id/textView4" android:layout_weight="1" android:textSize="16dp"
                   android:gravity="center_vertical" android:paddingLeft="10dp" android:textColor="@android:color/black"
                   android:textStyle="bold"/>
@@ -72,19 +72,19 @@
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Connect"
+                    android:text="Conectar"
                     android:id="@+id/connect_button" android:layout_weight="1"/>
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Disconnect"
+                    android:text="Desconectar"
                     android:id="@+id/disconnect_button" android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
                       android:layout_height="wrap_content">
-            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Start"
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Medir"
                     android:id="@+id/start_button" android:layout_weight="1"/>
-            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Stop"
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Parar"
                     android:id="@+id/stop_button" android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
@@ -95,7 +95,7 @@
             android:id="@+id/bioplux_linear_layout">
 
 
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Results:"
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Resultados:"
                   android:textSize="16dp" android:gravity="center_vertical"
                   android:paddingLeft="10dp" android:textColor="@android:color/black" android:textStyle="bold"
                   android:id="@+id/textView5"/>
