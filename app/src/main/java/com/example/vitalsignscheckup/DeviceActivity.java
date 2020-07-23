@@ -216,7 +216,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         connectButton = findViewById(R.id.connect_button);
         disconnectButton = findViewById(R.id.disconnect_button);
         startButton = findViewById(R.id.start_button);
-        stopButton = findViewById(R.id.stop_button);
+        //stopButton = findViewById(R.id.stop_button);
 
         //biosignalsplux UI elements
         biopluxLinearLayout = findViewById(R.id.bioplux_linear_layout);
@@ -264,7 +264,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         connectButton.setOnClickListener(this);
         disconnectButton.setOnClickListener(this);
         startButton.setOnClickListener(this);
-        stopButton.setOnClickListener(this);
+        //stopButton.setOnClickListener(this);
         biopluxLinearLayout.setVisibility(isBioplux ? View.VISIBLE : View.GONE);
     }
 
@@ -485,6 +485,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     }
                 }
                 break;
+                /*
             case R.id.stop_button:
                 stopTimer();
 
@@ -502,6 +503,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     }
                 }
                 break;
+
+                 */
         }
     }
 

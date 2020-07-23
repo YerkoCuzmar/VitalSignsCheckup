@@ -74,6 +74,8 @@
 
         </LinearLayout>
 
+        <!--
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,6 +105,8 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        -->
 
     </LinearLayout>
 
@@ -161,6 +165,8 @@
 
         </LinearLayout>
 
+        <!--
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -190,6 +196,8 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        -->
 
     </LinearLayout>
 

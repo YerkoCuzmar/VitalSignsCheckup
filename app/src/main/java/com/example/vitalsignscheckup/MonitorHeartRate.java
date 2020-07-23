@@ -42,7 +42,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     TextView tv2;
     TextView tv3;
     TextView textView;
-    TextView h1;
+    TextView h1, h3;
     SharedPreferences preferences;
     int portbvp;
     int portecg;
@@ -67,7 +67,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     SignalDetector signalDetector = new SignalDetector();
 
     int lag = 30;
-    double threshold = 3.8;
+    double threshold = 3.5;
     double influence = 0;
 
     //double valor = 0;
@@ -93,8 +93,11 @@ public class MonitorHeartRate extends AppCompatActivity {
     List<Double> filteredDataList;
     List<Double> datos;
 
+    AsyncTask dataProcessingAsync  = new HRDataProcessing();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_monitor_heart_rate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
         setSupportActionBar(toolbar);
@@ -119,6 +122,7 @@ public class MonitorHeartRate extends AppCompatActivity {
 
         textView = (TextView)findViewById(R.id.medida_heart);
         h1 = (TextView)findViewById(R.id.heart1);
+        h3 = (TextView)findViewById(R.id.heart3);
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         portbvp = Integer.valueOf(preferences.getString("port", null));
@@ -145,9 +149,9 @@ public class MonitorHeartRate extends AppCompatActivity {
             @Override
             public void run() {
                 super.run();
-                AsyncTask dataProcessingAsync = new HRDataProcessing();
-                dataProcessingAsync.execute();
 
+                dataProcessingAsync.execute();
+                Log.d("create hr", String.valueOf(dataProcessingAsync.isCancelled()));
             }
         };
         t.start();
@@ -159,13 +163,28 @@ public class MonitorHeartRate extends AppCompatActivity {
         super.onResume();
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
+
+        Log.d("resume1 hr", String.valueOf(dataProcessingAsync.isCancelled()));
+        if(dataProcessingAsync.isCancelled()){
+            dataProcessingAsync.execute();
+        }
+
+        Log.d("resume2 hr", String.valueOf(dataProcessingAsync.isCancelled()));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(br);
+        //unregisterReceiver(br);
+        Log.d("pause hr", String.valueOf(dataProcessingAsync.isCancelled()));
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dataProcessingAsync.cancel(true);
+        unregisterReceiver(br);
+        Log.d("destroy hr", String.valueOf(dataProcessingAsync.isCancelled()));
     }
 
     @Override
@@ -207,6 +226,7 @@ public class MonitorHeartRate extends AppCompatActivity {
                 double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
                 //Log.d("ecg value", String.valueOf(ecg_value));
                 data.add(ecg_value);
+                h3.setText(String.valueOf(ecg_value));
             }
         }
     }
@@ -217,11 +237,13 @@ public class MonitorHeartRate extends AppCompatActivity {
             while (true){
                 //Log.d("cancelled", String.valueOf(isCancelled()));
                 if ( isCancelled()){
-                    //Log.d("if", String.valueOf(isCancelled()));
+                    Log.d("if", String.valueOf(isCancelled()));
                     break;
                 }
 
-                //Log.d("data size", String.valueOf(data.size()));
+                Log.d("data size", String.valueOf(data.size()));
+
+                Log.d("collect ", String.valueOf(COLLECT_DATA));
 
                 while (data.size() < DATA_SIZE) {
 
@@ -233,7 +255,6 @@ public class MonitorHeartRate extends AppCompatActivity {
                 datos = resultsMap.get("data");
 
                 COLLECT_DATA = false;
-                //Log.d("mult: ", String.valueOf(sample_rate*value_rate));
 
                 try {
                     Thread.sleep(1000);
@@ -305,10 +326,9 @@ public class MonitorHeartRate extends AppCompatActivity {
                 count++;
                 value_i = count*sample_rate;
                 value_rate = value_rate + 1;
-                Log.d("value rate", String.valueOf(value_rate));
 
                 if(sample_rate*value_rate >= DATA_SIZE) {
-                    Log.d("ifcillo", "dentre");
+
                     count = 0;
                     value_i = 0;
                     value_rate = 1;

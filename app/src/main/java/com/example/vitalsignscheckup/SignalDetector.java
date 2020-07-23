@@ -34,7 +34,7 @@ public class SignalDetector {
         // init avgFilter and stdFilter
         double ECG_V, ECG_mV;
         int G_ECG, VCC;
-        /*
+
         if (data.get(0) >15000){
             for (int i = 0; i < DATA_SIZE; i ++){
 
@@ -50,7 +50,7 @@ public class SignalDetector {
             }
         }
 
-         */
+
 
         for (int i = 0; i < lag; i++) {
             stats.accept(data.get(i));

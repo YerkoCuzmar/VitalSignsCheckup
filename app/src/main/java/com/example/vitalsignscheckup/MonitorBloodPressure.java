@@ -36,7 +36,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
     int m, m2;
 
-    int DATA_SIZE = 3500;
+    int DATA_SIZE = 1000;
     boolean COLLECT_DATA = true;
 
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -69,16 +69,16 @@ public class MonitorBloodPressure extends AppCompatActivity {
     double influence = 0;
 
     //datos de un sensor bvp
-    HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, DATA_SIZE);
-    List<Integer> signalsList = resultsMap.get("signals");
+    HashMap<String, List> resultsMap;
+    List<Integer> signalsList;
 
     //datos del otro sensor ecg
 
     //MonitorHeartRate ECG = new MonitorHeartRate();
     //ArrayList<Double> data2 = ECG.data;
 
-    HashMap<String, List> resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag, threshold, influence, DATA_SIZE);
-    List<Integer> signalsList2 = resultsMap2.get("signals");
+    HashMap<String, List> resultsMap2;
+    List<Integer> signalsList2;
 
 
     int dif = 0, dif2 = 0;
@@ -115,11 +115,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
     int posbvp, posecg;
 
     BroadcastReceiver br;
-    AsyncTask dataProcessingAsync;
+    AsyncTask BPdataProcessingAsync = new BPDataProcessing();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_monitor_blood_pressure);
         Toolbar toolbar = (Toolbar) findViewById(R.id.bloodPressureToolbar);
         setSupportActionBar(toolbar);
@@ -176,8 +177,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
             @Override
             public void run() {
                 super.run();
-                dataProcessingAsync = new BPDataProcessing();
-                dataProcessingAsync.execute();
+
+                BPdataProcessingAsync.execute();
 
             }
         };
@@ -190,12 +191,26 @@ public class MonitorBloodPressure extends AppCompatActivity {
         super.onResume();
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
+        Log.d("resume1 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+        if(BPdataProcessingAsync.isCancelled()){
+            BPdataProcessingAsync.execute();
+        }
+        Log.d("resume2 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        //unregisterReceiver(br);
+        Log.d("pause bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BPdataProcessingAsync.cancel(true);
         unregisterReceiver(br);
+        Log.d("destroy bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
     }
 
     @Override
@@ -237,8 +252,16 @@ public class MonitorBloodPressure extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if(COLLECT_DATA){
                 double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
+                double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
                 //Log.d("ecg value", String.valueOf(ecg_value));
                 data.add(ecg_value);
+                data2.add(bvp_value);
+
+                date = new Date();
+                String dateformatted = dateFormat.format(date);
+                hist1.setText(String.valueOf(ecg_value));
+                hist2.setText(String.valueOf(bvp_value));
+
             }
         }
     }
@@ -258,6 +281,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 while (data.size() < DATA_SIZE) {
 
                 }
+
+                resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, DATA_SIZE);
+                signalsList = resultsMap.get("signals");
+
+                resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag, threshold, influence, DATA_SIZE);
+                signalsList2 = resultsMap2.get("signals");
 
                 COLLECT_DATA = false;
 
@@ -399,12 +428,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Object[] values) {
             super.onProgressUpdate(values);
-            textView.setText(values[0].toString());
-            textView2.setText(values[1].toString());
+            textView.setText(values[1].toString());
+            textView2.setText(values[0].toString());
             date = new Date();
             String dateformatted = dateFormat.format(date);
-            hist1.setText(dateformatted + "                     " + String.format("%.8f", values[0]) + " mmHg");
-            hist2.setText(dateformatted + "                     " + String.format("%.8f", values[1]) + " mmHg");
+            //hist1.setText(dateformatted + "                     " + String.format("%.8f", values[0]) + " mmHg");
+            //hist2.setText(dateformatted + "                     " + String.format("%.8f", values[1]) + " mmHg");
 
             try {
                 OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));

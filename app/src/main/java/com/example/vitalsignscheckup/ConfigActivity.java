@@ -41,9 +41,9 @@ public class ConfigActivity extends AppCompatActivity {
     Button connectDeviceButton;
     Button disconnectDeviceButton;
     EditText portBVP;
-    EditText interBVP;
+    //EditText interBVP;
     EditText portECG;
-    EditText interECG;
+    //EditText interECG;
     private DeviceScan deviceScan;
 
     // Stops scanning after 10 seconds.
@@ -80,21 +80,21 @@ public class ConfigActivity extends AppCompatActivity {
         deviceScan = new DeviceScan(this);
 
         portBVP = (EditText) findViewById(R.id.text_portBVP);
-        interBVP = (EditText) findViewById(R.id.text_interBVP);
+        //interBVP = (EditText) findViewById(R.id.text_interBVP);
         portECG = (EditText) findViewById(R.id.text_portECG);
-        interECG = (EditText) findViewById(R.id.text_interECG);
+        //interECG = (EditText) findViewById(R.id.text_interECG);
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", "");
-        String interbvp = preferences.getString("interval", "");
+        //String interbvp = preferences.getString("interval", "");
         portBVP.setText(portbvp);
-        interBVP.setText(interbvp);
+//        interBVP.setText(interbvp);
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", "");
-        String interecg = preferences.getString("interval", "");
+        //String interecg = preferences.getString("interval", "");
         portECG.setText(portecg);
-        interECG.setText(interecg);
+//        interECG.setText(interecg);
     }
 
     @Override
@@ -155,14 +155,14 @@ public class ConfigActivity extends AppCompatActivity {
         SharedPreferences.Editor spEditor;
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portBVP.getText().toString());
-        spEditor.putString("interval", interBVP.getText().toString());
+        spEditor.putString("port", portECG.getText().toString());
+        //spEditor.putString("interval", interBVP.getText().toString());
         spEditor.apply();
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portECG.getText().toString());
-        spEditor.putString("interval", interECG.getText().toString());
+        spEditor.putString("port", portBVP.getText().toString());
+        //spEditor.putString("interval", interECG.getText().toString());
         spEditor.apply();
 
         Intent intent = new Intent(ConfigActivity.this, ScanActivity.class);
