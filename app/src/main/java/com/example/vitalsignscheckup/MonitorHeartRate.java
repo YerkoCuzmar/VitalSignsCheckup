@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,6 +69,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     ));
 
     SignalDetector signalDetector = new SignalDetector();
+
     int lag = 30;
     double threshold = 5.0;
     double influence = 0;
@@ -130,44 +131,16 @@ public class MonitorHeartRate extends AppCompatActivity {
         //System.out.println("valor de n es " + n);
         finalPulsaciones = pulsaciones;
 
-        Thread t=new Thread(){
 
-            @Override
-            public void run(){
-                //br = new HRDataReciever();
+        AsyncTask dataProcessingAsync = new DataProcessing();
+        dataProcessingAsync.execute();
 
-                while(!isInterrupted()){
-                    //                        Thread.sleep(1000);  //1000ms = 1 sec
+        HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence);
 
-                    while (data.size() < DATA_SIZE) {
+        signalsList = resultsMap.get("signals");
+        filteredDataList = resultsMap.get("filteredData");
+        datos = resultsMap.get("data");
 
-                    }
-                    System.out.println("dataSize Final " + data.size());
-                    HashMap<String, List> resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence);
-
-                    signalsList = resultsMap.get("signals");
-                    filteredDataList = resultsMap.get("filteredData");
-                    datos = resultsMap.get("data");
-
-                    //System.out.println(data);
-                    Log.d("TAG", String.valueOf(data.get(1)));
-
-                    DataProcessing pro = new DataProcessing();
-                    pro.process();
-
-                    /*
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-
-                     */
-                }
-            }
-        };
-        t.start();
     }
 
     @Override
@@ -226,84 +199,92 @@ public class MonitorHeartRate extends AppCompatActivity {
         }
     }
 
-    public class DataProcessing{
-        public void process(){
+    public class DataProcessing extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            while (true){
+                if ( isCancelled())
+                    break;
+                while (data.size() < DATA_SIZE) {
 
-            COLLECT_DATA = false;
-            for (i = value_i; i < sample_rate*value_rate ; i++) {
-                dif = dif + 1;
-                //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
-                if ((i + 1) != signalsList.size()){
-                    if (signalsList.get(i) == 0){
-                        if (signalsList.get((i+1)) == 1){
-                            //valor = signalsList.get(i);
-                            pulsaciones = pulsaciones + 1;
-                            pulsaciones2 = pulsaciones2 + 1;
-                            System.out.println("PULSACION EN LA MEDICION: "+ i);
-                            //System.out.println("VALOR DE DIF " + dif);
-                            dif = 0;
+                }
+                COLLECT_DATA = false;
+                for (i = value_i; i < sample_rate*value_rate ; i++) {
+                    dif = dif + 1;
+                    //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
+                    if ((i + 1) != signalsList.size()){
+                        if (signalsList.get(i) == 0){
+                            if (signalsList.get((i+1)) == 1){
+                                //valor = signalsList.get(i);
+                                pulsaciones = pulsaciones + 1;
+                                pulsaciones2 = pulsaciones2 + 1;
+                                System.out.println("PULSACION EN LA MEDICION: "+ i);
+                                //System.out.println("VALOR DE DIF " + dif);
+                                dif = 0;
 
+                            }
+                            else if(signalsList.get((i+1)) == -1){
+                                continue;
+                            }
                         }
-                        else if(signalsList.get((i+1)) == -1){
+                        else if(signalsList.get(i) == -1){
+                            if (signalsList.get((i+1)) == 1){
+                                //valor = signalsList.get(i);
+                                pulsaciones = pulsaciones + 1;
+                                pulsaciones2 = pulsaciones2 + 1;
+                                System.out.println("PULSACION EN LA MEDICION: "+ i);
+                                //System.out.println("VALOR DE DIF " + dif);
+                                dif = 0;
+                            }
+                            else if(signalsList.get((i+1)) == 0){
+                                continue;
+                            }
+                        }
+                        else if(signalsList.get(i) == 1){
                             continue;
                         }
                     }
-                    else if(signalsList.get(i) == -1){
-                        if (signalsList.get((i+1)) == 1){
-                            //valor = signalsList.get(i);
-                            pulsaciones = pulsaciones + 1;
-                            pulsaciones2 = pulsaciones2 + 1;
-                            System.out.println("PULSACION EN LA MEDICION: "+ i);
-                            //System.out.println("VALOR DE DIF " + dif);
-                            dif = 0;
-                        }
-                        else if(signalsList.get((i+1)) == 0){
-                            continue;
-                        }
+
+                    if ((i % (sample_rate*2)) == 0){
+                        ppm = (ppm + (pulsaciones2*60/2))/2;
+                        System.out.println("PPM ES: "+ ppm);
+                        //System.out.println("ENTRA AL i = "+ i);
+
+                        publishProgress(String.valueOf(ppm));
+
+                        pulsaciones2 = 0;
                     }
-                    else if(signalsList.get(i) == 1){
-                        continue;
-                    }
+                    //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
+                    //}
+                    //System.out.println("VALOR DE I ES: " + i);
                 }
 
-                if ((i % (sample_rate*2)) == 0){
-                    ppm = (ppm + (pulsaciones2*60/2))/2;
-                    System.out.println("PPM ES: "+ ppm);
-                    //System.out.println("ENTRA AL i = "+ i);
+                System.out.println("dataSize Final " + data.size());
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            textView.setText(String.valueOf(ppm));
-                        }
-                    });
+                //System.out.println(data);
+                Log.d("TAG", String.valueOf(data.get(1)));
 
-                    pulsaciones2 = 0;
-                }
-                //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
-                //}
-                //System.out.println("VALOR DE I ES: " + i);
+                System.out.println("value i: " + value_i);
+                System.out.println("value rate: " + value_rate);
+
+                count++;
+                value_i = count*sample_rate;
+                value_rate = value_rate + 1;
+                data.clear();
+                COLLECT_DATA = true;
             }
+            return null;
+        }
 
-            System.out.println("value i: " + value_i);
-            System.out.println("value rate: " + value_rate);
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+            textView.setText(values.toString());
 
-            count++;
-            value_i = count*sample_rate;
-            value_rate = value_rate + 1;
-            //textView.setText(String.valueOf(finalPulsaciones));
             date = new Date();
             dateformatted = dateFormat.format(date);
             histroy_log = dateformatted + ": " + count + " ppm";
-
-            /*
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    h1.setText(histroy_log);
-                }
-            });
-             */
+            h1.setText(histroy_log);
 
             try {
                 OutputStreamWriter output = new OutputStreamWriter(openFileOutput("heart_rate_history.txt", Activity.MODE_APPEND));
@@ -311,8 +292,7 @@ public class MonitorHeartRate extends AppCompatActivity {
                 output.flush();
                 output.close();
             } catch (IOException e) { }
-            data.clear();
-            COLLECT_DATA = true;
+
         }
     }
 
