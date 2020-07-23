@@ -134,8 +134,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
         });
 
 
-        TextView estado = (TextView)findViewById(R.id.estado);
-        estado.setText("presión alta");
+//        TextView estado = (TextView)findViewById(R.id.estado);
+//        estado.setText("presión alta");
 
         hist1 = (TextView)findViewById(R.id.hist1);
         hist2 = (TextView)findViewById(R.id.hist2);
@@ -171,14 +171,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
         System.out.println("at2 " + arrayTiempos[2]);
 
 
-        br = new BPDataReciever();
-
         Thread t = new Thread(){
             @Override
             public void run() {
                 super.run();
-
-                BPdataProcessingAsync.execute();
+                br = new BPDataReciever();
+//                BPdataProcessingAsync.execute();
 
             }
         };
@@ -191,26 +189,26 @@ public class MonitorBloodPressure extends AppCompatActivity {
         super.onResume();
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
-        Log.d("resume1 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
-        if(BPdataProcessingAsync.isCancelled()){
-            BPdataProcessingAsync.execute();
-        }
-        Log.d("resume2 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+//        Log.d("resume1 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+//        if(BPdataProcessingAsync.isCancelled()){
+//            BPdataProcessingAsync.execute();
+//        }
+//        Log.d("resume2 bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //unregisterReceiver(br);
-        Log.d("pause bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+        unregisterReceiver(br);
+//        Log.d("pause bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BPdataProcessingAsync.cancel(true);
-        unregisterReceiver(br);
-        Log.d("destroy bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
+//        BPdataProcessingAsync.cancel(true);
+//        unregisterReceiver(br);
+//        Log.d("destroy bp", String.valueOf(BPdataProcessingAsync.isCancelled()));
     }
 
     @Override
@@ -250,19 +248,19 @@ public class MonitorBloodPressure extends AppCompatActivity {
     public class BPDataReciever extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(COLLECT_DATA){
-                double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
-                double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
-                //Log.d("ecg value", String.valueOf(ecg_value));
-                data.add(ecg_value);
-                data2.add(bvp_value);
+            double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
+            double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
+            //Log.d("ecg value", String.valueOf(ecg_value));
+            textView.setText(String.valueOf(ecg_value));
+            textView.setText(String.valueOf(bvp_value));
+//                data.add(ecg_value);
+//                data2.add(bvp_value);
 
-                date = new Date();
-                String dateformatted = dateFormat.format(date);
-                hist1.setText(String.valueOf(ecg_value));
-                hist2.setText(String.valueOf(bvp_value));
+            date = new Date();
+            String dateformatted = dateFormat.format(date);
+            hist1.setText(String.valueOf(ecg_value));
+            hist2.setText(String.valueOf(bvp_value));
 
-            }
         }
     }
 
