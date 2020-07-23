@@ -5,12 +5,14 @@
           android:checkable="false"
           android:orderInCategory="1"
           app:showAsAction="always"/>
-    <item android:id="@+id/menu_scan"
-          android:title="scan"
-          android:orderInCategory="100"
-          app:showAsAction="always"/>
-    <item android:id="@+id/menu_stop"
-          android:title="stop"
-          android:orderInCategory="101"
-          app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_scan"
+        android:orderInCategory="100"
+        android:title="Buscar"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_stop"
+        android:orderInCategory="101"
+        android:title="detener"
+        app:showAsAction="always" />
 </menu>

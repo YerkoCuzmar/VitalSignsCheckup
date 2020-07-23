@@ -15,40 +15,64 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.*;
-
-import androidx.appcompat.widget.Toolbar;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import info.plux.api.PLUXDevice;
-import info.plux.api.PLUXException;
-import info.plux.api.bioplux.BiopluxCommunication;
-import info.plux.api.bioplux.utils.Source;
-import info.plux.api.bitalino.BITalinoCommunication;
-import info.plux.api.enums.States;
-import info.plux.api.bioplux.enums.CommandError;
-import info.plux.api.bioplux.enums.Event;
-import info.plux.api.enums.TypeOfCommunication;
-import info.plux.api.interfaces.Constants;
-import info.plux.api.bioplux.*;
-import info.plux.api.bioplux.utils.*;
-import info.plux.api.bitalino.*;
-import info.plux.api.interfaces.OnDataAvailable;
-
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import static info.plux.api.interfaces.Constants.*;
-import static info.plux.api.enums.States.*;
-import static info.plux.api.bioplux.CommandDecoder.*;
-import static info.plux.api.bioplux.enums.Event.*;
-import static info.plux.api.bioplux.enums.Event.ON_BODY_EVENT;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import info.plux.api.PLUXDevice;
+import info.plux.api.PLUXException;
+import info.plux.api.bioplux.BiopluxCommunication;
+import info.plux.api.bioplux.BiopluxCommunicationFactory;
+import info.plux.api.bioplux.OnBiopluxError;
+import info.plux.api.bioplux.enums.CommandError;
+import info.plux.api.bioplux.enums.Event;
+import info.plux.api.bioplux.utils.BiopluxFrame;
+import info.plux.api.bioplux.utils.CommandReplyString;
+import info.plux.api.bioplux.utils.DigitalInputChange;
+import info.plux.api.bioplux.utils.EventData;
+import info.plux.api.bioplux.utils.Schedules;
+import info.plux.api.bioplux.utils.Source;
+import info.plux.api.bitalino.BITalinoCommunication;
+import info.plux.api.bitalino.BITalinoCommunicationFactory;
+import info.plux.api.enums.States;
+import info.plux.api.enums.TypeOfCommunication;
+import info.plux.api.interfaces.Constants;
+import info.plux.api.interfaces.OnDataAvailable;
+
+import static info.plux.api.bioplux.CommandDecoder.DisconnectEventType;
+import static info.plux.api.bioplux.enums.Event.BATTERY_LEVEL_EVENT;
+import static info.plux.api.bioplux.enums.Event.CLOCK_SYNCHRONIZATION;
+import static info.plux.api.bioplux.enums.Event.DIGITAL_INPUT_CHANGE;
+import static info.plux.api.bioplux.enums.Event.DISCONNECT;
+import static info.plux.api.bioplux.enums.Event.GESTURE_FEATURES_EVENT;
+import static info.plux.api.bioplux.enums.Event.I_2_C_EVENT;
+import static info.plux.api.bioplux.enums.Event.ON_BODY_EVENT;
+import static info.plux.api.bioplux.enums.Event.SCHEDULE_CHANGE;
+import static info.plux.api.bioplux.enums.Event.SENSOR_ID_CHANGE;
+import static info.plux.api.enums.States.CONNECTED;
+import static info.plux.api.enums.States.DISCONNECTED;
+import static info.plux.api.interfaces.Constants.ACTION_COMMAND_REPLY;
+import static info.plux.api.interfaces.Constants.ACTION_DATA_AVAILABLE;
+import static info.plux.api.interfaces.Constants.ACTION_DEVICE_READY;
+import static info.plux.api.interfaces.Constants.ACTION_EVENT_AVAILABLE;
+import static info.plux.api.interfaces.Constants.ACTION_STATE_CHANGED;
+import static info.plux.api.interfaces.Constants.DISCONNECT_EVENT;
+import static info.plux.api.interfaces.Constants.EXTRA_COMMAND_REPLY;
+import static info.plux.api.interfaces.Constants.EXTRA_DATA;
+import static info.plux.api.interfaces.Constants.EXTRA_EVENT;
+import static info.plux.api.interfaces.Constants.EXTRA_EVENT_DATA;
+import static info.plux.api.interfaces.Constants.EXTRA_STATE_CHANGED;
+import static info.plux.api.interfaces.Constants.IDENTIFIER;
+import static info.plux.api.interfaces.Constants.PLUX_DEVICE;
 
 public class DeviceActivity extends AppCompatActivity implements OnDataAvailable, OnBiopluxError, View.OnClickListener {
     private final String TAG = this.getClass().getSimpleName();
@@ -259,6 +283,13 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
                 if (state.equals(DISCONNECTED)) {
                     biopluxResultsTextView.setText("");
+                    disconnectButton.setEnabled(false);
+                    connectButton.setEnabled(true);
+
+                }
+                if(state.equals(CONNECTED)) {
+                    disconnectButton.setEnabled(true);
+                    connectButton.setEnabled(false);
                 }
             } else if (ACTION_DATA_AVAILABLE.equals(action)) {
                 if (intent.hasExtra(EXTRA_DATA)) {

@@ -36,6 +36,6 @@
     <string name="ConfigOptions">Puerto, intervalos de medición</string>
 
 
-    <string name="scan_activity_title">Scan</string>
+    <string name="scan_activity_title">Dispositivos</string>
 
 </resources>
