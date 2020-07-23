@@ -260,6 +260,14 @@ public class MonitorBloodPressure extends AppCompatActivity {
             String dateformatted = dateFormat.format(date);
             hist1.setText(String.valueOf(ecg_value));
             hist2.setText(String.valueOf(bvp_value));
+            
+            try {
+                OutputStreamWriter output = new OutputStreamWriter(openFileOutput("blood_pressure_history.txt", Activity.MODE_APPEND));
+                histroy_log = dateformatted + ": " + ecg_value + "/" + bvp_value + " mmHg";
+                output.append(histroy_log +"\n");
+                output.flush();
+                output.close();
+            } catch (IOException e) { }
 
         }
     }
