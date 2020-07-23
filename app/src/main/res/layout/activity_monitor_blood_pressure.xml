@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="midiendo..." />
+                        android:text="--" />
 
                     <TextView
                         android:id="@+id/med_mmhg2"
@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="midiendo..." />
+                        android:text="--" />
 
                     <TextView
                         android:id="@+id/med_mmhg1"

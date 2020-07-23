@@ -251,7 +251,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
             double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
             double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
             //Log.d("ecg value", String.valueOf(ecg_value));
-            textView.setText(String.valueOf(ecg_value));
+            textView2.setText(String.valueOf(ecg_value));
             textView.setText(String.valueOf(bvp_value));
 //                data.add(ecg_value);
 //                data2.add(bvp_value);

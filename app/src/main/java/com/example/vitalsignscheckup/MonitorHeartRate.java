@@ -115,7 +115,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         tv1.setText("Mostrar Alerta");
 
         tv2 = (TextView)findViewById(R.id.medida_heart);
-        tv2.setText("Midiendo");
+        tv2.setText("--");
 
         tv3 = (TextView)findViewById(R.id.med_ppm);
         tv3.setText("ppm");
@@ -175,7 +175,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //unregisterReceiver(br);
+        unregisterReceiver(br);
         Log.d("pause hr", String.valueOf(dataProcessingAsync.isCancelled()));
     }
 
@@ -183,7 +183,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dataProcessingAsync.cancel(true);
-        unregisterReceiver(br);
+        //unregisterReceiver(br);
         Log.d("destroy hr", String.valueOf(dataProcessingAsync.isCancelled()));
     }
 
