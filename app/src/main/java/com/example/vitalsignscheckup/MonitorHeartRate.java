@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class MonitorHeartRate extends AppCompatActivity {
@@ -87,30 +86,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         Thread t=new Thread(){
             @Override
             public void run(){
-
-                br = new DataReciever();
-                /*
-                while(!isInterrupted()){
-                    try {
-                        Thread.sleep(1000);  //1000ms = 1 sec
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                count++;
-                                textView.setText(String.valueOf(count));
-                                date = new Date();
-                                dateformatted = dateFormat.format(date);
-                                histroy_log = dateformatted + ": " + count + " ppm";
-                                h1.setText(histroy_log);
-
-                            }
-                        });
-                    }catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                 */
+                br = new BVPDataReciever();
             }
         };
         t.start();
@@ -148,8 +124,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         startActivity(viewHistoryIntent);
     }
 
-    private class DataReciever extends BroadcastReceiver {
-        private ArrayList<Double> data;
+    private class BVPDataReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int strbvp = intent.getExtras().getIntArray("analogData")[posbvp];
