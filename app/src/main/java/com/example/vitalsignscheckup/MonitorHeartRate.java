@@ -24,7 +24,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -146,8 +145,9 @@ public class MonitorHeartRate extends AppCompatActivity {
             @Override
             public void run() {
                 super.run();
-                AsyncTask dataProcessingAsync = new DataProcessing();
+                AsyncTask dataProcessingAsync = new HRDataProcessing();
                 dataProcessingAsync.execute();
+
             }
         };
         t.start();
@@ -165,6 +165,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(br);
+
     }
 
     @Override
@@ -210,7 +211,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         }
     }
 
-    public class DataProcessing extends AsyncTask {
+    public class HRDataProcessing extends AsyncTask {
         @Override
         protected Object doInBackground(Object[] objects) {
             while (true){
