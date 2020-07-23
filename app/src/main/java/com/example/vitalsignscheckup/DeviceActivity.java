@@ -57,7 +57,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
     public final static String FRAME = "info.plux.android.sample.DeviceActivity.FRAME";
     public final static String ELAPSED_TIME_EVENT = "info.plux.android.sample.DeviceActivity.ELAPSED_TIME_EVENT";
 
-    private int samplingRate = 500;
+    private int samplingRate = 5000;
     //Sources
     private boolean settingParameter = true;//fNIRS sensor
     private List<Source> sources = new ArrayList<>();
@@ -367,7 +367,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if (frame instanceof BiopluxFrame) {
             final BiopluxFrame biopluxFrame = (BiopluxFrame) frame;
 
-            Log.d("TAG", Arrays.toString(biopluxFrame.getAnalogData()));
+            //Log.d("TAG", Arrays.toString(biopluxFrame.getAnalogData()));
 
             Intent i = new Intent();
             i.putExtra("analogData", biopluxFrame.getAnalogData());
