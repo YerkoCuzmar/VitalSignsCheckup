@@ -37,5 +37,8 @@
 
 
     <string name="scan_activity_title">Dispositivos</string>
+    <string name="main.hint.userName">Nombre</string>
+    <string name="main.hint.email">Email</string>
+    <string name="main.hint.provider">Provider</string>
 
 </resources>
