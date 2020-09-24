@@ -2,6 +2,7 @@ package com.example.vitalsignscheckup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,11 +27,13 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvname;
     TextView tvemail;
 
+    TextInputLayout tiName, tiMobile, tiEmail, tiPass;
+    EditText etName, etMobile, etEmail, etPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -62,6 +66,9 @@ public class LoginActivity extends AppCompatActivity {
         tvname.setText(userDisplayName);
         tvemail = (TextView)findViewById(R.id.tvEmail);
         tvemail.setText(email);
+
+        tiName = (TextInputLayout) findViewById(R.id.textInputName);
+
     }
 
     @Override

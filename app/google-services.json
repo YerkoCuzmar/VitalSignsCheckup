@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "341929599159",
+    "firebase_url": "https://vitalsignscheckup-c8844.firebaseio.com",
+    "project_id": "vitalsignscheckup-c8844",
+    "storage_bucket": "vitalsignscheckup-c8844.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341929599159:android:91dbb8a1ef0f472bbcad32",
+        "android_client_info": {
+          "package_name": "com.example.vitalsignscheckup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341929599159-sc7j16n1e5vqd72v2840liukvo30nkiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vitalsignscheckup",
+            "certificate_hash": "1f8526dee2c1ebea7a9b0001f8110dd0e4b6b34b"
+          }
+        },
+        {
+          "client_id": "341929599159-6v4cdcq4a9vag9kpgnrcn80o1nq5bes4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vitalsignscheckup",
+            "certificate_hash": "daeed493f1162db92d9e2407d985e7d9d28a81aa"
+          }
+        },
+        {
+          "client_id": "341929599159-bsqjthcpbptndk1tpg310r5nhgt42lu9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-MB75MH88cvzGSY15jnDx5enOX3DgrR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341929599159-bsqjthcpbptndk1tpg310r5nhgt42lu9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
