@@ -58,7 +58,7 @@
         android:textAlignment="textEnd"
         android:textStyle="bold"
         android:textColor="@color/primaryTextColor"
-        android:text="@string/signup_login_hint"
+        android:text="@string/login_signup_hint"
         android:layout_marginTop="@dimen/loginViewsMargin"/>
 
 </LinearLayout>
