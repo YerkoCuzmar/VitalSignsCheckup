@@ -3,8 +3,10 @@ package com.example.vitalsignscheckup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ public class ActivityRegister extends AppCompatActivity {
     EditText etName, etMobile, etEmail, etPass;
     Button btnRegister;
     TextView tvIngresar;
+    CheckBox cbPaciente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class ActivityRegister extends AppCompatActivity {
                 String mobile = etMobile.getText().toString();
                 String email = etEmail.getText().toString();
                 String pass = etPass.getText().toString();
+                boolean isPaciente = cbPaciente.isChecked(); //true si es paciente
 
                 startActivity(mainActivityIntent);
             }
@@ -60,6 +64,7 @@ public class ActivityRegister extends AppCompatActivity {
         etPass = (EditText) findViewById(R.id.editTextPassword);
         btnRegister = (Button) findViewById(R.id.cirLoginButton);
         tvIngresar = (TextView) findViewById(R.id.tvIngresar);
+        cbPaciente = (CheckBox) findViewById(R.id.checkBox);
     }
 
 }

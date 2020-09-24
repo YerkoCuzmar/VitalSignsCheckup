@@ -71,6 +71,15 @@
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/parent"
+        android:layout_marginTop="20dp"
+        android:text="Soy paciente" />
+
     <Button
         android:id="@+id/cirLoginButton"
         style="@style/loginButton"
