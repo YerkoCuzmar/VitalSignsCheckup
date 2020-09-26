@@ -57,6 +57,8 @@ public class TemperatureTest extends AppCompatActivity {
                 if(myBinder != null){
                     Log.d(TAG, "onChanged: connected to service");
                     mService = myBinder.getService();
+                    mService.unPausePretendLongRunningTask();
+                    mViewModel.setIsProgressUpdating(true);
                 }
                 else {
                     Log.d(TAG, "onChanged: unbound from service");
@@ -133,15 +135,14 @@ public class TemperatureTest extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume: ");
         super.onResume();
-
         startService();
     }
 
     private void startService(){
         Intent serviceIntent = new Intent(this, TemperatureService.class);
         startService(serviceIntent);
-
         bindService();
     }
 

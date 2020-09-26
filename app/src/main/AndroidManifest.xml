@@ -42,6 +42,7 @@
             android:theme="@style/MaterialCardTheme" />
         <activity android:name=".monitor.Temperature" />
         <service android:name=".monitor.services.HeartRateService" />
+        <service android:name=".monitor.services.TemperatureService" />
     </application>
 
 </manifest>

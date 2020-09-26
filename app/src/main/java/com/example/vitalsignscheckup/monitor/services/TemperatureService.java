@@ -20,6 +20,7 @@ public class TemperatureService extends Service {
     private Handler handler;
     private int progress, maxValue;
     private Boolean isPaused;
+    private Runnable runnable;
 
     @Override
     public void onCreate() {
@@ -28,7 +29,7 @@ public class TemperatureService extends Service {
         handler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         progress = 0;
         isPaused = true;
-        maxValue = 5000;
+        maxValue = 100;
 
     }
 
@@ -45,23 +46,26 @@ public class TemperatureService extends Service {
         }
     }
 
+
     public void startPretendLongRunningTask(){
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if(progress >= maxValue || isPaused){
-                    Log.d(TAG, "run: pause.");
-//                    handler.removeCallbacks(this);
-                    pausePretendLongRunningTask();
+        if (runnable == null){
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if(progress >= maxValue || isPaused){
+                        Log.d(TAG, "run: pause.");
+                        handler.removeCallbacks(this);
+                        pausePretendLongRunningTask();
+                    }
+                    else {
+                        Log.d(TAG, "run: progress: " + progress);
+                        progress += 5;
+                        handler.postDelayed(this, 1000);
+                    }
                 }
-                else {
-                    Log.d(TAG, "run: progress: " + progress);
-                    progress += 100;
-                    handler.postDelayed(this, 1000);
-                }
-            }
-        };
-        handler.postDelayed(runnable, 1000);
+            };
+            handler.postDelayed(runnable, 1000);
+        }
     }
 
     public void pausePretendLongRunningTask() {
@@ -84,6 +88,6 @@ public class TemperatureService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-//        stopSelf(); // TODO: detiene el servicio al cerrar la app del appmanager
+        stopSelf(); // TODO: detiene el servicio al cerrar la app del appmanager
     }
 }
