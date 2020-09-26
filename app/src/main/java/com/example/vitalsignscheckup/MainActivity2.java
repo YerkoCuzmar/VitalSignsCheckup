@@ -62,7 +62,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_perfil, R.id.nav_mi_cuidador, R.id.nav_mis_familiares, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
+                R.id.nav_perfil, R.id.nav_mi_cuidador, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
                 .setDrawerLayout(drawer)
                 .build();
         //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -80,9 +80,8 @@ public class MainActivity2 extends AppCompatActivity {
 
                 if (id == R.id.nav_perfil) {
                 } else if (id == R.id.nav_mi_cuidador) {
-
-                } else if (id == R.id.nav_mis_familiares) {
-
+                    Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
+                    startActivity(cuidadorIntent);
                 } else if (id == R.id.nav_configuracion) {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);

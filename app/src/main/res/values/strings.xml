@@ -22,10 +22,11 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_perfil">Perfil</string>
-    <string name="menu_mi_cuidador">Mi cuidador</string>
+    <string name="menu_mi_cuidador">Mis cuidadores</string>
     <string name="menu_mis_familiares">Mis familiares</string>
     <string name="menu_configuracion">Configuración</string>
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
+    <string name="menu_mis_pacientes">Mis pacientes</string>
 
 
     <string name="ConfigTitle">Configuración</string>
