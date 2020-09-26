@@ -35,7 +35,9 @@ public class SignalDetector {
         double ECG_V, ECG_mV;
         int G_ECG, VCC;
 
-        if (data.get(0) >15000){
+        //Señales menores no las toma en cuenta
+
+        if (data.get(0) > 15000){
             for (int i = 0; i < DATA_SIZE; i ++){
 
                 VCC = 3;      // operating voltage
@@ -46,11 +48,8 @@ public class SignalDetector {
                 ECG_mV = ECG_V*1000;
 
                 data.set(i,ECG_mV);
-
             }
         }
-
-
 
         for (int i = 0; i < lag; i++) {
             stats.accept(data.get(i));

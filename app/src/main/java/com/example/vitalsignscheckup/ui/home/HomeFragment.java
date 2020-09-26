@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 //import androidx.lifecycle.ViewModelProviders;
@@ -23,6 +24,7 @@ import com.example.vitalsignscheckup.MonitorHeartRate;
 import com.example.vitalsignscheckup.MonitorStressLevel;
 import com.example.vitalsignscheckup.MonitorTemperature;
 import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.ServiceHeartRate;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
@@ -34,11 +36,13 @@ public class HomeFragment extends Fragment {
         // Inflar o cargar el layout para el Fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         MaterialCardView temperatureCard   = (MaterialCardView) root.findViewById(R.id.temperatureCard);
         MaterialCardView heartRateCard     = (MaterialCardView) root.findViewById(R.id.heartRateCard);
         MaterialCardView bloodPressureCard = (MaterialCardView) root.findViewById(R.id.bloodPressureCard);
         MaterialCardView stressLevelCard   = (MaterialCardView) root.findViewById(R.id.stressLevelCard);
 
+        //TEMPERATURE
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
@@ -46,23 +50,42 @@ public class HomeFragment extends Fragment {
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //HEART RATE
         heartRateCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
                 startActivity(monitorHeartRateIntent);
             }
         });
+
+
+        //service
+        /*
+        heartRateCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+                Intent serviceHeartRateIntent = new Intent(view.getContext(), ServiceHeartRate.class);
+                getActivity().startService(serviceHeartRateIntent);
+            }
+
+        });
+        */
+
+        //BLOOD PRESSURE
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
                 startActivity(monitorBloodPressureIntent);
             }
         });
+
+        //STRESS
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
 //                startActivity(monitorStressLevelIntent);
-//                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -80,6 +103,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 
     @Override
     public void onResume() {

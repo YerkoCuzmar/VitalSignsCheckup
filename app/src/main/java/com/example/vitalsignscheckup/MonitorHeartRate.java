@@ -9,14 +9,20 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -30,15 +36,19 @@ import java.util.HashMap;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MonitorHeartRate extends AppCompatActivity {
+public class MonitorHeartRate extends AppCompatActivity  {
 
+    private static final String TAG = "MonitorHeartRate";
     int count = 0;
+
+    private ServiceHeartRate mService;              //servicio
+    private MonitorHeartRateViewModel mViewModel;   //viewModel
+    private TextView ppmText;                       //medida de presión
 
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     Date date = new Date();
     String dateformatted = dateFormat.format(date);
     String histroy_log;
-
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -71,13 +81,12 @@ public class MonitorHeartRate extends AppCompatActivity {
     double threshold = 3.5;
     double influence = 0;
 
-    //double valor = 0;
     int pulsaciones = 0;
     int dif = 0;
     int sample_rate = 50;
     int ppm = 0;
     int pulsaciones2 = 0;
-    int p = 0;
+
     int value_i = 0;
     int value_rate = 1;
     int finalPulsaciones;
@@ -94,10 +103,75 @@ public class MonitorHeartRate extends AppCompatActivity {
     List<Double> datos;
 */
 
-    AsyncTask dataProcessingAsync  = new HRDataProcessing();
+    //AsyncTask dataProcessingAsync  = new HRDataProcessing();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(MonitorHeartRate.this, "monitor_heartRate", Toast.LENGTH_SHORT).show();
+
+        //super.onCreate();
+
+        ppmText = findViewById(R.id.medida_heart);
+        mViewModel = ViewModelProviders.of(this).get(MonitorHeartRateViewModel.class);
+
+        //habian dos cosas para importar y no se si importe el correcto
+        mViewModel.getBinder().observe(this, new Observer<ServiceHeartRate.MyBinder>(){
+
+            @Override
+            public void onChanged(ServiceHeartRate.MyBinder myBinder){
+                if(myBinder != null){
+                    //Log.d(TAG, "onChanged: connected to service"); no se porque tira error
+                    mService = myBinder.getService();
+                    mService.unPausedPretendLongRunningTask();
+                    mViewModel.setIsPpmUpdating(true);
+                }
+                else {
+                    //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
+                    mService = null;
+                }
+            }
+        });
+
+
+        mViewModel.getIsPpmUpdating().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable final Boolean isUpdating) {
+                final Handler handler = new Handler(getMainLooper());
+                final Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isUpdating){
+                            if(mViewModel.getBinder().getValue() != null){
+                                mViewModel.setIsPpmUpdating(false);
+                            }
+                            //progressBar.setProgress(mService.getProgress());
+                            //progressBar.setMax(mService.getMaxValue());
+                            String progress = String.valueOf(mService.getPpm());
+                            ppmText.setText(progress);
+                            handler.postDelayed(this, 100);
+                        }
+                        else {
+                            handler.removeCallbacks(this);
+                        }
+                    }
+                };
+
+                if (isUpdating){
+                    //progressButton.setText("Pause");
+                    handler.postDelayed(runnable, 100);
+                }
+                /*
+                else {
+                    if (mService.getPpm() == mService.getMaxValue()){
+                        progressButton.setText("Restart");
+                    }
+                    else{
+                        progressButton.setText("Start");
+                    }
+                }
+                 */
+            }
+        });
 
         setContentView(R.layout.activity_monitor_heart_rate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
@@ -105,6 +179,7 @@ public class MonitorHeartRate extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
+        //si no está no sé cuál es la diferencia
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,18 +187,18 @@ public class MonitorHeartRate extends AppCompatActivity {
             }
         });
 
-        tv1 = (TextView)findViewById(R.id.alerta_heart);
+        tv1 = (TextView) findViewById(R.id.alerta_heart);
         tv1.setText("Mostrar Alerta");
 
-        tv2 = (TextView)findViewById(R.id.medida_heart);
-        tv2.setText("--");
+        tv2 = (TextView) findViewById(R.id.medida_heart);
+        tv2.setText("   --");
 
-        tv3 = (TextView)findViewById(R.id.med_ppm);
-        tv3.setText("ppm");
+        tv3 = (TextView) findViewById(R.id.med_ppm);
+        tv3.setText("  ppm");
 
-        textView = (TextView)findViewById(R.id.medida_heart);
-        h1 = (TextView)findViewById(R.id.heart1);
-        h3 = (TextView)findViewById(R.id.heart3);
+        textView = (TextView) findViewById(R.id.medida_heart);
+        h1 = (TextView) findViewById(R.id.heart1);
+        h3 = (TextView) findViewById(R.id.heart3);
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         portbvp = Integer.valueOf(preferences.getString("port", null));
@@ -131,34 +206,35 @@ public class MonitorHeartRate extends AppCompatActivity {
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         portecg = Integer.valueOf(preferences.getString("port", null));
 
-        if(portbvp > portecg){
+        if (portbvp > portecg) {
             posecg = 0;
             posbvp = 1;
-        }else{
+        } else {
             posecg = 1;
             posbvp = 0;
         }
 
-        br = new HRDataReciever();
+        //br = new HRDataReciever();
 
         //System.out.println("CANTIDAD DE PULSACIONES ES " + pulsaciones);
         //n = signalsList.size();
         //System.out.println("valor de n es " + n);
         finalPulsaciones = pulsaciones;
 
-        Thread t = new Thread(){
+        Thread t = new Thread() {
             @Override
             public void run() {
                 super.run();
 
-                dataProcessingAsync.execute();
-                Log.d("create hr", String.valueOf(dataProcessingAsync.isCancelled()));
+                //dataProcessingAsync.execute();
+                //Log.d("create hr", String.valueOf(dataProcessingAsync.isCancelled()));
             }
         };
         t.start();
 
     }
 
+    /*
     @Override
     protected void onResume() {
         super.onResume();
@@ -187,6 +263,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         //unregisterReceiver(br);
         Log.d("destroy hr", String.valueOf(dataProcessingAsync.isCancelled()));
     }
+    */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -206,20 +283,10 @@ public class MonitorHeartRate extends AppCompatActivity {
         viewHistoryIntent.putExtra("origin", "heartRate");
         startActivity(viewHistoryIntent);
     }
-    public static double transformECG(int n, int ADC){
-        double ECG_V, ECG_mV;
-        int G_ECG, VCC;
 
-        VCC = 3;      // operating voltage
-        G_ECG = 1000; // sensor gain
 
-        ECG_V = (ADC/Math.pow(2, n) - 0.5)*VCC/G_ECG;
-
-        ECG_mV = ECG_V*1000;
-
-        return ECG_mV;
-    }
-
+    //HRDATARECEIVER
+    /*
     public class HRDataReciever extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -231,13 +298,16 @@ public class MonitorHeartRate extends AppCompatActivity {
             }
         }
     }
+    */
 
+
+    /*
     public class HRDataProcessing extends AsyncTask {
         @Override
         protected Object doInBackground(Object[] objects) {
             while (true){
-                //Log.d("cancelled", String.valueOf(isCancelled()));
-                if ( isCancelled()){
+
+                if (isCancelled()){
                     Log.d("if", String.valueOf(isCancelled()));
                     break;
                 }
@@ -302,27 +372,15 @@ public class MonitorHeartRate extends AppCompatActivity {
 
                     if ((i % (sample_rate*5)) == 0){
                         ppm = (ppm + (pulsaciones2*60/5))/2;
-                        //System.out.println("PPM ES: "+ ppm);
-                        //System.out.println("ENTRA AL i = "+ i);
 
                         Log.d("Publish: ", String.valueOf(ppm));
 
-                        publishProgress(String.valueOf(ppm));
+                        publishProgress(String.valueOf(ppm + 1)); //esta línea cambia la medida de ppm
 
                         pulsaciones2 = 0;
                     }
-                    //System.out.println("Point " + i + " gave signal " + signalsList.get(i));
-                    //}
-                    //System.out.println("VALOR DE I ES: " + i);
+
                 }
-
-                //System.out.println("dataSize Final " + data.size());
-
-                //System.out.println(data);
-                //Log.d("TAG", String.valueOf(data.get(1)));
-
-                //System.out.println("value i: " + value_i);
-                //System.out.println("value rate: " + value_rate);
 
                 count++;
                 value_i = count*sample_rate;
@@ -358,6 +416,33 @@ public class MonitorHeartRate extends AppCompatActivity {
             } catch (IOException e) { }
 
         }
+
+    }
+    */
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mViewModel.getBinder() != null){
+            unbindService(mViewModel.getServiceConnection());
+        }
     }
 
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        startService();
+    }
+
+    private void startService(){
+        Intent serviceIntent = new Intent(this, ServiceHeartRate.class);
+        startService(serviceIntent);
+        bindService();
+    }
+
+    private void bindService(){
+        Intent serviceIntent = new Intent(this, ServiceHeartRate.class);
+        bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
+    }
 }
