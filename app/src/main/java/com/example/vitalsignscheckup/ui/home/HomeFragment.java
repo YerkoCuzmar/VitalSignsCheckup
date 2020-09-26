@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.vitalsignscheckup.monitor.BloodPressure;
-import com.example.vitalsignscheckup.monitor.HeartRateTest;
-import com.example.vitalsignscheckup.monitor.StressLevel;
-import com.example.vitalsignscheckup.monitor.TemperatureTest;
 import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.monitor.BloodPressureTest;
+import com.example.vitalsignscheckup.monitor.HeartRateTest;
+import com.example.vitalsignscheckup.monitor.StressLevelTest;
+import com.example.vitalsignscheckup.monitor.TemperatureTest;
 import com.google.android.material.card.MaterialCardView;
 
 //import androidx.lifecycle.ViewModelProviders;
@@ -47,14 +47,14 @@ public class HomeFragment extends Fragment {
         });
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorBloodPressureIntent = new Intent(view.getContext(), BloodPressure.class);
+                Intent monitorBloodPressureIntent = new Intent(view.getContext(), BloodPressureTest.class);
                 startActivity(monitorBloodPressureIntent);
             }
         });
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorStressLevelIntent = new Intent(view.getContext(), StressLevel.class);
-//                startActivity(monitorStressLevelIntent);
+                Intent monitorStressLevelIntent = new Intent(view.getContext(), StressLevelTest.class);
+                startActivity(monitorStressLevelIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });

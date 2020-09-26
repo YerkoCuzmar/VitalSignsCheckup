@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.Objects;
 
-public class HeartRateService extends Service {
+public class StressLevelService extends Service {
 
-    private static final String TAG = "HeartRateService";
+    private static final String TAG = "StressLevelService";
 
     private IBinder binder = new MyBinder();
     private Handler handler;
@@ -41,8 +41,8 @@ public class HeartRateService extends Service {
 
     public class MyBinder extends Binder{
 
-        public HeartRateService getService(){
-            return HeartRateService.this;
+        public StressLevelService getService(){
+            return StressLevelService.this;
         }
     }
 
@@ -59,7 +59,7 @@ public class HeartRateService extends Service {
                     }
                     else {
                         Log.d(TAG, "run: progress: " + progress);
-                        progress += 2;
+                        progress += 3;
                         handler.postDelayed(this, 1000);
                     }
                 }

@@ -23,6 +23,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".monitor.HeartRateTest"/>
         <activity android:name=".monitor.TemperatureTest"/>
+        <activity android:name=".monitor.BloodPressureTest"/>
+        <activity android:name=".monitor.StressLevelTest"/>
         <activity android:name=".config.DeviceActivity" />
         <activity android:name=".config.ScanActivity" />
         <activity android:name=".SplashScreenActivity">
@@ -43,6 +45,8 @@
         <activity android:name=".monitor.Temperature" />
         <service android:name=".monitor.services.HeartRateService" />
         <service android:name=".monitor.services.TemperatureService" />
+        <service android:name=".monitor.services.StressLevelService" />
+        <service android:name=".monitor.services.BloodPressureService" />
     </application>
 
 </manifest>

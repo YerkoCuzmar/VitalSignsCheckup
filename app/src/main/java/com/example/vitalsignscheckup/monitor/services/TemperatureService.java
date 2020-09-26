@@ -59,7 +59,7 @@ public class TemperatureService extends Service {
                     }
                     else {
                         Log.d(TAG, "run: progress: " + progress);
-                        progress += 5;
+                        progress += 7;
                         handler.postDelayed(this, 1000);
                     }
                 }
