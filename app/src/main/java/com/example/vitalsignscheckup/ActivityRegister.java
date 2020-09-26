@@ -99,7 +99,7 @@ public class ActivityRegister extends AppCompatActivity {
                 mobile = etMobile.getText().toString();
                 email = etEmail.getText().toString();
                 pass = etPass.getText().toString();
-                boolean isPaciente = cbPaciente.isChecked(); //true si es paciente
+                isPaciente = cbPaciente.isChecked(); //true si es paciente
 
                 if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !mobile.isEmpty()){
 
@@ -144,23 +144,38 @@ public class ActivityRegister extends AppCompatActivity {
 
                     String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
 
-                    mDataBase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    if (isPaciente){
+                        mDataBase.child("Pacientes").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
 
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task2) {
-                            if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
-
-                                startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
-                                finish();
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
+                                    startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    finish();
+                                }
+                                else{
+                                    //System.out.println("salleee");
+                                    Toast.makeText(ActivityRegister.this, "No se pudieron crear los datos", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else{
-                                System.out.println("salleee");
-                                Toast.makeText(ActivityRegister.this, "No se pudieron crear los datos", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                    else{
+                        mDataBase.child("Cuidadores").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
+                                    startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    finish();
+                                }
+                                else{
+                                    //System.out.println("salleee");
+                                    Toast.makeText(ActivityRegister.this, "No se pudieron crear los datos", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
-
-
+                        });
+                    }
                 }
                 else{
                     Toast.makeText(ActivityRegister.this, "No se pudo registrar este usuario", Toast.LENGTH_SHORT).show();
