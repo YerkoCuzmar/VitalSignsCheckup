@@ -1,4 +1,4 @@
-package com.example.vitalsignscheckup;
+package com.example.vitalsignscheckup.config;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -21,6 +21,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.vitalsignscheckup.MainActivity2;
+import com.example.vitalsignscheckup.R;
 
 import java.util.ArrayList;
 import java.util.List;

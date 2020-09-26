@@ -1,15 +1,18 @@
 package com.example.vitalsignscheckup;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.vitalsignscheckup.monitor.BloodPressure;
+import com.example.vitalsignscheckup.monitor.HeartRateTest;
+import com.example.vitalsignscheckup.monitor.StressLevel;
+import com.example.vitalsignscheckup.monitor.Temperature;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
@@ -33,26 +36,26 @@ public class MainActivity extends AppCompatActivity {
 
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+                Intent monitorTemperatureIntent = new Intent(view.getContext(), Temperature.class);
 //                startActivity(monitorTemperatureIntent);
                 Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
         heartRateCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+                Intent monitorHeartRateIntent = new Intent(view.getContext(), HeartRateTest.class);
                 startActivity(monitorHeartRateIntent);
             }
         });
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+                Intent monitorBloodPressureIntent = new Intent(view.getContext(), BloodPressure.class);
                 startActivity(monitorBloodPressureIntent);
             }
         });
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
+                Intent monitorStressLevelIntent = new Intent(view.getContext(), StressLevel.class);
 //                startActivity(monitorStressLevelIntent);
                 Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }

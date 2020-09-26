@@ -1,15 +1,15 @@
-package com.example.vitalsignscheckup;
+package com.example.vitalsignscheckup.config;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.vitalsignscheckup.DoubleSummary;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 
 public class SignalDetector {
 

@@ -1,4 +1,4 @@
-package com.example.vitalsignscheckup;
+package com.example.vitalsignscheckup.config;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -7,19 +7,26 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.vitalsignscheckup.R;
+
+import java.util.ArrayList;
 
 import info.plux.api.DeviceScan;
 import info.plux.api.interfaces.Constants;
-
-import java.util.ArrayList;
 
 public class ScanActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private final String TAG = this.getClass().getSimpleName();

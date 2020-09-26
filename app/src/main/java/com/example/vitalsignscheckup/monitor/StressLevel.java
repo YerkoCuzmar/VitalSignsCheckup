@@ -1,23 +1,23 @@
-package com.example.vitalsignscheckup;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+package com.example.vitalsignscheckup.monitor;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import java.util.Objects;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-public class MonitorTemperature extends AppCompatActivity {
+import com.example.vitalsignscheckup.R;
+
+public class StressLevel extends AppCompatActivity {
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitor_temperature);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
+        setContentView(R.layout.activity_monitor_stress_level);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.stressToolbar);
         setSupportActionBar(toolbar);
-        
+
+
 
     }
 

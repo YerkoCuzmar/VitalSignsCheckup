@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/nav_configuracion"
-        android:name="com.example.vitalsignscheckup.ConfigActivity"
+        android:name="com.example.vitalsignscheckup.config.ConfigActivity"
         android:label="@string/menu_configuracion"
         tools:layout="@layout/activity_config" />
 

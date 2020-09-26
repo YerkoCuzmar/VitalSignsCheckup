@@ -1,4 +1,4 @@
-package com.example.vitalsignscheckup;
+package com.example.vitalsignscheckup.monitor;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -18,6 +18,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.checkHistory;
+import com.example.vitalsignscheckup.config.SignalDetector;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
@@ -29,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MonitorHeartRate extends AppCompatActivity {
+public class HeartRate extends AppCompatActivity {
 
     int count = 0;
 

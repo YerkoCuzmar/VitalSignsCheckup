@@ -2,12 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vitalsignscheckup">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <permission
         android:name="android.permission.BLUETOOTH"
@@ -22,8 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeviceActivity"></activity>
-        <activity android:name=".ScanActivity" />
+        <activity android:name=".monitor.HeartRateTest"/>
+        <activity android:name=".monitor.TemperatureTest"/>
+        <activity android:name=".config.DeviceActivity" />
+        <activity android:name=".config.ScanActivity" />
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,14 +33,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".checkHistory" />
-        <activity android:name=".MonitorStressLevel" />
-        <activity android:name=".MonitorBloodPressure" />
-        <activity android:name=".MonitorHeartRate" />
-        <activity android:name=".ConfigActivity" />
+        <activity android:name=".monitor.StressLevel" />
+        <activity android:name=".monitor.BloodPressure" />
+        <activity android:name=".monitor.HeartRate" />
+        <activity android:name=".config.ConfigActivity" />
         <activity
             android:name=".MainActivity2"
             android:theme="@style/MaterialCardTheme" />
-        <activity android:name=".MonitorTemperature" />
+        <activity android:name=".monitor.Temperature" />
+        <service android:name=".monitor.services.HeartRateService" />
     </application>
 
 </manifest>
