@@ -510,8 +510,8 @@ public class ServiceBloodPressure extends Service {
             count = 0;
             value_i = 0;
             value_rate = 1;
-            data.clear();
-            data2.clear();
+//            data.clear();
+//            data2.clear();
             flag1 = false;
             flag2 = false;
             COLLECT_DATA = true;

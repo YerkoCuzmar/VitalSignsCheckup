@@ -320,7 +320,7 @@ public class ServiceHeartRate extends Service {
             count = 0;
             value_i = 0;
             value_rate = 1;
-            data.clear();
+//            data.clear();
             COLLECT_DATA = true;
         }
     }
