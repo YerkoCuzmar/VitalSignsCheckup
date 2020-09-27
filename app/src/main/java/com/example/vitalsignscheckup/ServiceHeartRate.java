@@ -1,8 +1,10 @@
 package com.example.vitalsignscheckup;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -85,8 +87,6 @@ public class ServiceHeartRate extends Service {
     }
     */
 
-    HRDataProcessing dataProcessingAsync = new HRDataProcessing();
-
     @Override
     public void onCreate(){
         super.onCreate();
@@ -101,7 +101,9 @@ public class ServiceHeartRate extends Service {
 
                 @Override
                 public void run() {
-                    dataProcessingAsync.execute();
+//                    calcularHRSensores();
+                    calcularHRantiguo();
+                    mHandler.postDelayed(this, 1000);
                 }
             };
         }
@@ -123,100 +125,198 @@ public class ServiceHeartRate extends Service {
         return ppm;
     }
 
-    class HRDataProcessing extends AsyncTask {
+    public class HRDataReciever extends BroadcastReceiver {
+        int[] puertos;
+        int portbvp, portecg, porttemp, porteda;
+        int posecg;
+
+        public HRDataReciever(){
+            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
+            SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+            if(preferences != null){
+                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
+                puertos[0] = portbvp;
+            }
+
+            preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+            if(preferences != null){
+                portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
+                puertos[1] = portecg;
+            }
+
+            preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+            if(preferences != null){
+                porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
+                puertos[2] = porttemp;
+            }
+
+            preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+            if(preferences != null){
+                porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
+                puertos[3] = porteda;
+            }
+
+            Arrays.sort(puertos);
+            String sPuertos = Arrays.toString(puertos);
+            posecg = sPuertos.indexOf(String.valueOf(portecg));
+        }
+
         @Override
-        protected Object doInBackground(Object[] objects) {
-            while (true){
+        public void onReceive(Context context, Intent intent) {
+            if(COLLECT_DATA){
+                double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
+                data.add(ecg_value);
+            }
+        }
+    }
 
-                if (isCancelled()){
-                    Log.d("if", String.valueOf(isCancelled()));
-                    break;
-                }
 
-                Log.d("data size", String.valueOf(data.size()));
+    public void calcularHRSensores() {
 
-                Log.d("collect ", String.valueOf(COLLECT_DATA));
+        while (data.size() < sample_rate) {
 
-                while (data.size() < DATA_SIZE) {
+        }
 
-                }
+        resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, data.size());
+        signalsList = resultsMap.get("signals");
+        filteredDataList = resultsMap.get("filteredData");
+        datos = resultsMap.get("data");
 
-                resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, DATA_SIZE);
-                signalsList = resultsMap.get("signals");
-                filteredDataList = resultsMap.get("filteredData");
-                datos = resultsMap.get("data");
+        COLLECT_DATA = false;
 
-                COLLECT_DATA = false;
+        for (int j = value_i; j < sample_rate ; j++) {
+            dif = dif + 1;
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if ((j + 1) < signalsList.size()){
+                if (signalsList.get(j) == 0){
+                    if (signalsList.get((j+1)) == 1){
 
-                for (i = value_i; i < sample_rate*value_rate ; i++) {
-                    dif = dif + 1;
+                        pulsaciones = pulsaciones + 1;
+                        pulsaciones2 = pulsaciones2 + 1;
 
-                    if ((i + 1) < signalsList.size()){
-                        if (signalsList.get(i) == 0){
-                            if (signalsList.get((i+1)) == 1){
+                        dif = 0;
 
-                                pulsaciones = pulsaciones + 1;
-                                pulsaciones2 = pulsaciones2 + 1;
-
-                                dif = 0;
-
-                            }
-                            else if(signalsList.get((i+1)) == -1){
-                                continue;
-                            }
-                        }
-                        else if(signalsList.get(i) == -1){
-                            if (signalsList.get((i+1)) == 1){
-                                //valor = signalsList.get(i);
-                                pulsaciones = pulsaciones + 1;
-                                pulsaciones2 = pulsaciones2 + 1;
-                                //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                                //System.out.println("VALOR DE DIF " + dif);
-                                dif = 0;
-                            }
-                            else if(signalsList.get((i+1)) == 0){
-                                continue;
-                            }
-                        }
-                        else if(signalsList.get(i) == 1){
-                            continue;
-                        }
                     }
-
-                    if ((i % (sample_rate*5)) == 0){
-                        ppm = (ppm + (pulsaciones2*60/5))/2;
-
-                        Log.d("Publish: ", String.valueOf(ppm));
-
-                        //publishProgress(String.valueOf(ppm));
-
-                        //mHandler.postDelayed(runnable, 1000);
-
-                        pulsaciones2 = 0;
+                    else if(signalsList.get((j+1)) == -1){
+                        continue;
                     }
-
                 }
-
-                count++;
-                value_i = count*sample_rate;
-                value_rate = value_rate + 1;
-
-                if(sample_rate*value_rate >= DATA_SIZE) {
-
-                    count = 0;
-                    value_i = 0;
-                    value_rate = 1;
-                    data.clear();
-                    COLLECT_DATA = true;
+                else if(signalsList.get(j) == -1){
+                    if (signalsList.get((j+1)) == 1){
+                        //valor = signalsList.get(i);
+                        pulsaciones = pulsaciones + 1;
+                        pulsaciones2 = pulsaciones2 + 1;
+                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
+                        //System.out.println("VALOR DE DIF " + dif);
+                        dif = 0;
+                    }
+                    else if(signalsList.get((j+1)) == 0){
+                        continue;
+                    }
+                }
+                else if(signalsList.get(j) == 1){
+                    continue;
                 }
             }
-            return null;
+
+            if ((j % (sample_rate*5)) == 0){
+                ppm = (ppm + (pulsaciones2*60/5))/2;
+
+                Log.d("Publish: ", String.valueOf(ppm));
+
+                //publishProgress(String.valueOf(ppm));
+
+                //mHandler.postDelayed(runnable, 1000);
+
+                pulsaciones2 = 0;
+            }
+        }
+        data.clear();
+        COLLECT_DATA = true;
+    }
+
+
+    public void calcularHRantiguo() {
+
+
+        Log.d("data size", String.valueOf(data.size()));
+
+        Log.d("collect ", String.valueOf(COLLECT_DATA));
+
+
+        resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, data.size());
+        signalsList = resultsMap.get("signals");
+        filteredDataList = resultsMap.get("filteredData");
+        datos = resultsMap.get("data");
+
+        COLLECT_DATA = false;
+
+//        try {
+////            Thread.sleep(1000);
+////        } catch (InterruptedException e) {
+////            e.printStackTrace();
+////        }
+
+        for (i = value_i; i < sample_rate*value_rate ; i++) {
+            dif = dif + 1;
+
+            if ((i + 1) < signalsList.size()){
+                if (signalsList.get(i) == 0){
+                    if (signalsList.get((i+1)) == 1){
+
+                        pulsaciones = pulsaciones + 1;
+                        pulsaciones2 = pulsaciones2 + 1;
+
+                        dif = 0;
+
+                    }
+                    else if(signalsList.get((i+1)) == -1){
+                        continue;
+                    }
+                }
+                else if(signalsList.get(i) == -1){
+                    if (signalsList.get((i+1)) == 1){
+                        //valor = signalsList.get(i);
+                        pulsaciones = pulsaciones + 1;
+                        pulsaciones2 = pulsaciones2 + 1;
+                        //System.out.println("PULSACION EN LA MEDICION: "+ i);
+                        //System.out.println("VALOR DE DIF " + dif);
+                        dif = 0;
+                    }
+                    else if(signalsList.get((i+1)) == 0){
+                        continue;
+                    }
+                }
+                else if(signalsList.get(i) == 1){
+                    continue;
+                }
+            }
+
+            if ((i % (sample_rate*5)) == 0){
+                ppm = (ppm + (pulsaciones2*60/5))/2;
+
+                Log.d("Publish: ", String.valueOf(ppm));
+
+                //publishProgress(String.valueOf(ppm));
+
+                //mHandler.postDelayed(runnable, 1000);
+
+                pulsaciones2 = 0;
+            }
+
+        }
+
+        count++;
+        value_i = count*sample_rate;
+        value_rate = value_rate + 1;
+
+        if(sample_rate*value_rate >= DATA_SIZE) {
+
+            count = 0;
+            value_i = 0;
+            value_rate = 1;
+            data.clear();
+            COLLECT_DATA = true;
         }
     }
 
