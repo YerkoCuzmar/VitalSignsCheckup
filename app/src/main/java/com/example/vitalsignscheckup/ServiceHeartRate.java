@@ -21,6 +21,7 @@ import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ServiceHeartRate extends Service {
+    private Runnable runnable;
 
     int count = 0;
 
@@ -95,15 +96,15 @@ public class ServiceHeartRate extends Service {
 
     //como si estuviese corriendon una tarea largamente
     public void startPretendLongRunningTask(){
+        if(runnable == null) {
+            runnable = new Runnable() {
 
-        final Runnable runnable = new Runnable(){
-            @Override
-            public void run(){
-                dataProcessingAsync.execute();
-            }
-
-        };
-
+                @Override
+                public void run() {
+                    dataProcessingAsync.execute();
+                }
+            };
+        }
         mHandler.postDelayed(runnable, 1000);
     }
 
