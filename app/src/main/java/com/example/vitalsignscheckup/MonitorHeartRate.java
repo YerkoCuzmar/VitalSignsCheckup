@@ -84,6 +84,35 @@ public class MonitorHeartRate extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast.makeText(MonitorHeartRate.this, "monitor_heartRate", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.activity_monitor_heart_rate);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        //si no está no sé cuál es la diferencia
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        tv1 = (TextView) findViewById(R.id.alerta_heart);
+        tv1.setText("Mostrar Alerta");
+
+        ppmText = findViewById(R.id.medida_heart);
+        ppmText.setText("   --");
+
+        tv3 = (TextView) findViewById(R.id.med_ppm);
+        tv3.setText("  ppm");
+
+//        textView = (TextView) findViewById(R.id.medida_heart);
+        h1 = (TextView) findViewById(R.id.heart1);
+        h3 = (TextView) findViewById(R.id.heart3);
+
+        ppmText = findViewById(R.id.medida_heart);
+
+        finalPulsaciones = pulsaciones;
 
         mViewModel = ViewModelProviders.of(this).get(MonitorHeartRateViewModel.class);
 
@@ -131,40 +160,8 @@ public class MonitorHeartRate extends AppCompatActivity  {
                 if (isUpdating){
                     handler.postDelayed(runnable, 100);
                 }
-
             }
         });
-
-        setContentView(R.layout.activity_monitor_heart_rate);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(R.drawable.ic_back);
-
-        //si no está no sé cuál es la diferencia
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        tv1 = (TextView) findViewById(R.id.alerta_heart);
-        tv1.setText("Mostrar Alerta");
-
-        ppmText = findViewById(R.id.medida_heart);
-        ppmText.setText("   --");
-
-        tv3 = (TextView) findViewById(R.id.med_ppm);
-        tv3.setText("  ppm");
-
-//        textView = (TextView) findViewById(R.id.medida_heart);
-        h1 = (TextView) findViewById(R.id.heart1);
-        h3 = (TextView) findViewById(R.id.heart3);
-
-        ppmText = findViewById(R.id.medida_heart);
-
-        finalPulsaciones = pulsaciones;
 
     }
 
