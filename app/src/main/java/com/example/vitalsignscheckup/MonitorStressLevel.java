@@ -53,7 +53,7 @@ public class MonitorStressLevel extends AppCompatActivity {
                     //Log.d(TAG, "onChanged: connected to service"); no se porque tira error
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
-                    mViewModel.setIsPpmUpdating(true);
+                    mViewModel.setIsStressUpdating(true);
                 }
                 else {
                     //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
@@ -62,7 +62,7 @@ public class MonitorStressLevel extends AppCompatActivity {
             }
         });
 
-        mViewModel.getIsPpmUpdating().observe(this, new Observer<Boolean>() {
+        mViewModel.getIsStressUpdating().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean isUpdating) {
                 final Handler handler = new Handler(getMainLooper());
@@ -71,7 +71,7 @@ public class MonitorStressLevel extends AppCompatActivity {
                     public void run() {
                         if(isUpdating){
                             if(mViewModel.getBinder().getValue() != null){
-                                mViewModel.setIsPpmUpdating(false);
+                                mViewModel.setIsStressUpdating(false);
                             }
                             String progress = String.valueOf(mService.getSL());
                             stressText.setText(progress);

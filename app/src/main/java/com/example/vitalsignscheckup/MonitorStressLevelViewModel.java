@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel;
 public class MonitorStressLevelViewModel extends ViewModel {
     //TODO: REVISAR "ppm"
     private static final String TAG = "MonitorHeartRateViewMod";
-    private MutableLiveData<Boolean> isPpmUpdating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isStressUpdating = new MutableLiveData<>();
     private MutableLiveData<ServiceStressLevel.MyBinder> mBinder = new MutableLiveData<>();
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -30,8 +30,8 @@ public class MonitorStressLevelViewModel extends ViewModel {
     };
 
 
-    public LiveData<Boolean> getIsPpmUpdating(){
-        return isPpmUpdating;
+    public LiveData<Boolean> getIsStressUpdating(){
+        return isStressUpdating;
     }
 
     public LiveData<ServiceStressLevel.MyBinder> getBinder(){
@@ -42,8 +42,8 @@ public class MonitorStressLevelViewModel extends ViewModel {
         return serviceConnection;
     }
 
-    public void setIsPpmUpdating(Boolean isUpdating){
-        isPpmUpdating.postValue(isUpdating);
+    public void setIsStressUpdating(Boolean isUpdating){
+        isStressUpdating.postValue(isUpdating);
     }
 
 }
