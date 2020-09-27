@@ -1,12 +1,9 @@
 package com.example.vitalsignscheckup;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,11 +18,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -50,7 +44,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
     String dateformatted = dateFormat.format(date);
     String histroy_log;
     TextView tv1;
-    TextView tv2;
     TextView tv3;
     TextView textView;
     TextView h1, h3;
@@ -111,7 +104,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
 
         //super.onCreate();
 
-        ppmText = findViewById(R.id.medida_heart);
         mViewModel = ViewModelProviders.of(this).get(MonitorHeartRateViewModel.class);
 
         //habian dos cosas para importar y no se si importe el correcto
@@ -190,15 +182,17 @@ public class MonitorHeartRate extends AppCompatActivity  {
         tv1 = (TextView) findViewById(R.id.alerta_heart);
         tv1.setText("Mostrar Alerta");
 
-        tv2 = (TextView) findViewById(R.id.medida_heart);
-        tv2.setText("   --");
+        ppmText = findViewById(R.id.medida_heart);
+        ppmText.setText("   --");
 
         tv3 = (TextView) findViewById(R.id.med_ppm);
         tv3.setText("  ppm");
 
-        textView = (TextView) findViewById(R.id.medida_heart);
+//        textView = (TextView) findViewById(R.id.medida_heart);
         h1 = (TextView) findViewById(R.id.heart1);
         h3 = (TextView) findViewById(R.id.heart3);
+
+        ppmText = findViewById(R.id.medida_heart);
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         portbvp = Integer.valueOf(preferences.getString("port", null));
