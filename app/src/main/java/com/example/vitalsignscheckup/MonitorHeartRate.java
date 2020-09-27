@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorHeartRate extends AppCompatActivity  {
@@ -195,18 +196,17 @@ public class MonitorHeartRate extends AppCompatActivity  {
         ppmText = findViewById(R.id.medida_heart);
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        portbvp = Integer.valueOf(preferences.getString("port", null));
+        portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        portecg = Integer.valueOf(preferences.getString("port", null));
+        portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
 
-        if (portbvp > portecg) {
-            posecg = 0;
-            posbvp = 1;
-        } else {
-            posecg = 1;
-            posbvp = 0;
-        }
+        int[] puertos = {portbvp, portecg};
+        Arrays.sort(puertos);
+        String sPuertos = Arrays.toString(puertos);
+        posecg = sPuertos.indexOf(String.valueOf(portecg));
+        posbvp = sPuertos.indexOf(String.valueOf(portbvp));
+
 
         //br = new HRDataReciever();
 
