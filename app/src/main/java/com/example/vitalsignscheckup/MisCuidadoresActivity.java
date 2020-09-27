@@ -40,14 +40,10 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         });
 
         rvCuidadores = (RecyclerView) findViewById(R.id.rvCuidadores);
-
+        adapter = new MisPacientesCuidadoresAdapter(dataSet(), 1);
         glm = new GridLayoutManager(this, 1);
         rvCuidadores.setLayoutManager(glm);
         rvCuidadores.setAdapter(adapter);
-
-        Intent callingIntent = getIntent();
-        int isPaciente = Integer.valueOf(callingIntent.getStringExtra("isPaciente"));
-        adapter = new MisPacientesCuidadoresAdapter(dataSet(), isPaciente);
     }
 
     private ArrayList<PacienteCuidador> dataSet() {

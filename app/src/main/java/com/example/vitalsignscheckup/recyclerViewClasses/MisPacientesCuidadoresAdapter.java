@@ -20,10 +20,16 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
 
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
+    private String dialogMsg;
 
     public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
+        if(isPaciente == 1){
+            dialogMsg = "Eliminar de mis cuidadores";
+        }else{
+            dialogMsg = "Eliminar de mis pacientes";
+        }
     }
 
     @Override
@@ -44,7 +50,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
             public void onClick(View view) {
                 holder.ivMoreOptions.setSelected(true);
                 new AlertDialog.Builder(view.getRootView().getContext())
-                        .setTitle("Eliminar de mis cuidadores")
+                        .setTitle(dialogMsg)
                         .setMessage("¿Seguro quieres eliminar a " + miPacienteCuidador.getName() + "?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             @Override
