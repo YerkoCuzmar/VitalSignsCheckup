@@ -40,6 +40,4 @@ public class BloodPressureViewModel extends ViewModel {
     public void setIsProgressUpdating(Boolean isUpdating){
         isProgressUpdating.postValue(isUpdating);
     }
-
-    
 }

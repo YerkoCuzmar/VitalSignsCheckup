@@ -149,6 +149,5 @@ public class BloodPressureTest extends AppCompatActivity {
     private void bindService(){
         Intent serviceIntent = new Intent(this, BloodPressureService.class);
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
-
     }
 }
