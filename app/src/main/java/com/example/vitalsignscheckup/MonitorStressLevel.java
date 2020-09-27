@@ -26,10 +26,6 @@ public class MonitorStressLevel extends AppCompatActivity {
     private MonitorStressLevelViewModel mViewModel;      //viewModel
     private TextView stressText;                       //medida de nivel de estres
 
-
-    boolean COLLECT_DATA = true;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
