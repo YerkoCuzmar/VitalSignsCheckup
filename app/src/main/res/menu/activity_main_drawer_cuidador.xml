@@ -9,15 +9,9 @@
             android:icon="@drawable/ic_awesome_user_circle"
             android:title="@string/menu_perfil" />
         <item
-            android:id="@+id/nav_mi_cuidador"
-            android:icon="@drawable/ic_awesome_user_md"
-            android:title="@string/menu_mi_cuidador" />
-        <!--
-        <item
-            android:id="@+id/nav_mis_familiares"
+            android:id="@+id/nav_mis_pacientes"
             android:icon="@drawable/ic_awesome_user_friends"
-            android:title="@string/menu_mis_familiares" />
-        -->
+            android:title="@string/menu_mis_pacientes" />
         <item
             android:id="@+id/nav_configuracion"
             android:icon="@drawable/ic_feather_settings"

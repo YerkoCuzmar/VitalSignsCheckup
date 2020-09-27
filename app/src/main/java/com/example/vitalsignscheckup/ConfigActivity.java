@@ -2,37 +2,23 @@ package com.example.vitalsignscheckup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.ArrayList;
-
 import info.plux.api.DeviceScan;
-import info.plux.api.interfaces.Constants;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -199,4 +185,39 @@ public class ConfigActivity extends AppCompatActivity {
 //        preferences.edit().clear().apply();
 //        System.out.println("Stop Fin");
 //    }
+
+    public static class ActivityLogin extends AppCompatActivity {
+
+        TextInputLayout tiName, tiMobile, tiEmail, tiPass;
+        EditText etName, etMobile, etEmail, etPass;
+        Button btnRegister;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_login);
+            instanceElements();
+
+            btnRegister.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent mainActivityIntent = new Intent(v.getContext(), MainActivity.class);
+    //                startActivity(monitorTemperatureIntent);
+                    Toast.makeText(ActivityLogin.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        }
+
+        private void instanceElements(){
+            etName = (EditText)findViewById(R.id.editTextName);
+            etMobile = (EditText)findViewById(R.id.editTextMobile);
+            etEmail = (EditText)findViewById(R.id.editTextEmail);
+            etPass = (EditText)findViewById(R.id.editTextPassword);
+            btnRegister = (Button)findViewById(R.id.cirLoginButton);
+        }
+
+    }
 }

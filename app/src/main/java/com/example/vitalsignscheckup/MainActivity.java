@@ -11,10 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
