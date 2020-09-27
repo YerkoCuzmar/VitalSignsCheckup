@@ -93,9 +93,9 @@ public class ServiceHeartRate extends Service {
         super.onCreate();
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         isPaused = true;
+        br = new HRDataReciever();
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
-        br = new HRDataReciever();
     }
 
     //como si estuviese corriendon una tarea largamente
@@ -255,12 +255,6 @@ public class ServiceHeartRate extends Service {
         datos = resultsMap.get("data");
 
         COLLECT_DATA = false;
-
-//        try {
-////            Thread.sleep(1000);
-////        } catch (InterruptedException e) {
-////            e.printStackTrace();
-////        }
 
         for (i = value_i; i < sample_rate*value_rate ; i++) {
             dif = dif + 1;

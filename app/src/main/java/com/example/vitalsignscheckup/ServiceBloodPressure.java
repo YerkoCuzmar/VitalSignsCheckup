@@ -126,10 +126,9 @@ public class ServiceBloodPressure extends Service {
         super.onCreate();
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         isPaused = true;
+        br = new BPDataReciever();
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
-        br = new BPDataReciever();
-
 
         System.out.println("CANTIDAD DE PULSACIONES ECG " + pulsaciones);
         m = data.size();
