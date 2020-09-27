@@ -19,9 +19,11 @@ import java.util.ArrayList;
 public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
 
     private ArrayList<PacienteCuidador> data;
+    private int isPaciente;
 
-    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data) {
+    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
+        this.isPaciente = isPaciente;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
         holder.ivMoreOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.ivMoreOptions.setSelected(true);
                 new AlertDialog.Builder(view.getRootView().getContext())
                         .setTitle("Eliminar de mis cuidadores")
                         .setMessage("¿Seguro quieres eliminar a " + miPacienteCuidador.getName() + "?")

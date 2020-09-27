@@ -1,6 +1,7 @@
 package com.example.vitalsignscheckup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,8 +43,11 @@ public class MisCuidadoresActivity extends AppCompatActivity {
 
         glm = new GridLayoutManager(this, 1);
         rvCuidadores.setLayoutManager(glm);
-        adapter = new MisPacientesCuidadoresAdapter(dataSet());
         rvCuidadores.setAdapter(adapter);
+
+        Intent callingIntent = getIntent();
+        int isPaciente = Integer.valueOf(callingIntent.getStringExtra("isPaciente"));
+        adapter = new MisPacientesCuidadoresAdapter(dataSet(), isPaciente);
     }
 
     private ArrayList<PacienteCuidador> dataSet() {

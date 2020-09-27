@@ -81,7 +81,9 @@ public class MainActivity2 extends AppCompatActivity {
                 if (id == R.id.nav_perfil) {
                 } else if (id == R.id.nav_mi_cuidador) {
                     Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
+                    cuidadorIntent.putExtra("isPaciente", 1);
                     startActivity(cuidadorIntent);
+
                 } else if (id == R.id.nav_configuracion) {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
