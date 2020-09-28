@@ -83,7 +83,7 @@ public class ListaCuidadores extends AppCompatActivity {
                             Map<String, Object> map = new HashMap<>();
                             map.put("Nombre", name_cuidador);
                             map.put("Correo", email_cuidador);
-                            String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
+                            String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
 
 
                             for (DataSnapshot d1 : list_ids){           //para obtener el id del cuidador
@@ -97,7 +97,7 @@ public class ListaCuidadores extends AppCompatActivity {
                             }
 
                             //Log.d("id_cuidador", id);
-                            Toast.makeText(ListaCuidadores.this, "id_c es "+ id_cuidador, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ListaCuidadores.this, "id_c es "+ id_cuidador, Toast.LENGTH_SHORT).show();
                             mDataBase.child("Pacientes").child(id).child("cuidadores").child(id_cuidador).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task2) {

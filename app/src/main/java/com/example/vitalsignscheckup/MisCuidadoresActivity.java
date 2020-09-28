@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -91,15 +92,19 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         //Agregar a data los cuidadores correspondientes al consultar la BD
 
         String id = mAuth.getCurrentUser().getUid();
-        mDataBase.child("Pacientes").addValueEventListener(new ValueEventListener() {
+        mDataBase.child("Pacientes").child(id).child("cuidadores").addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    //data.add(new PacienteCuidador(ds.child("cuidadores").child("Nombre").getValue().toString(),
-                    //        ds.child("cuidadores").child("Correo").getValue().toString(),
-                    //        R.drawable.ic_awesome_user_circle));
+                    //Toast.makeText(MisCuidadoresActivity.this, "ds " + ds.child("Correo") , Toast.LENGTH_SHORT).show();
+                    //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
+                    //Toast.makeText(MisCuidadoresActivity.this, "lista: " + list_ids, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MisCuidadoresActivity.this, "dsa " + ds.child("Correo"), Toast.LENGTH_SHORT).show();
+                    data.add(new PacienteCuidador(ds.child("Nombre").getValue().toString(),
+                            ds.child("Correo").getValue().toString(),
+                            R.drawable.ic_awesome_user_circle));
                 }
             }
 
