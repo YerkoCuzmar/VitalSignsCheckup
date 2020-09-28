@@ -58,6 +58,7 @@ public class MisPacientesCuidadoresAdapter_Delete extends RecyclerView.Adapter<M
 
                                 //Eliminar de la BD
 
+
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

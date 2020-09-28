@@ -1,7 +1,7 @@
 package com.example.vitalsignscheckup;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter_Add;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,10 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ListaCuidadores extends AppCompatActivity {
@@ -39,6 +36,7 @@ public class ListaCuidadores extends AppCompatActivity {
     private ArrayList<PacienteCuidador> mCuidadores = new ArrayList<>();
     private MisPacientesCuidadoresAdapter_Add mAdapter;
 
+    private String id_cuidador;
 
 
     private EditText etCuidador;
@@ -57,24 +55,19 @@ public class ListaCuidadores extends AppCompatActivity {
         rvCuidadores.setLayoutManager(new LinearLayoutManager(this));
         agregar_cuidador = (Button) findViewById(R.id.agregar_cuidador);
 
+        id_cuidador = "";
 
 
         agregar_cuidador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCuidadoresFromFirebase();
+                addCuidadorToPaciente();
             }
         });
-
-
         etCuidador = (EditText) findViewById(R.id.search_users);
-
     }
 
-
-
-
-    private void getCuidadoresFromFirebase(){
+    private void addCuidadorToPaciente(){
         mDataBase.child("Cuidadores").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -84,18 +77,31 @@ public class ListaCuidadores extends AppCompatActivity {
                         String name_cuidador = ds.child("name").getValue().toString();
                         String email_cuidador = ds.child("email").getValue().toString();
 
+                        Iterable<DataSnapshot> list_ids = dataSnapshot.getChildren();  //lista con los ids cuidadores
 
                         if (email_cuidador.equals(cuidador)){
                             Map<String, Object> map = new HashMap<>();
                             map.put("Nombre", name_cuidador);
+                            map.put("Correo", email_cuidador);
                             String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
 
-                            mDataBase.child("Pacientes").child(id).child("cuidadores").setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                            for (DataSnapshot d1 : list_ids){           //para obtener el id del cuidador
+                                String uid = ds.getKey().toString();
+                                if (d1.child("name").getValue().toString().equals(name_cuidador)){
+                                    if (d1.child("email").getValue().toString().equals(email_cuidador)){
+                                        Log.d("el id es ", id_cuidador);
+                                        id_cuidador = uid;          //id del cuidador
+                                    }
+                                }
+                            }
+
+                            //Log.d("id_cuidador", id);
+                            Toast.makeText(ListaCuidadores.this, "id_c es "+ id_cuidador, Toast.LENGTH_SHORT).show();
+                            mDataBase.child("Pacientes").child(id).child("cuidadores").child(id_cuidador).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task2) {
                                     if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
-                                        //startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
-                                        //finish();
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                 " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
@@ -103,7 +109,6 @@ public class ListaCuidadores extends AppCompatActivity {
                                         return;
                                     }
                                     else{
-                                        //System.out.println("salleee");
                                         Toast.makeText(ListaCuidadores.this, "No se ha podido agregar " + name_cuidador +
                                                 " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
