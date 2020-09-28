@@ -41,6 +41,7 @@ package="com.example.vitalsignscheckup">
     <activity android:name=".MonitorHeartRate" />
     <activity android:name=".ConfigActivity" />
     <activity android:name=".MisCuidadoresActivity" />
+    <activity android:name=".MisPacientesActivity" />
     <activity android:name=".ListaCuidadores" />
     <activity android:name=".MainActivity2"
         android:theme="@style/MaterialCardTheme" />
