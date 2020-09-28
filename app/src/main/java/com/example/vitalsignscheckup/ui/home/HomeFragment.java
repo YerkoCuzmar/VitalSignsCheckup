@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
-//                startActivity(monitorTemperatureIntent);
+                startActivity(monitorTemperatureIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });

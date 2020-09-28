@@ -1,19 +1,15 @@
 package com.example.vitalsignscheckup;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
 
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
-//                startActivity(monitorTemperatureIntent);
+                startActivity(monitorTemperatureIntent);
                 Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
