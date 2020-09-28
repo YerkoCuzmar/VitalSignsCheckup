@@ -17,6 +17,7 @@ import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresA
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter_Add;
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter_Delete;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
     private GridLayoutManager glm;
     private MisPacientesCuidadoresAdapter_Delete adapter;
 
-    private Button add_cuidador; //para agregar cuidadores
+    private FloatingActionButton add_cuidador; //para agregar cuidadores
     private FirebaseAuth mAuth;
 
 
@@ -43,7 +44,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_cuidadores);
 
-        add_cuidador = (Button) findViewById(R.id.add_cuidadores); //agregar cuidadores
+        add_cuidador = (FloatingActionButton) findViewById(R.id.add_cuidadores); //agregar cuidadores
         mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
