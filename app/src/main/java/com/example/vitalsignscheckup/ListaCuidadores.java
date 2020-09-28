@@ -45,7 +45,7 @@ public class ListaCuidadores extends AppCompatActivity {
     private String cuidador = "";
     FirebaseAuth mAuth;
     private Button agregar_cuidador;
-
+    private boolean agregado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,6 +56,7 @@ public class ListaCuidadores extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         rvCuidadores.setLayoutManager(new LinearLayoutManager(this));
         agregar_cuidador = (Button) findViewById(R.id.agregar_cuidador);
+
 
 
         agregar_cuidador.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +86,6 @@ public class ListaCuidadores extends AppCompatActivity {
 
 
                         if (email_cuidador.equals(cuidador)){
-                            Toast.makeText(ListaCuidadores.this, "SON IGUALES", Toast.LENGTH_SHORT).show();
                             Map<String, Object> map = new HashMap<>();
                             map.put("Nombre", name_cuidador);
                             String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
@@ -99,6 +99,8 @@ public class ListaCuidadores extends AppCompatActivity {
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                 " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
+                                        agregado = true;
+                                        return;
                                     }
                                     else{
                                         //System.out.println("salleee");
@@ -109,13 +111,13 @@ public class ListaCuidadores extends AppCompatActivity {
                                 }
                             });
                         }
-                        else{
-                            Toast.makeText(ListaCuidadores.this, "SON DISTINTOS " + cuidador    , Toast.LENGTH_SHORT).show();
-                        }
+
+
 
                         mCuidadores.add(new PacienteCuidador(name_cuidador, email_cuidador ,1));
 
                     }
+
                     mAdapter = new MisPacientesCuidadoresAdapter_Add(mCuidadores,1);
                     rvCuidadores.setAdapter(mAdapter);
                 }
