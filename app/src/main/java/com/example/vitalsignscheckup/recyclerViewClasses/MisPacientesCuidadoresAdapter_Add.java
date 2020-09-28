@@ -8,27 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 
 import java.util.ArrayList;
 
-public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
+public class MisPacientesCuidadoresAdapter_Add extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter_Add.MisPacientesCuidadoresViewHolder>{
 
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
     private String dialogMsg;
 
-    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
+    public MisPacientesCuidadoresAdapter_Add(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
         if(isPaciente == 1){
-            dialogMsg = "Eliminar de mis cuidadores";
+            dialogMsg = "Agregar de mis cuidadores";
         }else{
-            dialogMsg = "Eliminar de mis pacientes";
+            dialogMsg = "Agregar de mis pacientes";
         }
     }
 
@@ -51,13 +51,13 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
                 holder.ivMoreOptions.setSelected(true);
                 new AlertDialog.Builder(view.getRootView().getContext())
                         .setTitle(dialogMsg)
-                        .setMessage("¿Seguro quieres eliminar a " + miPacienteCuidador.getName() + "?")
+                        .setMessage("¿Seguro quieres agregar a " + miPacienteCuidador.getName() + "?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.i("Result","Success");
 
-                                //Eliminar de la BD
+                                //Agregar a la BD
 
                             }
                         })

@@ -18,18 +18,27 @@
             android:background="?attr/colorPrimary"
             app:titleTextColor="@color/colorTitleText" />
 
-        <Button
-            android:id="@+id/add_cuidadores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agregar Cuidador" />
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="Buscar..."
+        android:id="@+id/search_users"/>
+
+    <Button
+        android:id="@+id/agregar_cuidador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="agregar cuidador" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCuidadores"
         android:layout_width="match_parent"
         android:layout_height="531dp"
-        android:background="@color/colorBackground" />
+        android:background="@color/colorBackground" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

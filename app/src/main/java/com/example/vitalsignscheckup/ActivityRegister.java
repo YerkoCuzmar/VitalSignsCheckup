@@ -138,7 +138,7 @@ public class ActivityRegister extends AppCompatActivity {
                     Map<String, Object> map = new HashMap<>();
                     map.put("name", name);
                     map.put("email", email);
-                    map.put("password", pass);
+                    //map.put("password", pass);
                     map.put("mobile", mobile);
                     map.put("paciente", isPaciente);
 

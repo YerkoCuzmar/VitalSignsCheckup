@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +15,13 @@ import com.example.vitalsignscheckup.R;
 
 import java.util.ArrayList;
 
-public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
+public class MisPacientesCuidadoresAdapter_Delete extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter_Delete.MisPacientesCuidadoresViewHolder>{
 
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
     private String dialogMsg;
 
-    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
+    public MisPacientesCuidadoresAdapter_Delete(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
         if(isPaciente == 1){

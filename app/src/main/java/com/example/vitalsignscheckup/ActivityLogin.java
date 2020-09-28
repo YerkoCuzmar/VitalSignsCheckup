@@ -80,6 +80,7 @@ public class ActivityLogin extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(ActivityLogin.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
