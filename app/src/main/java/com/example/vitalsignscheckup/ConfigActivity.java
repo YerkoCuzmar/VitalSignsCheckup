@@ -81,6 +81,10 @@ public class ConfigActivity extends AppCompatActivity {
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", "");
         portTemp.setText(porttemp);
+
+        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", "");
+        portEDA.setText(porteda);
     }
 
     @Override
@@ -142,12 +146,12 @@ public class ConfigActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portECG.getText().toString());
+        spEditor.putString("port", portBVP.getText().toString());
         spEditor.apply();
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portBVP.getText().toString());
+        spEditor.putString("port", portECG.getText().toString());
         spEditor.apply();
 
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
