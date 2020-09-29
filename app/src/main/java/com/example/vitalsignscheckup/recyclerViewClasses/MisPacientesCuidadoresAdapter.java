@@ -95,8 +95,10 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
                                                     Log.d("igual2", name);
                                                     ds.getRef().removeValue();
                                                     notifyDataSetChanged();
+                                                    //notifyItemRemoved(position);
 
-                                                    return;
+
+
                                                 }
                                             }
                                         }

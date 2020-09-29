@@ -1,5 +1,6 @@
 package com.example.vitalsignscheckup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,12 +53,23 @@ public class ListaCuidadores extends AppCompatActivity {
         setContentView(R.layout.activity_buscar_cuidadores);
         mDataBase = FirebaseDatabase.getInstance().getReference();
         rvCuidadores = (RecyclerView) findViewById(R.id.rvCuidadores);
+
         mAuth = FirebaseAuth.getInstance();
         rvCuidadores.setLayoutManager(new LinearLayoutManager(this));
         agregar_cuidador = (Button) findViewById(R.id.agregar_cuidador);
 
         id_cuidador = "";
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         agregar_cuidador.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +118,8 @@ public class ListaCuidadores extends AppCompatActivity {
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                 " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
-
+                                                startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
+                                                finish();
                                         agregado = true;
                                         return;
                                     }
@@ -117,12 +131,12 @@ public class ListaCuidadores extends AppCompatActivity {
                                 }
                             });
                         }
-                        mCuidadores.add(new PacienteCuidador(name_cuidador, email_cuidador ,1));
+                        //mCuidadores.add(new PacienteCuidador(name_cuidador, email_cuidador ,1));
                     }
 
-                    mAdapter = new MisPacientesCuidadoresAdapter(mCuidadores,1);
+                    //mAdapter = new MisPacientesCuidadoresAdapter(mCuidadores,1);
 
-                    rvCuidadores.setAdapter(mAdapter);
+                    //rvCuidadores.setAdapter(mAdapter);
                 }
             }
 

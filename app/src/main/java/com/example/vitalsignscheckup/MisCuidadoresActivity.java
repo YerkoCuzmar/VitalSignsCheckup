@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +15,7 @@ import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresA
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,8 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
+
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +62,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //UserRecord userRecord = mAuth.getUserByEmail("alex2@gmail.com");
                 startActivity(new Intent(MisCuidadoresActivity.this, ListaCuidadores.class));
-
+                finish();
             }
         });
 
@@ -101,5 +105,6 @@ public class MisCuidadoresActivity extends AppCompatActivity {
 
         return data;
     }
+
 
 }
