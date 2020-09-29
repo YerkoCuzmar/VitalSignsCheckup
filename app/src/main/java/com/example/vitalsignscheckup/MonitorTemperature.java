@@ -74,6 +74,11 @@ public class MonitorTemperature extends AppCompatActivity {
                                 mViewModel.setIsTempUpdating(false);
                             }
                             String progress = String.valueOf(mService.getTemp());
+
+                            //AQUI SE DEBE HACER CONEXION CON BD.-
+
+
+
                             tempText.setText(progress);
                             // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
