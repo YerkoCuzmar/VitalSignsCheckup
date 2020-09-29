@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter_Add;
+import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +34,7 @@ public class ListaCuidadores extends AppCompatActivity {
 
     private RecyclerView rvCuidadores;
     private ArrayList<PacienteCuidador> mCuidadores = new ArrayList<>();
-    private MisPacientesCuidadoresAdapter_Add mAdapter;
+    private MisPacientesCuidadoresAdapter mAdapter;
 
     private String id_cuidador;
 
@@ -105,6 +105,7 @@ public class ListaCuidadores extends AppCompatActivity {
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                 " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
+
                                         agregado = true;
                                         return;
                                     }
@@ -116,14 +117,11 @@ public class ListaCuidadores extends AppCompatActivity {
                                 }
                             });
                         }
-
-
-
                         mCuidadores.add(new PacienteCuidador(name_cuidador, email_cuidador ,1));
-
                     }
 
-                    mAdapter = new MisPacientesCuidadoresAdapter_Add(mCuidadores,1);
+                    mAdapter = new MisPacientesCuidadoresAdapter(mCuidadores,1);
+
                     rvCuidadores.setAdapter(mAdapter);
                 }
             }

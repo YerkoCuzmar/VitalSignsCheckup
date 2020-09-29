@@ -10,9 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -21,6 +28,8 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
     private String dialogMsg;
+    private DatabaseReference mDataBase;
+    FirebaseAuth mAuth;
 
     public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
@@ -45,6 +54,9 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
         holder.tvName.setText(miPacienteCuidador.getName());
         holder.tvEmail.setText(miPacienteCuidador.getEmail());
 
+        mDataBase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
         holder.ivMoreOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +71,41 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
 
                                 //Eliminar de la BD
 
+                                Log.i("Result","Success");
+                                String name = miPacienteCuidador.getName();
+                                String email = miPacienteCuidador.getEmail();
+                                Log.d("name ", name);
+                                Log.d("email ", email);
+                                String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
+                                mDataBase.child("Pacientes").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Log.d("algo ", name);
+                                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                            Log.d("nada", name);
+                                            //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
+
+                                            //data.add(new PacienteCuidador(ds.child("Correo").getValue().toString(),
+                                            //        ds.child("Nombre").getValue().toString(),
+                                            //        R.drawable.ic_awesome_user_circle));
+                                            Log.d("valor: ", ds.child("Nombre").getValue().toString());
+                                            if (ds.child("Nombre").getValue().toString().equals(name)){
+                                                Log.d("igual1", name);
+                                                if(ds.child("Correo").getValue().toString().equals(email)){
+                                                    Log.d("igual2", name);
+                                                    ds.getRef().removeValue();
+                                                    notifyDataSetChanged();
+
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
