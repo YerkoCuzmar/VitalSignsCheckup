@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class MonitorTemperature extends AppCompatActivity {
     private ServiceTemperature mService;                 //servicio
     private MonitorTemperatureViewModel mViewModel;      //viewModel
     private TextView tempText;                       //medida de nivel de estres
+    private HistoryAdapter historyAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,11 @@ public class MonitorTemperature extends AppCompatActivity {
                 finish();
             }
         });
+
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
+        historyAdapter = new HistoryAdapter();
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         //TODO: definir tempText
 
@@ -136,8 +144,8 @@ public class MonitorTemperature extends AppCompatActivity {
     }
 
     public void viewHistory(View view){
-        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
-        viewHistoryIntent.putExtra("origin", "temperature");
-        startActivity(viewHistoryIntent);
+        if(historyAdapter != null){
+            historyAdapter.addNewHistory(30);
+        }
     }
 }

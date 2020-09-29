@@ -7,27 +7,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-//import androidx.lifecycle.ViewModelProviders;
 
-import com.example.vitalsignscheckup.MainActivity;
 import com.example.vitalsignscheckup.MonitorBloodPressure;
 import com.example.vitalsignscheckup.MonitorHeartRate;
 import com.example.vitalsignscheckup.MonitorStressLevel;
 import com.example.vitalsignscheckup.MonitorTemperature;
 import com.example.vitalsignscheckup.R;
-import com.example.vitalsignscheckup.ServiceHeartRate;
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.Objects;
+//import androidx.lifecycle.ViewModelProviders;
 
 public class HomeFragment extends Fragment {
 
@@ -46,7 +37,7 @@ public class HomeFragment extends Fragment {
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
-//                startActivity(monitorTemperatureIntent);
+                startActivity(monitorTemperatureIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
@@ -91,15 +82,15 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", null);
-        String interbvp = preferences.getString("interval", null);
         System.out.println("puertoBVP: " + portbvp);
-        System.out.println("interBVP: " + interbvp);
 
         preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", null);
-        String interecg = preferences.getString("interval", null);
         System.out.println("puertoECG: " + portecg);
-        System.out.println("interECG: " + interecg);
+
+        preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+        String porttemp = preferences.getString("port", null);
+        System.out.println("puertoTEMP: " + porttemp);
 
         return root;
     }
