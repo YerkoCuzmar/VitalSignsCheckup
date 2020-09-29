@@ -142,18 +142,19 @@ public class MonitorHeartRate extends AppCompatActivity  {
                 final Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                    if(isUpdating){
-                        if(mViewModel.getBinder().getValue() != null){
-                            mViewModel.setIsPpmUpdating(false);
+                        if(isUpdating){
+                            if(mViewModel.getBinder().getValue() != null){
+                                mViewModel.setIsPpmUpdating(false);
+                            }
+                            String progress = String.valueOf(mService.getPpm());
+                            ppmText.setText(progress);
+                            enviarABD(mService.getPpm());
+                            // TODO: AGREGAR AL HISTORIAL
+                            handler.postDelayed(this, 100);
                         }
-                        String progress = String.valueOf(mService.getPpm());
-                        ppmText.setText(progress);
-                        // TODO: AGREGAR AL HISTORIAL
-                        handler.postDelayed(this, 100);
-                    }
-                    else {
-                        handler.removeCallbacks(this);
-                    }
+                        else {
+                            handler.removeCallbacks(this);
+                        }
                     }
                 };
 
@@ -209,5 +210,10 @@ public class MonitorHeartRate extends AppCompatActivity  {
         Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
         viewHistoryIntent.putExtra("origin", "heartRate");
         startActivity(viewHistoryIntent);
+    }
+
+    private void enviarABD(int valor){
+        
+
     }
 }
