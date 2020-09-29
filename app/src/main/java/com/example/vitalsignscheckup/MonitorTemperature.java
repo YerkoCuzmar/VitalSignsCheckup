@@ -19,6 +19,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vitalsignscheckup.models.Mediciones;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
 
@@ -28,6 +33,7 @@ public class MonitorTemperature extends AppCompatActivity {
     private MonitorTemperatureViewModel mViewModel;      //viewModel
     private TextView tempText;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +90,8 @@ public class MonitorTemperature extends AppCompatActivity {
                             String progress = String.valueOf(mService.getTemp());
 
                             //AQUI SE DEBE HACER CONEXION CON BD.-
-
-
+                            Mediciones medicion = new Mediciones(mService.getTemp());
+                            medicion.enviaraBD();
 
                             tempText.setText(progress);
                             // TODO: AGREGAR AL HISTORIAL
@@ -148,4 +154,6 @@ public class MonitorTemperature extends AppCompatActivity {
             historyAdapter.addNewHistory(30);
         }
     }
+
+
 }

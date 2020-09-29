@@ -8,12 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.models.History;
+import com.example.vitalsignscheckup.models.Mediciones;
 
 import java.util.ArrayList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
-    private ArrayList<History> dataset;
+    private ArrayList<Mediciones> dataset;
 
     public static class HistoryViewHolder extends RecyclerView.ViewHolder{
         public TextView date;
@@ -31,7 +31,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     public HistoryAdapter() { dataset = new ArrayList<>(); }
-    public HistoryAdapter(ArrayList<History> myDataSet) { dataset = myDataSet; }
+    public HistoryAdapter(ArrayList<Mediciones> myDataSet) { dataset = myDataSet; }
 
     @NonNull
     @Override
@@ -44,14 +44,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         holder.date.setText(dataset.get(position).getDate());
         holder.time.setText(dataset.get(position).getTime());
-        holder.read.setText(String.valueOf(dataset.get(position).getRead()));
+        holder.read.setText(String.valueOf(dataset.get(position).getMedicion()));
     }
 
     @Override
     public int getItemCount() { return dataset.size(); }
 
     public void addNewHistory(int read){
-        History newRead = new History(read);
+        Mediciones newRead = new Mediciones(read);
         dataset.add(0, newRead);
         notifyDataSetChanged();
     }
