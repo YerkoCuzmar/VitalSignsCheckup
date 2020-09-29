@@ -213,7 +213,7 @@ public class MonitorHeartRate extends AppCompatActivity  {
     }
 
     private void enviarABD(int valor){
-        
+
 
     }
 }
