@@ -28,6 +28,7 @@ public class ConfigActivity extends AppCompatActivity {
     EditText portBVP;
     EditText portECG;
     EditText portTemp;
+    EditText portEDA;
     private DeviceScan deviceScan;
 
     // Stops scanning after 10 seconds.
@@ -65,7 +66,8 @@ public class ConfigActivity extends AppCompatActivity {
 
         portBVP = (EditText) findViewById(R.id.text_portBVP);
         portECG = (EditText) findViewById(R.id.text_portECG);
-        portTemp = findViewById(R.id.text_portTemp);
+        portTemp = (EditText) findViewById(R.id.text_portTemp);
+        portEDA = (EditText) findViewById(R.id.text_portEDA);
 
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
@@ -151,6 +153,11 @@ public class ConfigActivity extends AppCompatActivity {
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
         spEditor.putString("port", portTemp.getText().toString());
+        spEditor.apply();
+
+        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        spEditor = preferences.edit();
+        spEditor.putString("port", portEDA.getText().toString());
         spEditor.apply();
 
         Intent intent = new Intent(ConfigActivity.this, ScanActivity.class);
