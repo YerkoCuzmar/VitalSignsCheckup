@@ -3,6 +3,7 @@ package com.example.vitalsignscheckup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,7 +84,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         //Agregar a data los cuidadores correspondientes al consultar la BD
 
         String id = mAuth.getCurrentUser().getUid();
-        mDataBase.child("Pacientes").child(id).child("cuidadores").addValueEventListener(new ValueEventListener() {
+        mDataBase.child("Pacientes").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
@@ -91,11 +92,18 @@ public class MisCuidadoresActivity extends AppCompatActivity {
                     //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
                     //Toast.makeText(MisCuidadoresActivity.this, "lista: " + list_ids, Toast.LENGTH_SHORT).show();
                     //Toast.makeText(MisCuidadoresActivity.this, "dsa " + ds.child("Correo"), Toast.LENGTH_SHORT).show();
-                    data.add(new PacienteCuidador(ds.child("Nombre").getValue().toString(),
-                            ds.child("Correo").getValue().toString(),
-                            R.drawable.ic_awesome_user_circle));
-                            adapter.notifyItemInserted(1);
+                    PacienteCuidador cuidador = new PacienteCuidador(ds.child("Nombre").getValue().toString(),
+                            ds.child("Correo").getValue().toString(),R.drawable.ic_awesome_user_circle);
+                    if (data.contains(cuidador)){
+                        Toast.makeText(MisCuidadoresActivity.this, "Ya es tu cuidador", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        data.add(new PacienteCuidador(ds.child("Nombre").getValue().toString(),
+                                ds.child("Correo").getValue().toString(),
+                                R.drawable.ic_awesome_user_circle));
+                        adapter.notifyItemInserted(1);
 
+                    }
                 }
             }
             @Override

@@ -94,11 +94,9 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
                                                 if(ds.child("Correo").getValue().toString().equals(email)){
                                                     Log.d("igual2", name);
                                                     ds.getRef().removeValue();
+                                                    data.remove(miPacienteCuidador);
                                                     notifyDataSetChanged();
                                                     //notifyItemRemoved(position);
-
-
-
                                                 }
                                             }
                                         }
