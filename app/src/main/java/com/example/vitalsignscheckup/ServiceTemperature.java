@@ -78,7 +78,8 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-                    calcularTempSensores();
+//                    calcularTempSensores();
+                    test();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -147,6 +148,10 @@ public class ServiceTemperature extends Service {
         }
     }
 
+    public void test(){
+        System.out.println(transformarVaC(33628.0));;
+    }
+
 
     public void calcularTempSensores() {
 
@@ -185,7 +190,7 @@ public class ServiceTemperature extends Service {
         }
     }
 
-    private double transformarVaC(Double adc){
+    public double transformarVaC(Double adc){
         if(adc < 17361.0){
             adc = 17361.0;
         }
