@@ -11,30 +11,37 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.vitalsignscheckup.models.Mediciones;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MonitorTemperature extends AppCompatActivity  {
+public class MonitorTemperature extends AppCompatActivity {
 
-    private static final String TAG = "MonitorTemperature";
+    int medicion = 0;
+    private static final String TAG = "MonitorStressLevel";
 
-    private ServiceTemperature mService;              //servicio
-    private MonitorTemperatureViewModel mViewModel;   //viewModel
-    private TextView tempText;                       //medida de temperatura
+    FirebaseAuth mAuth;
+    DatabaseReference mDataBase;  //nodo principal de la base de datos
 
-    TextView tv3;
-
-
-    DecimalFormat df = new DecimalFormat("#0.000");
+    private ServiceTemperature mService;                 //servicio
+    private MonitorTemperatureViewModel mViewModel;      //viewModel
+    private TextView tempText;                       //medida de nivel de estres
+    private HistoryAdapter historyAdapter;
 
 //    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 //    Date date = new Date();
@@ -47,13 +54,11 @@ public class MonitorTemperature extends AppCompatActivity  {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(MonitorTemperature.this, "monitor_heartRate", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_monitor_temperature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        //si no está no sé cuál es la diferencia
+        toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,11 +66,18 @@ public class MonitorTemperature extends AppCompatActivity  {
             }
         });
 
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
+
+        historyAdapter = new HistoryAdapter();
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
+
+        //TODO: definir tempText
+
         tempText = findViewById(R.id.medida_temp);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorTemperatureViewModel.class);
 
-        //habian dos cosas para importar y no se si importe el correcto
         mViewModel.getBinder().observe(this, new Observer<ServiceTemperature.MyBinder>(){
 
             @Override
@@ -83,7 +95,6 @@ public class MonitorTemperature extends AppCompatActivity  {
             }
         });
 
-
         mViewModel.getIsTempUpdating().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean isUpdating) {
@@ -95,9 +106,12 @@ public class MonitorTemperature extends AppCompatActivity  {
                             if(mViewModel.getBinder().getValue() != null){
                                 mViewModel.setIsTempUpdating(false);
                             }
-                            String progress = String.valueOf(mService.getPpm());
+                            String progress = String.valueOf(mService.getTemp());
+
+                            //AQUI SE DEBE HACER CONEXION CON BD.-
+                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
+                            medicion.enviaraBD();
                             tempText.setText(progress);
-                            // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
                         }
                         else {
@@ -112,8 +126,41 @@ public class MonitorTemperature extends AppCompatActivity  {
             }
         });
 
-    }
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(dataSnapshot);
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(1);
+                tempText.setText(String.valueOf(medicion.getMedicion()));
+                historyAdapter.addNewHistory(medicion);
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,9 +202,12 @@ public class MonitorTemperature extends AppCompatActivity  {
     }
 
     public void viewHistory(View view){
-        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
-        viewHistoryIntent.putExtra("origin", "heartRate");
-        startActivity(viewHistoryIntent);
+        if(historyAdapter != null){
+            Mediciones med = new Mediciones(medicion, 1);
+            med.enviaraBD();
+            medicion++;
+        }
     }
+
 
 }
