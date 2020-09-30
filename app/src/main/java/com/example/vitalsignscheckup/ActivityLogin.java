@@ -3,6 +3,7 @@ package com.example.vitalsignscheckup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -32,6 +38,7 @@ public class ActivityLogin extends AppCompatActivity {
     private String pass = "";
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +53,9 @@ public class ActivityLogin extends AppCompatActivity {
         tvRegister = (TextView) findViewById(R.id.tvRegister);
 
         mAuth = FirebaseAuth.getInstance();
+        mDataBase = FirebaseDatabase.getInstance().getReference();
 
-        btnIngresar.setOnClickListener(new View.OnClickListener() {
+        /*btnIngresar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 Intent mainActivityIntent = new Intent(v.getContext(), MainActivityCuidadores.class);
@@ -58,7 +66,7 @@ public class ActivityLogin extends AppCompatActivity {
 
                 startActivity(mainActivityIntent);
             }
-        });
+        });*/
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +99,38 @@ public class ActivityLogin extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores.class));
-                    finish(); //para prohibir que se pueda volver a esa vista
+                if (task.isSuccessful()) {
+                    String id_user = mAuth.getUid();
+                    mDataBase.child("Pacientes").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                //Log.d("id ", ds.child(""))
+                                if (ds.getKey().toString().equals(id_user)){
+                                    String is = ds.child("paciente").getValue().toString();
+                                    if (is.equals("true")){
+                                        Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
+                                        finish(); //para prohibir que se pueda volver a esa vista
+                                    }
+                                    else{
+                                        Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores .class));
+                                        finish(); //para prohibir que se pueda volver a esa vista
+                                    }
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+
+
+                    });
                 }
                 else{
                     Toast.makeText(ActivityLogin.this, "No se ha podido iniciar sesion, compruebe los datos", Toast.LENGTH_SHORT).show();
@@ -114,8 +151,31 @@ public class ActivityLogin extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (mAuth.getCurrentUser() != null){ //con esto se puede cerrar la app y aun asi la sesion sigue iniciada
-            startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores.class));
-            finish(); //para no volver a la pantalla anterior
+            String id_user = mAuth.getUid();
+            mDataBase.child("Pacientes").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+                        //Log.d("id ", ds.child(""))
+                        if (ds.getKey().toString().equals(id_user)){
+                            String is = ds.child("paciente").getValue().toString();
+                            if (is.equals("true")){
+                                Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
+                                finish(); //para prohibir que se pueda volver a esa vista
+                            }
+                            else{
+                                Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores .class));
+                                finish(); //para prohibir que se pueda volver a esa vista
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
         }
     }
 }

@@ -151,6 +151,7 @@ public class ActivityRegister extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
                                     startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    Toast.makeText(ActivityRegister.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{
@@ -166,7 +167,8 @@ public class ActivityRegister extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
-                                    startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    startActivity(new Intent(ActivityRegister.this, MainActivityCuidadores.class));
+                                    Toast.makeText(ActivityRegister.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{
