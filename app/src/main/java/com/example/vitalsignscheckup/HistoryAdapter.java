@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
     private ArrayList<Mediciones> dataset;
+
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     public static class HistoryViewHolder extends RecyclerView.ViewHolder{
         public TextView date;
@@ -44,7 +47,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         holder.date.setText(dataset.get(position).getDate());
         holder.time.setText(dataset.get(position).getTime());
-        holder.read.setText(String.valueOf(dataset.get(position).getMedicion()));
+        holder.read.setText(df.format(dataset.get(position).getMedicion()));
     }
 
     @Override

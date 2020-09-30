@@ -57,7 +57,7 @@ public class Mediciones {
 
     public String getTime(){ return this.time; }
 
-    public double getMedicion(){ return this.medicion; }
+    public double getMedicion(){ return round2(this.medicion); }
 
     public int getType() { return type; }
 
@@ -72,6 +72,10 @@ public class Mediciones {
     public void setMedicion(double medicion) { this.medicion = medicion; }
 
     public void setMedicion2(double medicion2) { this.medicion2 = medicion2; }
+
+    private double round2(double num){
+        return Math.round(num *100)/100.0;
+    }
 
     public void enviaraBD(){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

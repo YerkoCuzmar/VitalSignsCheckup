@@ -28,11 +28,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
 
     int medicion = 0;
     private static final String TAG = "MonitorStressLevel";
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     FirebaseAuth mAuth;
     DatabaseReference reference;  //nodo principal de la base de datos
@@ -100,9 +103,11 @@ public class MonitorTemperature extends AppCompatActivity {
                                 mViewModel.setIsTempUpdating(false);
                             }
                             if (mService.getNew_temp()){
-                                String progress = String.valueOf(mService.getTemp());
+
+                                String temp =  df.format(mService.getTemp());
                                 Mediciones medicion = new Mediciones(mService.getTemp(), 1);
-                                Log.d(TAG, "run: newTemp" + progress);
+                                Log.d(TAG, "run: newTemp" + temp);
+                                tempText.setText(temp);
                                 medicion.enviaraBD();
                                 mService.setNew_temp(false);
                             }
@@ -131,7 +136,7 @@ public class MonitorTemperature extends AppCompatActivity {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
-                tempText.setText(String.valueOf(medicion.getMedicion()));
+                tempText.setText(df.format(medicion.getMedicion()));
                 historyAdapter.addNewHistory(medicion);
             }
 
