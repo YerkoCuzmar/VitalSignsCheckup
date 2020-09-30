@@ -35,7 +35,7 @@ public class MonitorTemperature extends AppCompatActivity {
     private static final String TAG = "MonitorStressLevel";
 
     FirebaseAuth mAuth;
-    DatabaseReference mDataBase;  //nodo principal de la base de datos
+    DatabaseReference reference;  //nodo principal de la base de datos
 
     private ServiceTemperature mService;                 //servicio
     private MonitorTemperatureViewModel mViewModel;      //viewModel
@@ -121,39 +121,8 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
-//        mViewModel.getNewTemp().observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(@Nullable final Boolean isUpdating) {
-//                final Handler handler = new Handler(getMainLooper());
-//                final Runnable runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if(isUpdating){
-//                            if(mViewModel.getBinder().getValue() != null){
-//                                mViewModel.setNewTemp(false);
-//                            }
-//                            String progress = String.valueOf(mService.getTemp());
-//
-//                            //AQUI SE DEBE HACER CONEXION CON BD.-
-//                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
-//                            medicion.enviaraBD();
-//                            tempText.setText(progress);
-//                            mService.setNew_temp(false);
-//                        }
-//                        else {
-//                            handler.removeCallbacks(this);
-//                        }
-//                    }
-//                };
-//
-//                if (isUpdating){
-//                    handler.postDelayed(runnable, 100);
-//                }
-//            }
-//        });
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
         reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
             @Override
