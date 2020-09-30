@@ -122,13 +122,13 @@ public class MonitorHeartRate extends AppCompatActivity  {
             @Override
             public void onChanged(ServiceHeartRate.MyBinder myBinder){
                 if(myBinder != null){
-                    //Log.d(TAG, "onChanged: connected to service"); no se porque tira error
+                    Log.d(TAG, "onChanged: connected to service");
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
                     mViewModel.setIsPpmUpdating(true);
                 }
                 else {
-                    //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
+                    Log.d(TAG, "onChanged: unbound from service");
                     mService = null;
                 }
             }

@@ -1,9 +1,5 @@
 package com.example.vitalsignscheckup.models;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,12 +13,12 @@ public class Mediciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion
     private String date;
     private String time;
-    private int medicion;
-    private int medicion2;
+    private double medicion;
+    private double medicion2;
 
     public Mediciones(){}
 
-    public Mediciones(int medicion, int type){
+    public Mediciones(double medicion, int type){
         this.type = type;
         this.medicion = medicion;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -32,7 +28,7 @@ public class Mediciones {
         this.time = timeFormat.format(datetime);
     }
 
-    public Mediciones(int medicion, int medicion2, int type ){
+    public Mediciones(double medicion, double medicion2, int type ){
         this.type = type;
         this.medicion = medicion;
         this.medicion2 = medicion2;
@@ -47,7 +43,7 @@ public class Mediciones {
 
     public String getTime(){ return this.time; }
 
-    public int getMedicion(){ return this.medicion; }
+    public double getMedicion(){ return this.medicion; }
 
     public void enviaraBD(){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
