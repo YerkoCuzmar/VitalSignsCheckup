@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
 
+    int medicion = 0;
     private static final String TAG = "MonitorStressLevel";
 
     private ServiceTemperature mService;                 //servicio
@@ -90,7 +91,7 @@ public class MonitorTemperature extends AppCompatActivity {
                             String progress = String.valueOf(mService.getTemp());
 
                             //AQUI SE DEBE HACER CONEXION CON BD.-
-                            Mediciones medicion = new Mediciones(mService.getTemp());
+                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
                             medicion.enviaraBD();
 
                             tempText.setText(progress);
@@ -151,7 +152,10 @@ public class MonitorTemperature extends AppCompatActivity {
 
     public void viewHistory(View view){
         if(historyAdapter != null){
-            historyAdapter.addNewHistory(30);
+            Mediciones med = new Mediciones(medicion, 1);
+            med.enviaraBD();
+            historyAdapter.addNewHistory(medicion);
+            medicion++;
         }
     }
 

@@ -20,7 +20,8 @@ public class Mediciones {
 
     public Mediciones(){}
 
-    public Mediciones(int medicion){
+    public Mediciones(int medicion, int type){
+        this.type = type;
         this.medicion = medicion;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -29,7 +30,8 @@ public class Mediciones {
         this.time = timeFormat.format(datetime);
     }
 
-    public Mediciones(int medicion, int medicion2){
+    public Mediciones(int medicion, int medicion2, int type ){
+        this.type = type;
         this.medicion = medicion;
         this.medicion2 = medicion2;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
