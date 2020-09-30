@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.widget.Toast;
 import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,10 +42,14 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(MainActivity2.this, "Inicio", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -83,6 +87,8 @@ public class MainActivity2 extends AppCompatActivity {
                     Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
                     startActivity(cuidadorIntent);
                 } else if (id == R.id.nav_configuracion) {
+                    Toast.makeText(MainActivity2.this, "Configuración", Toast.LENGTH_SHORT).show();
+
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
                 } else if (id == R.id.nav_cerrar_sesion) {
@@ -97,6 +103,12 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         //getUserInfo();  //Para actualizar los datos del usuario en la barra lateral izquierda
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(MainActivity2.this, "InicioResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override

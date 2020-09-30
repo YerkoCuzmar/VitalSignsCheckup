@@ -216,7 +216,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         connectButton = findViewById(R.id.connect_button);
         disconnectButton = findViewById(R.id.disconnect_button);
         startButton = findViewById(R.id.start_button);
-        stopButton = findViewById(R.id.stop_button);
+        //stopButton = findViewById(R.id.stop_button);
 
         //biosignalsplux UI elements
         biopluxLinearLayout = findViewById(R.id.bioplux_linear_layout);
@@ -264,7 +264,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         connectButton.setOnClickListener(this);
         disconnectButton.setOnClickListener(this);
         startButton.setOnClickListener(this);
-        stopButton.setOnClickListener(this);
+        //stopButton.setOnClickListener(this);
         biopluxLinearLayout.setVisibility(isBioplux ? View.VISIBLE : View.GONE);
     }
 
@@ -485,6 +485,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     }
                 }
                 break;
+                /*
             case R.id.stop_button:
                 stopTimer();
 
@@ -502,6 +503,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     }
                 }
                 break;
+
+                 */
         }
     }
 
@@ -544,16 +547,24 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
         SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", null);
-        String interbvp = preferences.getString("interval", null);
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", null);
-        String interecg = preferences.getString("interval", null);
+
+        preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+        String porttemp = preferences.getString("port", null);
 
 
         //add the necessary sources following the instructions above
-        sources.add(new Source(Integer.parseInt(portbvp), 16, (byte) 0x01, 100));
-        sources.add(new Source(Integer.parseInt(portecg), 16, (byte) 0x01, 100));
+        if(portbvp != null){
+            sources.add(new Source(Integer.parseInt(portbvp), 16, (byte) 0x01, 100));
+        }
+        if(portecg != null){
+            sources.add(new Source(Integer.parseInt(portecg), 16, (byte) 0x01, 100));
+        }
+        if(porttemp != null){
+            sources.add(new Source(Integer.parseInt(porttemp), 16, (byte) 0x01, 100));
+        }
 
         //Comment this try-catch block for fNIRS
         try {

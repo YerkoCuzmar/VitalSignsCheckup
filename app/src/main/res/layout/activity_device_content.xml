@@ -149,6 +149,8 @@
                 android:layout_weight="1"
                 android:text="Medir" />
 
+            <!--
+
             <Button
                 android:id="@+id/stop_button"
                 android:layout_width="match_parent"
@@ -156,6 +158,10 @@
                 android:layout_weight="1"
                 android:text="Detener"
                 tools:visibility="gone" />
+
+            -->
+
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
