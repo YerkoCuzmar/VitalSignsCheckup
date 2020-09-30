@@ -26,16 +26,12 @@ package="com.example.vitalsignscheckup">
     <service android:name=".ServiceTemperature" />
     <activity android:name=".DeviceActivity"/>
     <activity android:name=".ScanActivity" />
-    <activity android:name=".SplashScreenActivity"/>
-
-    <!--
     <activity android:name=".SplashScreenActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    -->
 
     <activity android:name=".checkHistory" />
     <activity android:name=".MonitorStressLevel" />
@@ -50,10 +46,6 @@ package="com.example.vitalsignscheckup">
         android:theme="@style/AppTheme.NoActionBar"/>
     <activity android:name=".ActivityLogin"
         android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
     </activity>
 </application>
 
