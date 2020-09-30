@@ -33,9 +33,9 @@ public class ServiceTemperature extends Service {
     Boolean new_temp;
 
     int count = 0;
-    int sample_rate;
-    int value_i;
-    int value_rate;
+    int sample_rate = 100;
+    int value_i = 0;
+    int value_rate = 1;
 
     private IBinder mBinder = new MyBinder();
     private Handler mHandler;
@@ -84,8 +84,12 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-                    calcularTempSensores();
-//                    calcularTempantiguo();
+//                    calcularTempSensores();
+                    try {
+                        calcularTempantiguo();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -175,13 +179,20 @@ public class ServiceTemperature extends Service {
     }
 
 
-    public void calcularTempantiguo() {
+    public void calcularTempantiguo() throws InterruptedException {
         // TODO: IMPLEMENTAR CALCULO
-
+        double d = 33628.0;
         Log.d("data size", String.valueOf(data.size()));
 
         Log.d("collect ", String.valueOf(COLLECT_DATA));
 
+        while (data.size() < DATA_SIZE) {
+            data.add(d);
+            Thread.sleep(5);
+            Log.d("data size", String.valueOf(data.size()));
+            d++;
+
+        }
         COLLECT_DATA = false;
 
         temp = transformDataToSingleTemp(data);
@@ -192,6 +203,7 @@ public class ServiceTemperature extends Service {
         }
 
         temp = transformDataToSingleTemp(temp_subset);
+        new_temp = true;
 
         count++;
         value_i = count*sample_rate;

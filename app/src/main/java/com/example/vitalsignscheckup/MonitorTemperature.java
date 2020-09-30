@@ -74,6 +74,7 @@ public class MonitorTemperature extends AppCompatActivity {
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
                     mViewModel.setIsTempUpdating(true);
+                    mViewModel.setNewTemp(false);
                 }
                 else {
                     //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
@@ -82,7 +83,43 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
-        mViewModel.getIsTempUpdating().observe(this, new Observer<Boolean>() {
+//        mViewModel.getIsTempUpdating().observe(this, new Observer<Boolean>() {
+//            @Override
+//            public void onChanged(@Nullable final Boolean isUpdating) {
+//                final Handler handler = new Handler(getMainLooper());
+//                final Runnable runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(isUpdating){
+//                            if(mViewModel.getBinder().getValue() != null){
+//                                mViewModel.setIsTempUpdating(false);
+//                            }
+//                            String progress = String.valueOf(mService.getTemp());
+//
+//                            //AQUI SE DEBE HACER CONEXION CON BD.-
+//                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
+//                            System.out.println(mService);
+//                            if (mService.getNew_temp()){
+//                                medicion.enviaraBD();
+//                                tempText.setText(progress);
+//                                mService.setNew_temp(false);
+//                            }
+//
+//                            handler.postDelayed(this, 5000);
+//                        }
+//                        else {
+//                            handler.removeCallbacks(this);
+//                        }
+//                    }
+//                };
+//
+//                if (isUpdating){
+//                    handler.postDelayed(runnable, 100);
+//                }
+//            }
+//        });
+
+        mViewModel.getNewTemp().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean isUpdating) {
                 final Handler handler = new Handler(getMainLooper());
@@ -91,20 +128,15 @@ public class MonitorTemperature extends AppCompatActivity {
                     public void run() {
                         if(isUpdating){
                             if(mViewModel.getBinder().getValue() != null){
-                                mViewModel.setIsTempUpdating(false);
+                                mViewModel.setNewTemp(false);
                             }
                             String progress = String.valueOf(mService.getTemp());
 
                             //AQUI SE DEBE HACER CONEXION CON BD.-
                             Mediciones medicion = new Mediciones(mService.getTemp(), 1);
-                            System.out.println(mService);
-                            if (mService.getNew_temp()){
-                                medicion.enviaraBD();
-                                tempText.setText(progress);
-                                mService.setNew_temp(false);
-                            }
-
-                            handler.postDelayed(this, 5000);
+                            medicion.enviaraBD();
+                            tempText.setText(progress);
+                            mService.setNew_temp(false);
                         }
                         else {
                             handler.removeCallbacks(this);

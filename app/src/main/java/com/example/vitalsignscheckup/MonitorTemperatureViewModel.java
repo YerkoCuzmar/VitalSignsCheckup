@@ -13,6 +13,7 @@ public class MonitorTemperatureViewModel extends ViewModel {
     //TODO: REVISAR "ppm"
     private static final String TAG = "TemperatureViewModel";
     private MutableLiveData<Boolean> isTempUpdating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> newTemp = new MutableLiveData<>();
     private MutableLiveData<ServiceTemperature.MyBinder> mBinder = new MutableLiveData<>();
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -34,6 +35,10 @@ public class MonitorTemperatureViewModel extends ViewModel {
         return isTempUpdating;
     }
 
+    public LiveData<Boolean> getNewTemp(){
+        return newTemp;
+    }
+
     public LiveData<ServiceTemperature.MyBinder> getBinder(){
         return mBinder;
     }
@@ -44,6 +49,10 @@ public class MonitorTemperatureViewModel extends ViewModel {
 
     public void setIsTempUpdating(Boolean isUpdating){
         isTempUpdating.postValue(isUpdating);
+    }
+
+    public void setNewTemp(Boolean temp){
+        newTemp.postValue(temp);
     }
 
 }
