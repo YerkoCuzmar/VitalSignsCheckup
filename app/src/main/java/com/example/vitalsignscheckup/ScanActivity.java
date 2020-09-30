@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -217,6 +218,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder viewHolder;
+            Log.d("BLUETOOTH", "en getView");
             // General ListView optimization code.
             if (view == null) {
                 view = inflater.inflate(R.layout.listitem_device, null);
@@ -230,6 +232,7 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
 
             BluetoothDevice device = devices.get(i);
             final String deviceName = device.getName();
+            Log.d("BLUETOOTH", deviceName);
             if (deviceName != null && deviceName.length() > 0) {
                 viewHolder.deviceName.setText(deviceName);
             }
