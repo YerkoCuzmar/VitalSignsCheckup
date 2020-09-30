@@ -55,6 +55,32 @@ public class ActivityLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent registerActivityIntent = new Intent(v.getContext(), ActivityRegister.class);
+                startActivity(registerActivityIntent);
+            }
+        });
+
+        btnIngresar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                email = etEmailLogin.getText().toString();
+                pass = etPassLogin.getText().toString();
+
+                if (!email.isEmpty() && !pass.isEmpty()){
+                    loginUser();
+                }
+                else{
+                    Toast.makeText(ActivityLogin.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        /*
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -100,30 +126,7 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
 
-        tvRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent registerActivityIntent = new Intent(v.getContext(), ActivityRegister.class);
-                startActivity(registerActivityIntent);
-            }
-        });
-
-        btnIngresar.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                email = etEmailLogin.getText().toString();
-                pass = etPassLogin.getText().toString();
-
-                if (!email.isEmpty() && !pass.isEmpty()){
-                    loginUser();
-                }
-                else{
-                    Toast.makeText(ActivityLogin.this, "Debes rellenar todos los campos", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
+         */
 
     }
 
