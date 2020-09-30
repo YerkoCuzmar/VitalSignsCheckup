@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
 
-    int medicion = 0;
+    int medicion;
     private static final String TAG = "MonitorStressLevel";
 
     FirebaseAuth mAuth;
@@ -42,15 +41,6 @@ public class MonitorTemperature extends AppCompatActivity {
     private MonitorTemperatureViewModel mViewModel;      //viewModel
     private TextView tempText;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
-
-//    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-//    Date date = new Date();
-//    String dateformatted = dateFormat.format(date);
-//    String histroy_log;
-
-    int DATA_SIZE = 1000;
-    boolean COLLECT_DATA = true;
-    List<Double> data = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +61,6 @@ public class MonitorTemperature extends AppCompatActivity {
         historyAdapter = new HistoryAdapter();
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
-
-        //TODO: definir tempText
 
         tempText = findViewById(R.id.medida_temp);
 
@@ -132,7 +120,6 @@ public class MonitorTemperature extends AppCompatActivity {
         reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 tempText.setText(String.valueOf(medicion.getMedicion()));
