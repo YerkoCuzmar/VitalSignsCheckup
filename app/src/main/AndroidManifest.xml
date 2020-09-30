@@ -23,6 +23,7 @@ package="com.example.vitalsignscheckup">
     android:theme="@style/AppTheme">
     <service android:name=".ServiceHeartRate" />
     <service android:name=".ServiceBloodPressure" />
+    <service android:name=".ServiceTemperature" />
     <activity android:name=".DeviceActivity"/>
     <activity android:name=".ScanActivity" />
     <activity android:name=".SplashScreenActivity"/>

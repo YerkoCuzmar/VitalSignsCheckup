@@ -13,12 +13,12 @@ public class Mediciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion
     private String date;
     private String time;
-    private int medicion;
-    private int medicion2;
+    private double medicion;
+    private double medicion2;
 
     public Mediciones(){}
 
-    public Mediciones(int medicion, int type){
+    public Mediciones(double medicion, int type){
         this.type = type;
         this.medicion = medicion;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -28,7 +28,7 @@ public class Mediciones {
         this.time = timeFormat.format(datetime);
     }
 
-    public Mediciones(int medicion, int medicion2, int type ){
+    public Mediciones(double medicion, double medicion2, int type ){
         this.type = type;
         this.medicion = medicion;
         this.medicion2 = medicion2;
@@ -39,15 +39,13 @@ public class Mediciones {
         this.time = timeFormat.format(datetime);
     }
 
-    public Mediciones(String date, String time, int medicion) {
-        this.type = type;
+    public Mediciones(String date, String time, double medicion) {
         this.date = date;
         this.time = time;
         this.medicion = medicion;
-        this.medicion2 = medicion2;
     }
 
-    public Mediciones(int type, String date, String time, int medicion, int medicion2) {
+    public Mediciones(int type, String date, String time, double medicion, double medicion2) {
         this.type = type;
         this.date = date;
         this.time = time;
@@ -59,11 +57,11 @@ public class Mediciones {
 
     public String getTime(){ return this.time; }
 
-    public int getMedicion(){ return this.medicion; }
+    public double getMedicion(){ return this.medicion; }
 
     public int getType() { return type; }
 
-    public int getMedicion2() { return medicion2; }
+    public double getMedicion2() { return medicion2; }
 
     public void setType(int type) { this.type = type; }
 
