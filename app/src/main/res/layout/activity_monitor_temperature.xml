@@ -83,7 +83,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -118,18 +117,5 @@
             android:layout_marginHorizontal="40dp">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/button_HeartRateFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="292dp"
-        android:layout_weight="1"
-        android:text="Ver Historial"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="viewHistory"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

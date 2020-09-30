@@ -45,9 +45,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
-        holder.date.setText(dataset.get(position).getDate());
-        holder.time.setText(dataset.get(position).getTime());
-        holder.read.setText(df.format(dataset.get(position).getMedicion()));
+        Mediciones data = dataset.get(position);
+        String mRead;
+        holder.date.setText(data.getDate());
+        holder.time.setText(data.getTime());
+        if(data.getType() == 2){
+            mRead = String.format("%s/%s", df.format(data.getMedicion()), df.format(data.getMedicion2()));
+        }
+        mRead = df.format(data.getMedicion());
+        holder.read.setText(mRead);
     }
 
     @Override

@@ -17,6 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.vitalsignscheckup.models.Mediciones;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorBloodPressure extends AppCompatActivity {
@@ -24,12 +28,13 @@ public class MonitorBloodPressure extends AppCompatActivity {
     private static final String TAG = "MonitorBloodPressure";
     private ServiceBloodPressure mService;              //servicio
     private MonitorBloodPressureViewModel mViewModel;   //viewModel
+    private HistoryAdapter historyAdapter;
 
     TextView hist1;
     TextView hist2;
 
-    TextView textView;
-    TextView textView2;
+    TextView textViewBp;
+    TextView textViewBp2;
 
 //    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 //    Date date = new Date();
@@ -53,11 +58,14 @@ public class MonitorBloodPressure extends AppCompatActivity {
             }
         });
 
-        hist1 = (TextView)findViewById(R.id.hist1);
-        hist2 = (TextView)findViewById(R.id.hist2);
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
 
-        textView = (TextView)findViewById(R.id.bp_medicion_mmhg);
-        textView2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
+        historyAdapter = new HistoryAdapter();
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
+
+        textViewBp = (TextView)findViewById(R.id.bp_medicion_mmhg);
+        textViewBp2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorBloodPressureViewModel.class);
 
@@ -91,10 +99,16 @@ public class MonitorBloodPressure extends AppCompatActivity {
                             if(mViewModel.getBinder().getValue() != null){
                                 mViewModel.setIsBPUpdating(false);
                             }
-                            String progress = String.valueOf(mService.getPpm());
-                            // TODO: AGREGAR TV2 y HISTORIAL
-                            textView.setText(progress);
-                            handler.postDelayed(this, 100);
+                            if(mService.getNewBp()){
+                                String bp = String.valueOf(mService.getBp());
+                                String bp2 = String.valueOf(mService.getBp2());
+                                textViewBp.setText(bp);
+                                textViewBp.setText(bp2);
+                                Mediciones medicion = new Mediciones(mService.getBp(), mService.getBp2(),2 );
+                                historyAdapter.addNewHistory(medicion);
+                                handler.postDelayed(this, 100);
+                                mService.setNewBp(false);
+                            }
                         }
                         else {
                             handler.removeCallbacks(this);
@@ -148,11 +162,6 @@ public class MonitorBloodPressure extends AppCompatActivity {
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 
-    public void viewHistory(View view){
-        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
-        viewHistoryIntent.putExtra("origin", "bloodPressure");
-        startActivity(viewHistoryIntent);
-    }
 
 
 }

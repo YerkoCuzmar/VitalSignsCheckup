@@ -34,6 +34,8 @@ public class ServiceBloodPressure extends Service {
     private Handler mHandler;
     private Boolean isPaused;
 
+    Boolean newBp;
+
 
     int count = 0; // este valor es ADC
     int count2 = 0; // este valor es ADC
@@ -127,6 +129,7 @@ public class ServiceBloodPressure extends Service {
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         isPaused = true;
         br = new BPDataReciever();
+        newBp = false;
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
 
@@ -171,9 +174,17 @@ public class ServiceBloodPressure extends Service {
         startPretendLongRunningTask();
     }
 
-    public int getPpm(){
-        return ppm;
+    public int getBp(){
+        return this.ppm;
     }
+
+    public int getBp2(){
+        return this.ppm2;
+    }
+
+    public Boolean getNewBp(){ return newBp; }
+
+    public void setNewBp(Boolean bp){ this.newBp = bp; }
 
     public class BPDataReciever extends BroadcastReceiver {
         int[] puertos;
@@ -263,11 +274,11 @@ public class ServiceBloodPressure extends Service {
                         pulsaciones = pulsaciones + 1;
                         pulsaciones2 = pulsaciones2 + 1;
                         //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
+//                        System.out.println("VALOR DE DIF " + dif);
                         //arrayTiempos[j] = Double.valueOf(dif);
                         presion_arterial1 = Float.valueOf(dif);
                         presion_arterial2 = Float.valueOf(dif);
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif = 0;
                         flag1 = true;
                     }
@@ -281,11 +292,11 @@ public class ServiceBloodPressure extends Service {
                         pulsaciones = pulsaciones + 1;
                         pulsaciones2 = pulsaciones2 + 1;
                         //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
+//                        System.out.println("VALOR DE DIF " + dif);
                         //arrayTiempos[j] = Double.valueOf(dif);
                         presion_arterial1 = Float.valueOf(dif);
                         presion_arterial2 = Float.valueOf(dif);
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif = 0;
                         flag1=true;
                     }
@@ -301,7 +312,7 @@ public class ServiceBloodPressure extends Service {
             if (i % (sample_rate*2) == 0){
                 ppm = (ppm + (pulsaciones2*60/2))/2;
                 //System.out.println("PPM ES: "+ ppm);
-                System.out.println("ENTRA AL i = "+ i);
+//                System.out.println("ENTRA AL i = "+ i);
                 pulsaciones2 = 0;
             }
 
@@ -313,12 +324,12 @@ public class ServiceBloodPressure extends Service {
                         //valor = signalsList2.get(i);
                         pulsaciones_ = pulsaciones_ + 1;
                         pulsaciones_2 = pulsaciones_2 + 1;
-                        System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
+//                        System.out.println("PULSACION EN LA MEDICION: "+ i);
+//                        System.out.println("VALOR DE DIF2" + dif2);
                         //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
                         presion_arterial1 = (Float.valueOf(dif2) - presion_arterial1)/sample_rate;
                         presion_arterial2 = (Float.valueOf(dif2) - presion_arterial2)/sample_rate;
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif2 = 0;
                         j = j + 1;
                         flag2 = true;
@@ -332,12 +343,12 @@ public class ServiceBloodPressure extends Service {
                         //valor2 = signalsList2.get(i);
                         pulsaciones_ = pulsaciones_ + 1;
                         pulsaciones_2 = pulsaciones_2 + 1;
-                        System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
+//                        System.out.println("PULSACION EN LA MEDICION: "+ i);
+//                        System.out.println("VALOR DE DIF2" + dif2);
                         //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
                         presion_arterial1 = (Float.valueOf(dif2) - presion_arterial1)/sample_rate;
                         presion_arterial2 = (Float.valueOf(dif2) - presion_arterial2)/sample_rate;
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif2 = 0;
                         j = j + 1;
                         flag2= true;
@@ -355,8 +366,8 @@ public class ServiceBloodPressure extends Service {
             }
             if (flag1 == true && flag2 == true){
                 ppm2 = (ppm2 + (pulsaciones_2*60/2))/2;
-                System.out.println("BVP ES: "+ presion_arterial1);
-                System.out.println("ENTRA AL i = "+ i);
+//                System.out.println("BVP ES: "+ presion_arterial1);
+//                System.out.println("ENTRA AL i = "+ i);
                 presion_arterial1_final = presion_arterial1*1000 *(-0.5) + 200;
                 presion_arterial2_final = presion_arterial2*1000 *(-0.08) + 80;
                 pulsaciones_2 = 0;
@@ -364,6 +375,7 @@ public class ServiceBloodPressure extends Service {
                 flag2 = false;
 
             }
+            newBp = true;
         }
         data.clear();
         data2.clear();
@@ -398,11 +410,11 @@ public class ServiceBloodPressure extends Service {
                         pulsaciones = pulsaciones + 1;
                         pulsaciones2 = pulsaciones2 + 1;
                         //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
+//                        System.out.println("VALOR DE DIF " + dif);
                         //arrayTiempos[j] = Double.valueOf(dif);
                         presion_arterial1 = Float.valueOf(dif);
                         presion_arterial2 = Float.valueOf(dif);
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif = 0;
                         flag1 = true;
                     }
@@ -416,11 +428,11 @@ public class ServiceBloodPressure extends Service {
                         pulsaciones = pulsaciones + 1;
                         pulsaciones2 = pulsaciones2 + 1;
                         //System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF " + dif);
+//                        System.out.println("VALOR DE DIF " + dif);
                         //arrayTiempos[j] = Double.valueOf(dif);
                         presion_arterial1 = Float.valueOf(dif);
                         presion_arterial2 = Float.valueOf(dif);
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif = 0;
                         flag1=true;
                     }
@@ -436,7 +448,7 @@ public class ServiceBloodPressure extends Service {
             if (i % (sample_rate*2) == 0){
                 ppm = (ppm + (pulsaciones2*60/2))/2;
                 //System.out.println("PPM ES: "+ ppm);
-                System.out.println("ENTRA AL i = "+ i);
+//                System.out.println("ENTRA AL i = "+ i);
                 pulsaciones2 = 0;
             }
 
@@ -448,12 +460,12 @@ public class ServiceBloodPressure extends Service {
                         //valor = signalsList2.get(i);
                         pulsaciones_ = pulsaciones_ + 1;
                         pulsaciones_2 = pulsaciones_2 + 1;
-                        System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
+//                        System.out.println("PULSACION EN LA MEDICION: "+ i);
+//                        System.out.println("VALOR DE DIF2" + dif2);
                         //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
                         presion_arterial1 = (Float.valueOf(dif2) - presion_arterial1)/sample_rate;
                         presion_arterial2 = (Float.valueOf(dif2) - presion_arterial2)/sample_rate;
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif2 = 0;
                         j = j + 1;
                         flag2 = true;
@@ -467,12 +479,12 @@ public class ServiceBloodPressure extends Service {
                         //valor2 = signalsList2.get(i);
                         pulsaciones_ = pulsaciones_ + 1;
                         pulsaciones_2 = pulsaciones_2 + 1;
-                        System.out.println("PULSACION EN LA MEDICION: "+ i);
-                        System.out.println("VALOR DE DIF2" + dif2);
+//                        System.out.println("PULSACION EN LA MEDICION: "+ i);
+//                        System.out.println("VALOR DE DIF2" + dif2);
                         //arrayTiempos[j] = (Double.valueOf(dif2) - arrayTiempos[j])/sample_rate; //ojo con distintos datasets
                         presion_arterial1 = (Float.valueOf(dif2) - presion_arterial1)/sample_rate;
                         presion_arterial2 = (Float.valueOf(dif2) - presion_arterial2)/sample_rate;
-                        System.out.println("Valor de presion es: " + presion_arterial1);
+//                        System.out.println("Valor de presion es: " + presion_arterial1);
                         dif2 = 0;
                         j = j + 1;
                         flag2= true;
@@ -490,8 +502,8 @@ public class ServiceBloodPressure extends Service {
             }
             if (flag1 == true && flag2 == true){
                 ppm2 = (ppm2 + (pulsaciones_2*60/2))/2;
-                System.out.println("BVP ES: "+ presion_arterial1);
-                System.out.println("ENTRA AL i = "+ i);
+//                System.out.println("BVP ES: "+ presion_arterial1);
+//                System.out.println("ENTRA AL i = "+ i);
                 presion_arterial1_final = presion_arterial1*1000 *(-0.5) + 200;
                 presion_arterial2_final = presion_arterial2*1000 *(-0.08) + 80;
                 pulsaciones_2 = 0;
