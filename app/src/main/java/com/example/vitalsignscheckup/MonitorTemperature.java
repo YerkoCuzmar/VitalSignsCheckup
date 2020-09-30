@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,6 +33,9 @@ public class MonitorTemperature extends AppCompatActivity {
 
     int medicion = 0;
     private static final String TAG = "MonitorStressLevel";
+
+    FirebaseAuth mAuth;
+    DatabaseReference mDataBase;  //nodo principal de la base de datos
 
     private ServiceTemperature mService;                 //servicio
     private MonitorTemperatureViewModel mViewModel;      //viewModel
@@ -52,11 +59,14 @@ public class MonitorTemperature extends AppCompatActivity {
         });
 
         RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
+
         historyAdapter = new HistoryAdapter();
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         //TODO: definir tempText
+
+        tempText = findViewById(R.id.medida_temp);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorTemperatureViewModel.class);
 
@@ -93,9 +103,7 @@ public class MonitorTemperature extends AppCompatActivity {
                             //AQUI SE DEBE HACER CONEXION CON BD.-
                             Mediciones medicion = new Mediciones(mService.getTemp(), 1);
                             medicion.enviaraBD();
-
                             tempText.setText(progress);
-                            // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
                         }
                         else {
@@ -109,6 +117,41 @@ public class MonitorTemperature extends AppCompatActivity {
                 }
             }
         });
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(dataSnapshot);
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(1);
+                tempText.setText(String.valueOf(medicion.getMedicion()));
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -154,7 +197,6 @@ public class MonitorTemperature extends AppCompatActivity {
         if(historyAdapter != null){
             Mediciones med = new Mediciones(medicion, 1);
             med.enviaraBD();
-            historyAdapter.addNewHistory(medicion, 1);
             medicion++;
         }
     }
