@@ -16,15 +16,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.vitalsignscheckup.models.Mediciones;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
 
+    int medicion = 0;
     private static final String TAG = "MonitorStressLevel";
 
     private ServiceTemperature mService;                 //servicio
     private MonitorTemperatureViewModel mViewModel;      //viewModel
     private TextView tempText;                       //medida de nivel de estres
+    private HistoryAdapter historyAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,11 @@ public class MonitorTemperature extends AppCompatActivity {
                 finish();
             }
         });
+
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
+        historyAdapter = new HistoryAdapter();
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         //TODO: definir tempText
 
@@ -74,6 +89,11 @@ public class MonitorTemperature extends AppCompatActivity {
                                 mViewModel.setIsTempUpdating(false);
                             }
                             String progress = String.valueOf(mService.getTemp());
+
+                            //AQUI SE DEBE HACER CONEXION CON BD.-
+                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
+                            medicion.enviaraBD();
+
                             tempText.setText(progress);
                             // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
@@ -131,8 +151,13 @@ public class MonitorTemperature extends AppCompatActivity {
     }
 
     public void viewHistory(View view){
-        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
-        viewHistoryIntent.putExtra("origin", "temperature");
-        startActivity(viewHistoryIntent);
+        if(historyAdapter != null){
+            Mediciones med = new Mediciones(medicion, 1);
+            med.enviaraBD();
+            historyAdapter.addNewHistory(medicion, 1);
+            medicion++;
+        }
     }
+
+
 }

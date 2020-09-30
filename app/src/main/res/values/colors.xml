@@ -10,4 +10,12 @@
     <color name="colorDanger">#E53935</color>
     <color name="colorBackground">#F3F2F2</color>
     <color name="colorCard">#FFFFFF</color>
+
+    <!--colors for modern ui-->
+    <color name="whiteTextColor">#fff</color>
+    <color name="primaryTextColor">#2661FA</color>
+    <color name="loginBkColor">#f0f0f0</color>
+
+    <!--colors for card-->
+    <color name="whiteCardColor">#fff</color>
 </resources>

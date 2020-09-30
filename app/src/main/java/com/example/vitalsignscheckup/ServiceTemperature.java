@@ -136,7 +136,7 @@ public class ServiceTemperature extends Service {
 
             Arrays.sort(puertos);
             String sPuertos = Arrays.toString(puertos);
-            postemp = sPuertos.indexOf(String.valueOf(porteda));
+            postemp = sPuertos.indexOf(String.valueOf(porttemp));
         }
 
         @Override
