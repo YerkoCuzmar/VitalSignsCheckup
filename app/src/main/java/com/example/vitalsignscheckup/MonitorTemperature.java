@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperature extends AppCompatActivity {
@@ -83,43 +88,7 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
-//        mViewModel.getIsTempUpdating().observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(@Nullable final Boolean isUpdating) {
-//                final Handler handler = new Handler(getMainLooper());
-//                final Runnable runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if(isUpdating){
-//                            if(mViewModel.getBinder().getValue() != null){
-//                                mViewModel.setIsTempUpdating(false);
-//                            }
-//                            String progress = String.valueOf(mService.getTemp());
-//
-//                            //AQUI SE DEBE HACER CONEXION CON BD.-
-//                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
-//                            System.out.println(mService);
-//                            if (mService.getNew_temp()){
-//                                medicion.enviaraBD();
-//                                tempText.setText(progress);
-//                                mService.setNew_temp(false);
-//                            }
-//
-//                            handler.postDelayed(this, 5000);
-//                        }
-//                        else {
-//                            handler.removeCallbacks(this);
-//                        }
-//                    }
-//                };
-//
-//                if (isUpdating){
-//                    handler.postDelayed(runnable, 100);
-//                }
-//            }
-//        });
-
-        mViewModel.getNewTemp().observe(this, new Observer<Boolean>() {
+        mViewModel.getIsTempUpdating().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean isUpdating) {
                 final Handler handler = new Handler(getMainLooper());
@@ -128,15 +97,17 @@ public class MonitorTemperature extends AppCompatActivity {
                     public void run() {
                         if(isUpdating){
                             if(mViewModel.getBinder().getValue() != null){
-                                mViewModel.setNewTemp(false);
+                                mViewModel.setIsTempUpdating(false);
                             }
-                            String progress = String.valueOf(mService.getTemp());
+                            if (mService.getNew_temp()){
+                                String progress = String.valueOf(mService.getTemp());
+                                Mediciones medicion = new Mediciones(mService.getTemp(), 1);
+                                Log.d(TAG, "run: newTemp" + progress);
+                                medicion.enviaraBD();
+                                mService.setNew_temp(false);
+                            }
 
-                            //AQUI SE DEBE HACER CONEXION CON BD.-
-                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
-                            medicion.enviaraBD();
-                            tempText.setText(progress);
-                            mService.setNew_temp(false);
+                            handler.postDelayed(this, 1000);
                         }
                         else {
                             handler.removeCallbacks(this);
@@ -150,39 +121,71 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
-//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
-//        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
-//        reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
+//        mViewModel.getNewTemp().observe(this, new Observer<Boolean>() {
 //            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                System.out.println(dataSnapshot);
-//                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
-//                medicion.setType(1);
-//                tempText.setText(String.valueOf(medicion.getMedicion()));
-//                historyAdapter.addNewHistory(medicion);
-//            }
+//            public void onChanged(@Nullable final Boolean isUpdating) {
+//                final Handler handler = new Handler(getMainLooper());
+//                final Runnable runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(isUpdating){
+//                            if(mViewModel.getBinder().getValue() != null){
+//                                mViewModel.setNewTemp(false);
+//                            }
+//                            String progress = String.valueOf(mService.getTemp());
 //
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                            //AQUI SE DEBE HACER CONEXION CON BD.-
+//                            Mediciones medicion = new Mediciones(mService.getTemp(), 1);
+//                            medicion.enviaraBD();
+//                            tempText.setText(progress);
+//                            mService.setNew_temp(false);
+//                        }
+//                        else {
+//                            handler.removeCallbacks(this);
+//                        }
+//                    }
+//                };
 //
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
+//                if (isUpdating){
+//                    handler.postDelayed(runnable, 100);
+//                }
 //            }
 //        });
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Pacientes");  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(dataSnapshot);
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(1);
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                tempText.setText(String.valueOf(medicion.getMedicion()));
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

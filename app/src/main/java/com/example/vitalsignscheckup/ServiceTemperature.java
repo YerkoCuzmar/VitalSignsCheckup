@@ -32,16 +32,13 @@ public class ServiceTemperature extends Service {
     double temp;
     Boolean new_temp;
 
-    int count = 0;
-    int sample_rate = 100;
-    int value_i = 0;
-    int value_rate = 1;
+    double d = 33628.0;
 
     private IBinder mBinder = new MyBinder();
     private Handler mHandler;
     private Boolean isPaused;
 
-    int DATA_SIZE = 1000;
+    int DATA_SIZE = 10;
     boolean COLLECT_DATA = true;
 
 
@@ -85,11 +82,7 @@ public class ServiceTemperature extends Service {
                 @Override
                 public void run() {
 //                    calcularTempSensores();
-                    try {
-                        calcularTempantiguo();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    calcularTempantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -179,44 +172,25 @@ public class ServiceTemperature extends Service {
     }
 
 
-    public void calcularTempantiguo() throws InterruptedException {
-        // TODO: IMPLEMENTAR CALCULO
-        double d = 33628.0;
+    public void calcularTempantiguo() {
+
         Log.d("data size", String.valueOf(data.size()));
 
         Log.d("collect ", String.valueOf(COLLECT_DATA));
 
         while (data.size() < DATA_SIZE) {
             data.add(d);
-            Thread.sleep(5);
-            Log.d("data size", String.valueOf(data.size()));
-            d++;
-
+            d += 10;
         }
+
+        Log.d("data size", String.valueOf(data.size()));
+        System.out.println(data);
         COLLECT_DATA = false;
 
         temp = transformDataToSingleTemp(data);
-        ArrayList<Double> temp_subset = new ArrayList<>();
-
-        for (int i = value_i; i < sample_rate*value_rate ; i++) {
-            temp_subset.add(data.get(i));
-        }
-
-        temp = transformDataToSingleTemp(temp_subset);
+        Log.d(TAG, "calcularTempantiguo: new Temp " + temp);
         new_temp = true;
-
-        count++;
-        value_i = count*sample_rate;
-        value_rate = value_rate + 1;
-
-        if(sample_rate*value_rate >= DATA_SIZE) {
-
-            count = 0;
-            value_i = 0;
-            value_rate = 1;
-//            data.clear();
-            COLLECT_DATA = true;
-        }
+        data.clear();
     }
 
     public double transformarVaC(Double adc){
@@ -231,7 +205,7 @@ public class ServiceTemperature extends Service {
         int n = 16;
         double a0 = 1.127664514 * Math.pow(10, -3);
         double a1 = 2.34282709 * Math.pow(10, -4);
-        double a2 = 8.77303013 * Math.pow(10, 8);
+        double a2 = 8.77303013 * Math.pow(10, -8);
         double ntc_v = adc * vcc / Math.pow(2, n);
         double ntc_ohm = (Math.pow(10, 4) * ntc_v) / (vcc - ntc_v);
         double temp_k = 1 / (a0 + a1 * Math.log(ntc_ohm) + a2 * Math.pow( Math.log(ntc_ohm) , 3));
@@ -240,10 +214,13 @@ public class ServiceTemperature extends Service {
 
     private double transformDataToSingleTemp(List<Double> data){
         double sum = 0;
+        double avg;
         for (Double raw_data : data){
             sum += transformarVaC(raw_data);
         }
-        return sum / data.size();
+        avg = sum / data.size();
+
+        return Math.round(avg * 100.0)/ 100.0;
     }
 
 }
