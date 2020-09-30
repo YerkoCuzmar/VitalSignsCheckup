@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 public class MonitorBloodPressureViewModel extends ViewModel {
     private static final String TAG = "MonitorHeartRateViewMod";
     private MutableLiveData<Boolean> isBPUpdating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> newBP = new MutableLiveData<>();
     private MutableLiveData<ServiceBloodPressure.MyBinder> mBinder = new MutableLiveData<>();
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -29,9 +30,7 @@ public class MonitorBloodPressureViewModel extends ViewModel {
     };
 
 
-    public LiveData<Boolean> getIsBPUpdating(){
-        return isBPUpdating;
-    }
+    public LiveData<Boolean> getIsBPUpdating(){ return isBPUpdating; }
 
     public LiveData<ServiceBloodPressure.MyBinder> getBinder(){
         return mBinder;
@@ -44,5 +43,15 @@ public class MonitorBloodPressureViewModel extends ViewModel {
     public void setIsBPUpdating(Boolean isUpdating){
         isBPUpdating.postValue(isUpdating);
     }
+
+    public void setNewBP(Boolean bp){
+        newBP.postValue(bp);
+    }
+
+    public LiveData<Boolean> getNewBP(){
+        return newBP;
+    }
+
+
 
 }

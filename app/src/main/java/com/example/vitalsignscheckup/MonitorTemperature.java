@@ -61,7 +61,7 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
-        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.TempHistoryRecyclerView);
 
         historyAdapter = new HistoryAdapter();
         historyRV.setAdapter(historyAdapter);
