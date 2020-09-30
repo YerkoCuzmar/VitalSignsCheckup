@@ -45,6 +45,7 @@ package="com.example.vitalsignscheckup">
     <activity android:name=".ListaCuidadores" />
     <activity android:name=".MainActivity2"
         android:theme="@style/MaterialCardTheme" />
+    <activity android:name=".MainActivityCuidadores" />
     <activity android:name=".MonitorTemperature" />
     <activity android:name=".ActivityRegister"
         android:theme="@style/AppTheme.NoActionBar"/>

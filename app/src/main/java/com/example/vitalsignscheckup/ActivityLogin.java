@@ -50,7 +50,7 @@ public class ActivityLogin extends AppCompatActivity {
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Intent mainActivityIntent = new Intent(v.getContext(), MainActivity2.class);
+                Intent mainActivityIntent = new Intent(v.getContext(), MainActivityCuidadores.class);
 
                 //datos para confirmar en la BD
                 String email = etEmailLogin.getText().toString();
@@ -92,7 +92,7 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
+                    startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores.class));
                     finish(); //para prohibir que se pueda volver a esa vista
                 }
                 else{
@@ -114,7 +114,7 @@ public class ActivityLogin extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (mAuth.getCurrentUser() != null){ //con esto se puede cerrar la app y aun asi la sesion sigue iniciada
-            startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
+            startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores.class));
             finish(); //para no volver a la pantalla anterior
         }
     }

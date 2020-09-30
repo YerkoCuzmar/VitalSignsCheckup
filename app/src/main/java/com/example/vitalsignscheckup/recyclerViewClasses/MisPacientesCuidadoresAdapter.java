@@ -60,7 +60,6 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
         holder.ivMoreOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.ivMoreOptions.setSelected(true);
                 new AlertDialog.Builder(view.getRootView().getContext())
                         .setTitle(dialogMsg)
                         .setMessage("¿Seguro quieres eliminar a " + miPacienteCuidador.getName() + "?")
