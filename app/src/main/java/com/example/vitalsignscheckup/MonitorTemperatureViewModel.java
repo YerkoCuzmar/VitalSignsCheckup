@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 public class MonitorTemperatureViewModel extends ViewModel {
     private static final String TAG = "TEMPERATUREViewMod";
-    private MutableLiveData<Boolean> isPpmUpdating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isTempUpdating = new MutableLiveData<>();
     private MutableLiveData<ServiceTemperature.MyBinder> mBinder = new MutableLiveData<>();
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -29,8 +29,8 @@ public class MonitorTemperatureViewModel extends ViewModel {
     };
 
 
-    public LiveData<Boolean> getIsPpmUpdating(){
-        return isPpmUpdating;
+    public LiveData<Boolean> getIsTempUpdating(){
+        return isTempUpdating;
     }
 
     public LiveData<ServiceTemperature.MyBinder> getBinder(){
@@ -41,8 +41,8 @@ public class MonitorTemperatureViewModel extends ViewModel {
         return serviceConnection;
     }
 
-    public void setIsPpmUpdating(Boolean isUpdating){
-        isPpmUpdating.postValue(isUpdating);
+    public void setIsTempUpdating(Boolean isUpdating){
+        isTempUpdating.postValue(isUpdating);
     }
 
 }
