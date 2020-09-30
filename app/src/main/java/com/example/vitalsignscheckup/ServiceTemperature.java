@@ -33,7 +33,7 @@ public class ServiceTemperature extends Service {
     private Boolean isPaused;
 
     int sample_rate = 50;
-    double temp = 0;
+    double temp;
 
     int value_i = 0;
     int value_rate = 1;
@@ -89,7 +89,7 @@ public class ServiceTemperature extends Service {
                 public void run() {
 //                    calcularTempSensores();
 //                    calcularTempantiguo();
-                    test();
+//                    test();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -109,7 +109,7 @@ public class ServiceTemperature extends Service {
         startPretendLongRunningTask();
     }
 
-    public double getPpm(){
+    public double getTemp(){
         return temp;
     }
 

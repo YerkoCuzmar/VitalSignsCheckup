@@ -24,7 +24,7 @@ import com.example.vitalsignscheckup.models.Mediciones;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorTemperatureTest extends AppCompatActivity {
 
-    int medicion = 0;
+    double medicion = 0.0;
     private static final String TAG = "MonitorTemperature";
 
     private ServiceTemperatureTest mService;                 //servicio
@@ -152,7 +152,7 @@ public class MonitorTemperatureTest extends AppCompatActivity {
         if(historyAdapter != null){
             Mediciones med = new Mediciones(medicion, 1);
             med.enviaraBD();
-            historyAdapter.addNewHistory(medicion, 1);
+//            historyAdapter.addNewHistory(medicion, 1);
             medicion++;
         }
     }

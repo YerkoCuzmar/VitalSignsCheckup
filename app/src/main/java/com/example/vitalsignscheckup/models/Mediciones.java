@@ -63,7 +63,7 @@ public class Mediciones {
 
     public int getType() { return type; }
 
-    public int getMedicion2() { return medicion2; }
+    public double getMedicion2() { return medicion2; }
 
     public void setType(int type) { this.type = type; }
 
