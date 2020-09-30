@@ -55,18 +55,50 @@ public class ActivityLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference();
 
-        /*btnIngresar.setOnClickListener(new View.OnClickListener() {
+        btnIngresar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 Intent mainActivityIntent = new Intent(v.getContext(), MainActivityCuidadores.class);
 
-                //datos para confirmar en la BD
-                String email = etEmailLogin.getText().toString();
-                String pass = etPassLogin.getText().toString();
+                String id_user = mAuth.getUid();
+                mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                startActivity(mainActivityIntent);
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            //Log.d("id ", ds.child(""))
+                            if (ds.getKey().toString().equals(id_user)){
+                                String is = ds.child("paciente").getValue().toString();
+                                if (is.equals("true")){
+                                    //Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                    //datos para confirmar en la BD
+                                    String email = etEmailLogin.getText().toString();
+                                    String pass = etPassLogin.getText().toString();
+                                    startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
+                                    finish(); //para prohibir que se pueda volver a esa vista
+                                }
+                                else{
+                                    //Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                    //datos para confirmar en la BD
+                                    String email = etEmailLogin.getText().toString();
+                                    String pass = etPassLogin.getText().toString();
+                                    startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores.class));
+                                    finish(); //para prohibir que se pueda volver a esa vista
+                                }
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                //startActivity(mainActivityIntent);
             }
-        });*/
+        });
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +133,7 @@ public class ActivityLogin extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     String id_user = mAuth.getUid();
-                    mDataBase.child("Pacientes").addValueEventListener(new ValueEventListener() {
+                    mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -110,12 +142,12 @@ public class ActivityLogin extends AppCompatActivity {
                                 if (ds.getKey().toString().equals(id_user)){
                                     String is = ds.child("paciente").getValue().toString();
                                     if (is.equals("true")){
-                                        Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
                                         finish(); //para prohibir que se pueda volver a esa vista
                                     }
                                     else{
-                                        Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores .class));
                                         finish(); //para prohibir que se pueda volver a esa vista
                                     }
@@ -152,7 +184,7 @@ public class ActivityLogin extends AppCompatActivity {
         super.onStart();
         if (mAuth.getCurrentUser() != null){ //con esto se puede cerrar la app y aun asi la sesion sigue iniciada
             String id_user = mAuth.getUid();
-            mDataBase.child("Pacientes").addValueEventListener(new ValueEventListener() {
+            mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
@@ -160,12 +192,12 @@ public class ActivityLogin extends AppCompatActivity {
                         if (ds.getKey().toString().equals(id_user)){
                             String is = ds.child("paciente").getValue().toString();
                             if (is.equals("true")){
-                                Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
                                 finish(); //para prohibir que se pueda volver a esa vista
                             }
                             else{
-                                Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(ActivityLogin.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(ActivityLogin.this, MainActivityCuidadores .class));
                                 finish(); //para prohibir que se pueda volver a esa vista
                             }

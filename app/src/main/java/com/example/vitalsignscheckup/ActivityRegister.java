@@ -145,13 +145,13 @@ public class ActivityRegister extends AppCompatActivity {
                     String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
 
                     if (isPaciente){
-                        mDataBase.child("Pacientes").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDataBase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
                                     startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
-                                    Toast.makeText(ActivityRegister.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ActivityRegister.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{
@@ -162,13 +162,13 @@ public class ActivityRegister extends AppCompatActivity {
                         });
                     }
                     else{
-                        mDataBase.child("Cuidadores").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDataBase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
                                     startActivity(new Intent(ActivityRegister.this, MainActivityCuidadores.class));
-                                    Toast.makeText(ActivityRegister.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(ActivityRegister.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{

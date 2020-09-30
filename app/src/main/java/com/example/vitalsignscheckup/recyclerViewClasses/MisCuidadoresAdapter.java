@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
+public class MisCuidadoresAdapter extends RecyclerView.Adapter<MisCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
 
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
@@ -31,7 +30,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
     private DatabaseReference mDataBase;
     FirebaseAuth mAuth;
 
-    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
+    public MisCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
         if(isPaciente == 1){

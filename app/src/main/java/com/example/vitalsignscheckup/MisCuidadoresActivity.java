@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vitalsignscheckup.recyclerViewClasses.MisCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,7 +30,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
 
     private RecyclerView rvCuidadores;
     private GridLayoutManager glm;
-    private MisPacientesCuidadoresAdapter adapter;
+    private MisCuidadoresAdapter adapter;
 
     private FloatingActionButton add_cuidador; //para agregar cuidadores
 
@@ -54,6 +55,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(MisCuidadoresActivity.this, MainActivity2.class));
                 finish();
             }
         });
@@ -68,7 +70,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         });
 
         rvCuidadores = (RecyclerView) findViewById(R.id.rvCuidadores);
-        adapter = new MisPacientesCuidadoresAdapter(dataSet(), 1);
+        adapter = new MisCuidadoresAdapter(dataSet(), 1);
         glm = new GridLayoutManager(this, 1);
         rvCuidadores.setLayoutManager(glm);
         rvCuidadores.setAdapter(adapter);
@@ -84,7 +86,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         //Agregar a data los cuidadores correspondientes al consultar la BD
 
         String id = mAuth.getCurrentUser().getUid();
-        mDataBase.child("Pacientes").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDataBase.child("Usuarios").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
@@ -108,11 +110,9 @@ public class MisCuidadoresActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                finish();
             }
         });
-
         return data;
     }
-
-
 }

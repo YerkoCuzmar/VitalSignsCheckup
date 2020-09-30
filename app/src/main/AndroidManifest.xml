@@ -43,6 +43,7 @@ package="com.example.vitalsignscheckup">
     <activity android:name=".MisCuidadoresActivity" />
     <activity android:name=".MisPacientesActivity" />
     <activity android:name=".ListaCuidadores" />
+    <activity android:name=".ListaPacientes" />
     <activity android:name=".MainActivity2"
         android:theme="@style/MaterialCardTheme" />
     <activity android:name=".MainActivityCuidadores" />

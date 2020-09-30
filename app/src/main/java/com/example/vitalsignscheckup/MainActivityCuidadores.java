@@ -80,7 +80,7 @@ public class MainActivityCuidadores extends AppCompatActivity {
 
                 if (id == R.id.nav_perfil) {
                 } else if (id == R.id.nav_mis_pacientes) {
-                    Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
+                    Intent cuidadorIntent = new Intent(getApplicationContext(), MisPacientesActivity.class);
                     startActivity(cuidadorIntent);
                 } else if (id == R.id.nav_configuracion) {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);

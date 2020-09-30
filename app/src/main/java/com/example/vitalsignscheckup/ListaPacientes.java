@@ -14,7 +14,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.recyclerViewClasses.MisCuidadoresAdapter;
+import com.example.vitalsignscheckup.MisCuidadoresActivity;
+import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,14 +32,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ListaCuidadores extends AppCompatActivity {
+public class ListaPacientes extends AppCompatActivity {
 
     private DatabaseReference mDataBase;
 
 
     private RecyclerView rvCuidadores;
     private ArrayList<PacienteCuidador> mCuidadores = new ArrayList<>();
-    private MisCuidadoresAdapter mAdapter;
+    private MisPacientesAdapter mAdapter;
 
     private String id_cuidador;
 
@@ -68,7 +70,7 @@ public class ListaCuidadores extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
+                startActivity(new Intent(ListaPacientes.this, MisPacientesActivity.class));
                 finish();
             }
         });
@@ -76,8 +78,8 @@ public class ListaCuidadores extends AppCompatActivity {
         agregar_cuidador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addCuidadorToPaciente();
-                //startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
+                addPacienteToCuidador();
+                //startActivity(new Intent(ListaCuidadores.this, MisPacientesActivity.class));
                 //addCuidadorToPaciente();
                 //finish();
             }
@@ -85,8 +87,8 @@ public class ListaCuidadores extends AppCompatActivity {
         etCuidador = (EditText) findViewById(R.id.search_users);
     }
 
-    private boolean addCuidadorToPaciente(){
-        mDataBase.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+    private void addPacienteToCuidador(){
+        mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
@@ -96,8 +98,9 @@ public class ListaCuidadores extends AppCompatActivity {
                         String email_cuidador = ds.child("email").getValue().toString();
                         String is = ds.child("paciente").getValue().toString();
 
-                        Iterable<DataSnapshot> list_ids = dataSnapshot.getChildren();  //lista con los ids de los usuarios
-                        if (email_cuidador.equals(cuidador) && is.equals("false")){
+                        Iterable<DataSnapshot> list_ids = dataSnapshot.getChildren();  //lista con los ids cuidadores
+
+                        if (email_cuidador.equals(cuidador) && is.equals("true")){
                             Map<String, Object> map = new HashMap<>();
                             map.put("Nombre", name_cuidador);
                             map.put("Correo", email_cuidador);
@@ -113,25 +116,26 @@ public class ListaCuidadores extends AppCompatActivity {
                                     }
                                 }
                             }
-                            mDataBase.child("Usuarios").child(id).child("cuidadores").child(id_cuidador).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
 
+                            //Log.d("id_cuidador", id);
+                            //Toast.makeText(ListaCuidadores.this, "id_c es "+ id_cuidador, Toast.LENGTH_SHORT).show();
+                            mDataBase.child("Usuarios").child(id).child("pacientes").child(id_cuidador).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
                                 public void onComplete(@NonNull Task<Void> task2) {
-                                    Log.d("Entrando", "entro a mdabatase");
                                     if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
-                                        Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
-                                                        " a tu lista de cuidadores",
+                                        Toast.makeText(ListaPacientes.this, "Has agregado a " + name_cuidador +
+                                                        " a tu lista de pacientes",
                                                 Toast.LENGTH_SHORT).show();
-                                        //startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
-                                        //finish();
+                                        startActivity(new Intent(ListaPacientes.this, MisPacientesActivity.class));
+                                        finish();
                                         agregado = true;
+
                                     }
                                     else{
-                                        Toast.makeText(ListaCuidadores.this, "No se ha podido agregar " + name_cuidador +
-                                                        " a tu lista de cuidadores",
+                                        Toast.makeText(ListaPacientes.this, "No se ha podido agregar " + name_cuidador +
+                                                        " a tu lista de pacientes",
                                                 Toast.LENGTH_SHORT).show();
-                                        //startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
-                                        //finish();
+
                                     }
                                 }
                             });
@@ -139,7 +143,7 @@ public class ListaCuidadores extends AppCompatActivity {
                         //mCuidadores.add(new PacienteCuidador(name_cuidador, email_cuidador ,1));
                     }
 
-                    //mAdapter = new MisCuidadoresAdapter(mCuidadores,1);
+                    //mAdapter = new MisPacientesAdapter(mCuidadores,1);
 
                     //rvCuidadores.setAdapter(mAdapter);
                 }
@@ -150,6 +154,5 @@ public class ListaCuidadores extends AppCompatActivity {
                 finish();
             }
         });
-        return agregado;
     }
 }

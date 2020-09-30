@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacientesCuidadoresAdapter.MisPacientesCuidadoresViewHolder>{
+public class MisPacientesAdapter extends RecyclerView.Adapter<MisPacientesAdapter.MisPacientesCuidadoresViewHolder>{
 
     private ArrayList<PacienteCuidador> data;
     private int isPaciente;
@@ -31,7 +30,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
     private DatabaseReference mDataBase;
     FirebaseAuth mAuth;
 
-    public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
+    public MisPacientesAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
         if(isPaciente == 1){
@@ -76,7 +75,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
                                 Log.d("name ", name);
                                 Log.d("email ", email);
                                 String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
-                                mDataBase.child("Usuarios").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
+                                mDataBase.child("Usuarios").child(id).child("pacientes").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         Log.d("algo ", name);
