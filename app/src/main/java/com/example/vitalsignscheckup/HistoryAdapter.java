@@ -50,8 +50,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @Override
     public int getItemCount() { return dataset.size(); }
 
-    public void addNewHistory(int read){
-        Mediciones newRead = new Mediciones(read);
+    public void addNewHistory(int read, int type){
+
+        Mediciones newRead = new Mediciones(read, type);
         dataset.add(0, newRead);
         notifyDataSetChanged();
     }

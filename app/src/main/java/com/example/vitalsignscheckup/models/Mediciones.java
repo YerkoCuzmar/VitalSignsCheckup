@@ -11,8 +11,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+
 public class Mediciones {
-    private int type;
+    private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion
     private String date;
     private String time;
     private int medicion;
@@ -51,7 +53,7 @@ public class Mediciones {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
-        mDataBase.child("Pacientes").child(id).push().setValue(this);
+        mDataBase.child("Pacientes").child(id).child("mediciones").child(String.valueOf(this.type)).push().setValue(this);
     }
 
 }

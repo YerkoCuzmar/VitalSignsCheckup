@@ -154,7 +154,7 @@ public class MonitorTemperature extends AppCompatActivity {
         if(historyAdapter != null){
             Mediciones med = new Mediciones(medicion, 1);
             med.enviaraBD();
-            historyAdapter.addNewHistory(medicion);
+            historyAdapter.addNewHistory(medicion, 1);
             medicion++;
         }
     }
