@@ -43,7 +43,7 @@ public class ServiceStressLevel extends Service {
     int pulsaciones = 0;
     int dif = 0;
     int sample_rate = 50;
-    int ppm = 0;
+    double ppm = 0;
     int pulsaciones2 = 0;
 
     int value_i = 0;
@@ -126,52 +126,30 @@ public class ServiceStressLevel extends Service {
         startPretendLongRunningTask();
     }
 
-    public int getSL(){
+    public double getSL(){
         return ppm;
     }
 
     public class SLDataReciever extends BroadcastReceiver {
         int[] puertos;
-        int portbvp, portecg, porttemp, porteda;
+        int porteda;
         int poseda;
 
         public SLDataReciever(){
-            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
-            SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[0] = portbvp;
-            }
-
-            preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[1] = portecg;
-            }
-
+            SharedPreferences preferences;
             preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[2] = porttemp;
-            }
+            porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
-            preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[3] = porteda;
+            if(porteda != 9){
+                poseda = porteda - 1;
             }
-
-            Arrays.sort(puertos);
-            String sPuertos = Arrays.toString(puertos);
-            poseda = sPuertos.indexOf(String.valueOf(porteda));
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(COLLECT_DATA){
                 double eda_value = intent.getExtras().getIntArray("analogData")[poseda];
-                data.add(eda_value);
-            }
+                ppm = eda_value;
+
         }
     }
 
