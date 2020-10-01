@@ -1,9 +1,12 @@
 package com.example.vitalsignscheckup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +43,8 @@ public class MainActivityCuidadores extends AppCompatActivity {
     private TextView mTextViewName;
     private TextView mTextViewEmail;
 
+    String name, email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,16 @@ public class MainActivityCuidadores extends AppCompatActivity {
         // menu should be considered as top level destinations.
 
         //get nombre y correo
+        SharedPreferences preferences = this.getSharedPreferences("user", Context.MODE_PRIVATE);
+        name = preferences.getString("name", null);
+        email = preferences.getString("email", null);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.get_nombre);
+        TextView navEmail = (TextView) headerView.findViewById(R.id.get_correo);
+        navUsername.setText(name);
+        navEmail.setText(email);
+
         //mTextViewName = (TextView) findViewById(R.id.get_nombre);
         //mTextViewEmail = (TextView) findViewById(R.id.get_correo);
 
