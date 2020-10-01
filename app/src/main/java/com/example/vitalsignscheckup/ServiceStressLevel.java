@@ -105,8 +105,8 @@ public class ServiceStressLevel extends Service {
 
                 @Override
                 public void run() {
-//                    calcularHRSensores();
-                    calcularSLantiguo();
+//                    calcularSLSensores();
+//                    calcularSLantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
