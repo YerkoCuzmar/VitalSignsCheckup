@@ -160,7 +160,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portTemp.getText().toString());
+        spEditor.putString("port", portEDA.getText().toString());
         spEditor.apply();
 
         Intent intent = new Intent(ConfigActivity.this, ScanActivity.class);

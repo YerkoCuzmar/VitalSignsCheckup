@@ -113,25 +113,23 @@ public class ServiceTemperature extends Service {
         int postemp;
 
         public TempDataReciever(){
-            puertos = new ArrayList<>();
-//            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
-            SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
 
-            preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
             porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
             if(porttemp != 9){
                 postemp = porttemp - 1;
             }
+            postemp = 0;
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(COLLECT_DATA){
-                double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
+            Log.d("TAGCITO", String.valueOf(intent.getExtras().getIntArray("analogData")));
+            double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
 //                data.add(temp_value);
-                singleData = temp_value;
-            }
+            singleData = temp_value;
+
         }
     }
 
