@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -398,7 +399,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if (frame instanceof BiopluxFrame) {
             final BiopluxFrame biopluxFrame = (BiopluxFrame) frame;
 
-            //Log.d("TAG", Arrays.toString(biopluxFrame.getAnalogData()));
+            Log.d("TAGCITO - device", Arrays.toString(biopluxFrame.getAnalogData()));
 
             Intent i = new Intent();
             i.putExtra("analogData", biopluxFrame.getAnalogData());
@@ -545,31 +546,12 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
          *
          * ---------------------------------------------------------------------------------------*/
 
-        SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        String portbvp = preferences.getString("port", null);
-
-        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        String portecg = preferences.getString("port", null);
-
-        preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-        String porttemp = preferences.getString("port", null);
-
-        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-        String porteda = preferences.getString("port", null);
-
         //add the necessary sources following the instructions above
-        if(portbvp != null){
-            sources.add(new Source(Integer.parseInt(portbvp), 16, (byte) 0x01, 100));
-        }
-        if(portecg != null){
-            sources.add(new Source(Integer.parseInt(portecg), 16, (byte) 0x01, 100));
-        }
-        if(porttemp != null){
-            sources.add(new Source(Integer.parseInt(porttemp), 16, (byte) 0x01, 100));
-        }
-        if(porteda != null){
-            sources.add(new Source(Integer.parseInt(porteda), 16, (byte) 0x01, 100));
-        }
+        sources.add(new Source(1, 16, (byte) 0x01, 100));
+        sources.add(new Source(2, 16, (byte) 0x01, 100));
+        //sources.add(new Source(3, 16, (byte) 0x01, 100));
+        //sources.add(new Source(4, 16, (byte) 0x01, 100));
+
         //Comment this try-catch block for fNIRS
         try {
             bioplux.start(samplingRate, sources);
