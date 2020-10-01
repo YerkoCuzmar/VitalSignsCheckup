@@ -13,14 +13,14 @@
     <LinearLayout
         android:id="@+id/llPacientes"
         android:layout_width="match_parent"
-        android:layout_height="133dp"
+        android:layout_height="175dp"
         android:orientation="horizontal"
         android:padding="15dp">
 
         <ImageView
             android:id="@+id/ivProfilePhoto"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginEnd="6dp"
             tools:srcCompat="@tools:sample/avatars" />
@@ -39,6 +39,7 @@
                 android:text="Nombre Apellido"
                 android:textColor="#000D00"
                 android:paddingStart="20dp"
+                android:layout_marginTop="10dp"
                 android:textSize="22sp" />
 
 
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="10dp"
+                android:paddingTop="15dp"
                 android:paddingStart="20dp"
                 android:orientation="horizontal">
 

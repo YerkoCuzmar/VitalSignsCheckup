@@ -86,14 +86,14 @@ public class MisPacientesActivity extends AppCompatActivity {
                     //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
                     //Toast.makeText(MisPacientesActivity.this, "lista: " + list_ids, Toast.LENGTH_SHORT).show();
                     //Toast.makeText(MisPacientesActivity.this  , "dsa " + ds.child("Correo"), Toast.LENGTH_SHORT).show();
-                    PacienteCuidador cuidador = new PacienteCuidador(ds.child("Nombre").getValue().toString(),
-                            ds.child("Correo").getValue().toString(),R.drawable.ic_awesome_user_circle);
+                    PacienteCuidador cuidador = new PacienteCuidador(ds.child("name").getValue().toString(),
+                            ds.child("email").getValue().toString(),R.drawable.ic_awesome_user_circle);
                     if (data.contains(cuidador)){
                         Toast.makeText(MisPacientesActivity.this, "Ya es tu paciente", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        data.add(new PacienteCuidador(ds.child("Nombre").getValue().toString(),
-                                ds.child("Correo").getValue().toString(),
+                        data.add(new PacienteCuidador(ds.child("name").getValue().toString(),
+                                ds.child("email").getValue().toString(),
                                 R.drawable.ic_awesome_user_circle));
                         adapter.notifyItemInserted(1);
 

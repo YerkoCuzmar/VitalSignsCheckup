@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class ListaPacientes extends AppCompatActivity {
     private String cuidador = "";
     FirebaseAuth mAuth;
     private Button agregar_cuidador;
+    private TextView textHeader;
     private boolean agregado = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class ListaPacientes extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         rvCuidadores.setLayoutManager(new LinearLayoutManager(this));
         agregar_cuidador = (Button) findViewById(R.id.agregar_cuidador);
+        agregar_cuidador.setText("AGREGAR PACIENTE");
+        textHeader = (TextView) findViewById(R.id.tvAddOption);
+        textHeader.setText("Ingrese el mail del nuevo paciente");
 
         id_cuidador = "";
 
