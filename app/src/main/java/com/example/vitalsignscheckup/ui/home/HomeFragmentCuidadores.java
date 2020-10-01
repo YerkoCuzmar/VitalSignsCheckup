@@ -21,10 +21,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 //import androidx.lifecycle.ViewModelProviders;
 
@@ -115,107 +113,6 @@ public class HomeFragmentCuidadores extends Fragment {
         ArrayList<Pacientes> data = new ArrayList<>();
 
         String userId = mAuth.getCurrentUser().getUid();
-        mDataBase.child("Usuarios").child(userId).child("pacientes").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Pacientes paciente = new Pacientes();
-                    paciente.setId(ds.getKey());
-                    paciente.setName(ds.child("name").getValue().toString());
-                    data.add(paciente);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        Log.d(TAG, "dataSet: for paciente");
-        Log.d(TAG, "dataSet: " + data);
-        for( Pacientes paciente : data){
-            Log.d(TAG, "dataSet: paciente");
-            mDataBase.child("Usuarios").child(paciente.getId()).child("mediciones").child("1").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "onDataChange: Temp");
-                    int i = data.indexOf(paciente);
-                    if(dataSnapshot.getValue() != null){
-                        paciente.setLastTemp(Objects.requireNonNull(dataSnapshot.child("medicion").getValue()).toString());
-                    }
-                    else {
-                        paciente.setLastTemp("--");
-                    }
-                    data.set( i, paciente);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) { }
-            });
-        }
-        Log.d(TAG, "dataSet: despues for");
-
-        for( Pacientes paciente : data){
-            mDataBase.child("Usuarios").child(paciente.getId()).child("mediciones").child("2").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    int i = data.indexOf(paciente);
-                    if(dataSnapshot.getValue() != null){
-                        paciente.setLastHeartRate(Objects.requireNonNull(dataSnapshot.child("medicion").getValue()).toString());
-                    }
-                    else {
-                        paciente.setLastHeartRate("--");
-                    }
-                    data.set( i, paciente);
-                }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) { }
-            });
-        }
-
-        for( Pacientes paciente : data){
-            mDataBase.child("Usuarios").child(paciente.getId()).child("mediciones").child("3").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    int i = data.indexOf(paciente);
-                    if(dataSnapshot.getValue() != null){
-                        paciente.setLastStress(Objects.requireNonNull(dataSnapshot.child("medicion").getValue()).toString());
-                    }
-                    else {
-                        paciente.setLastStress("--");
-                    }
-                    data.set( i, paciente);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) { }
-            });
-        }
-
-        for( Pacientes paciente : data){
-            mDataBase.child("Usuarios").child(paciente.getId()).child("mediciones").child("4").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    int i = data.indexOf(paciente);
-                    if(dataSnapshot.getValue() != null) {
-                        String med1 = Objects.requireNonNull(dataSnapshot.child("medicion").getValue()).toString();
-                        String med2 = Objects.requireNonNull(dataSnapshot.child("medicion2").getValue()).toString();
-                        String med = med1 + "/" + med2;
-                        paciente.setLastPressure(med);
-                    }
-                    else {
-                        paciente.setLastPressure("--/--");
-                    }
-                    data.set( i, paciente);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) { }
-            });
-        }
-
         return data;
     }
 
