@@ -1,8 +1,5 @@
 package com.example.vitalsignscheckup.recyclerViewClasses;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.R;
@@ -22,6 +17,10 @@ import java.util.ArrayList;
 public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAdapter.MainCuidadoresViewHolder>{
 
     private ArrayList<Pacientes> data;
+
+    public MainCuidadoresAdapter() {
+        this.data = new ArrayList<>();
+    }
 
     public MainCuidadoresAdapter(ArrayList<Pacientes> data) {
         this.data = data;
@@ -57,6 +56,12 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         return data.size();
     }
 
+    public void addPaciente(Pacientes paciente){
+        if(!data.contains(paciente)){
+            data.add(paciente);
+        }
+    }
+
     class MainCuidadoresViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView ivProfile;
@@ -78,5 +83,6 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         public void onClick(View view) {
 
         }
+
     }
 }
