@@ -125,6 +125,7 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
         Pacientes paciente = adapter.getPaciente(position);
         Intent intent = new Intent(this.getActivity(), CuidadorMonitorTemperature.class);
         intent.putExtra("pactienteId", paciente.getId());
+        intent.putExtra("pacienteName", paciente.getName());
         startActivity(intent);
     }
 }

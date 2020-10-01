@@ -44,6 +44,8 @@ public class ServiceTemperature extends Service {
 
     ArrayList<Double> data = new ArrayList<>();
 
+    double singleData;
+
 
     @Nullable
     @Override
@@ -146,7 +148,8 @@ public class ServiceTemperature extends Service {
         public void onReceive(Context context, Intent intent) {
             if(COLLECT_DATA){
                 double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
-                data.add(temp_value);
+//                data.add(temp_value);
+                singleData = temp_value;
             }
         }
     }
@@ -174,19 +177,12 @@ public class ServiceTemperature extends Service {
 
         Log.d("collect ", String.valueOf(COLLECT_DATA));
 
-        while (data.size() < DATA_SIZE) {
-            data.add(d);
-            d += 10;
-        }
+        singleData = d;
+        d += 10;
 
-        Log.d("data size", String.valueOf(data.size()));
-        System.out.println(data);
-        COLLECT_DATA = false;
-
-        temp = transformDataToSingleTemp(data);
+        temp = transformarVaC(singleData);
         Log.d(TAG, "calcularTempantiguo: new Temp " + temp);
         new_temp = true;
-        data.clear();
     }
 
     public double transformarVaC(Double adc){

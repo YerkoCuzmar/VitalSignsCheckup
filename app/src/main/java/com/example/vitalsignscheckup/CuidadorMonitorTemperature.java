@@ -33,6 +33,7 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
     private static final String TAG = "MonitorStressLevel";
     DecimalFormat df = new DecimalFormat("#0.00");
     private String idPaciente;
+    private String namePaciente;
 
     FirebaseAuth mAuth;
     DatabaseReference reference;  //nodo principal de la base de datos
@@ -47,11 +48,12 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         idPaciente = intent.getStringExtra("pactienteId");
+        namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_temperature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Temperatura Actual");
+        getSupportActionBar().setTitle(namePaciente);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
