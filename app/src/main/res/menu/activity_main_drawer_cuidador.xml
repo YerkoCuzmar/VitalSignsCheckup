@@ -12,10 +12,12 @@
             android:id="@+id/nav_mis_pacientes"
             android:icon="@drawable/ic_awesome_user_friends"
             android:title="@string/menu_mis_pacientes" />
+        <!--
         <item
             android:id="@+id/nav_configuracion"
             android:icon="@drawable/ic_feather_settings"
             android:title="@string/menu_configuracion" />
+        -->
         <item
             android:id="@+id/nav_cerrar_sesion"
             android:icon="@drawable/ic_material_exit_to_app"
