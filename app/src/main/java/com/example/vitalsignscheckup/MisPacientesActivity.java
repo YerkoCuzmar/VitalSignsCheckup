@@ -1,23 +1,24 @@
 package com.example.vitalsignscheckup;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesAdapter;
+import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MisPacientesActivity extends AppCompatActivity {
-
-    private final String TAG = "MisPacientesActivity";
 
     private RecyclerView rvCuidadores;
     private GridLayoutManager glm;
@@ -46,8 +45,6 @@ public class MisPacientesActivity extends AppCompatActivity {
         add_cuidador = (FloatingActionButton) findViewById(R.id.add_cuidadores); //agregar cuidadores
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Mis Pacientes");
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,57 +59,19 @@ public class MisPacientesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //UserRecord userRecord = mAuth.getUserByEmail("alex2@gmail.com");
                 startActivity(new Intent(MisPacientesActivity.this, ListaPacientes.class));
+                finish();
             }
         });
         rvCuidadores = (RecyclerView) findViewById(R.id.rvCuidadores);
-        adapter = new MisPacientesAdapter(0);
+        adapter = new MisPacientesAdapter(dataSet(), 0);
         glm = new GridLayoutManager(this, 1);
         rvCuidadores.setLayoutManager(glm);
         rvCuidadores.setAdapter(adapter);
-
-        String id = mAuth.getCurrentUser().getUid();
-        mDataBase.child("Usuarios").child(id).child("pacientes").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @ Nullable String s) {
-                Log.d(TAG, "onChildAdded: ");
-                PacienteCuidador newPaciente = dataSnapshot.getValue(PacienteCuidador.class);
-                System.out.println(dataSnapshot.getKey());
-                System.out.println(dataSnapshot.child("Nombre").getValue());
-                assert newPaciente != null;
-                newPaciente.setId(dataSnapshot.getKey());
-                adapter.addPaciente(newPaciente);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved: ");
-                PacienteCuidador deletedPaciente = dataSnapshot.getValue(PacienteCuidador.class);
-                deletedPaciente.setId(dataSnapshot.getKey());
-                adapter.removePaciente(deletedPaciente);
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
-
-
 
     private ArrayList<PacienteCuidador> dataSet() {
         ArrayList<PacienteCuidador> data = new ArrayList<>();
-//        data.add(new PacienteCuidador("Elva Stoncito", "Imagine.Dragons@ufale.chile", R.drawable.ic_awesome_user_circle));
+        data.add(new PacienteCuidador("Elva Stoncito", "Imagine.Dragons@ufale.chile", R.drawable.ic_awesome_user_circle));
         //data.add(new PacienteCuidador("Radioactive", "Ima.ragons@2.cia", R.drawable.ic_awesome_user_circle));
         //data.add(new PacienteCuidador("Asomecha", "AsomechaDragons@3.ciwei", R.drawable.ic_awesome_user_circle));
 
@@ -123,20 +82,18 @@ public class MisPacientesActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    System.out.println(ds.child("Nombre"));
-                    //Toast.makeText(MisPacientesActivity.this, "ds " + ds.child("Correo") , Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MisPacientesActivity.this, "ds " + ds.child("email") , Toast.LENGTH_SHORT).show();
                     //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
                     //Toast.makeText(MisPacientesActivity.this, "lista: " + list_ids, Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MisPacientesActivity.this  , "dsa " + ds.child("Correo"), Toast.LENGTH_SHORT).show();
-                    PacienteCuidador cuidador = new PacienteCuidador(ds.child("Nombre").getValue().toString(),
-                            ds.child("Correo").getValue().toString(),R.drawable.ic_awesome_user_circle);
-                    cuidador.setId(ds.getKey());
+                    //Toast.makeText(MisPacientesActivity.this  , "dsa " + ds.child("email"), Toast.LENGTH_SHORT).show();
+                    PacienteCuidador cuidador = new PacienteCuidador(ds.child("name").getValue().toString(),
+                            ds.child("email").getValue().toString(),R.drawable.ic_awesome_user_circle);
                     if (data.contains(cuidador)){
                         Toast.makeText(MisPacientesActivity.this, "Ya es tu paciente", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         data.add(cuidador);
-                        adapter.notifyDataSetChanged();
+                        //adapter.notifyItemInserted(1);
 
                     }
                 }

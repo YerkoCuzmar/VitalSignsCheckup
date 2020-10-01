@@ -6,15 +6,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.recyclerViewClasses.MisCuidadoresAdapter;
+import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +36,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
 
 
     private DatabaseReference mDataBase;
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,8 +49,6 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Mis Cuidadores");
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
 
@@ -89,20 +90,18 @@ public class MisCuidadoresActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    //Toast.makeText(MisCuidadoresActivity.this, "ds " + ds.child("Correo") , Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MisCuidadoresActivity.this, "ds " + ds.child("email") , Toast.LENGTH_SHORT).show();
                     //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
                     //Toast.makeText(MisCuidadoresActivity.this, "lista: " + list_ids, Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(MisCuidadoresActivity.this, "dsa " + ds.child("Correo"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MisCuidadoresActivity.this, "dsa " + ds.child("email"), Toast.LENGTH_SHORT).show();
                     PacienteCuidador cuidador = new PacienteCuidador(ds.child("name").getValue().toString(),
                             ds.child("email").getValue().toString(),R.drawable.ic_awesome_user_circle);
                     if (data.contains(cuidador)){
                         Toast.makeText(MisCuidadoresActivity.this, "Ya es tu cuidador", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        data.add(new PacienteCuidador(ds.child("name").getValue().toString(),
-                                ds.child("email").getValue().toString(),
-                                R.drawable.ic_awesome_user_circle));
-                        adapter.notifyItemInserted(1);
+                        data.add(cuidador);
+                        //adapter.notifyItemInserted(1);
 
                     }
                 }
