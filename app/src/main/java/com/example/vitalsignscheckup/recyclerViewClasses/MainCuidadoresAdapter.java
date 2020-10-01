@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,18 +16,26 @@ import java.util.ArrayList;
 public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAdapter.MainCuidadoresViewHolder>{
 
     private ArrayList<Pacientes> data;
+    private OnPacienteListener mOnPacienteListener;
+
 
     public MainCuidadoresAdapter() {
         this.data = new ArrayList<>();
     }
 
-    public MainCuidadoresAdapter(ArrayList<Pacientes> data) {
+    public MainCuidadoresAdapter(OnPacienteListener onPacienteListener) {
+        this.data = new ArrayList<>();
+        this.mOnPacienteListener = onPacienteListener;
+    }
+
+    public MainCuidadoresAdapter(ArrayList<Pacientes> data, OnPacienteListener onPacienteListener) {
         this.data = data;
+        this.mOnPacienteListener = onPacienteListener;
     }
 
     @Override
     public MainCuidadoresViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MainCuidadoresViewHolder mainCuidadoresViewHolder = new MainCuidadoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.content_main_cuidadores_fragment, parent, false));
+        MainCuidadoresViewHolder mainCuidadoresViewHolder = new MainCuidadoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.content_main_cuidadores_fragment, parent, false), mOnPacienteListener);
         return mainCuidadoresViewHolder;
     }
 
@@ -41,14 +48,13 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         holder.tvHeartRate.setText(paciente.getLastHeartRate());
         holder.tvPressure.setText(paciente.getLastPressure());
         holder.tvStress.setText(paciente.getLastStress());
-        holder.llPaciente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(view.getContext(), "Ver parámetros en tiempo real de " + paciente.getName(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        holder.llPaciente.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent startActivityIntent = new Intent(MainActivityCuidadores.this, CuidadorMonitorTemperature.class);
+//
+//            }
+//        });
     }
 
     @Override
@@ -62,13 +68,19 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         }
     }
 
+    public Pacientes getPaciente(int position){
+        return data.get(position);
+    }
+
     class MainCuidadoresViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        OnPacienteListener onPacienteListener;
 
         ImageView ivProfile;
         TextView tvName, tvTemperature, tvHeartRate, tvPressure, tvStress;
         LinearLayout llPaciente;
 
-        public MainCuidadoresViewHolder(View itemView) {
+        public MainCuidadoresViewHolder(View itemView, OnPacienteListener onPacienteListener) {
             super(itemView);
             ivProfile = (ImageView) itemView.findViewById(R.id.ivProfilePhoto);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
@@ -77,12 +89,18 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
             tvPressure = (TextView) itemView.findViewById(R.id.tvBloodPressure);
             tvStress = (TextView) itemView.findViewById(R.id.tvStress);
             llPaciente = (LinearLayout) itemView.findViewById(R.id.llPacientes);
+            this.onPacienteListener = onPacienteListener;
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            onPacienteListener.onPacienteClick(getAdapterPosition());
         }
+    }
 
+    public interface OnPacienteListener{
+        void onPacienteClick(int position);
     }
 }

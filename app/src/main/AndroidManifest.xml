@@ -33,6 +33,7 @@ package="com.example.vitalsignscheckup">
         </intent-filter>
     </activity>
 
+    <activity android:name=".CuidadorMonitorTemperature"/>
     <activity android:name=".checkHistory" />
     <activity android:name=".MonitorStressLevel" />
     <activity android:name=".MonitorBloodPressure" />

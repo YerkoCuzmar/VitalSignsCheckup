@@ -1,5 +1,6 @@
 package com.example.vitalsignscheckup.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.vitalsignscheckup.CuidadorMonitorTemperature;
 import com.example.vitalsignscheckup.R;
 import com.example.vitalsignscheckup.recyclerViewClasses.MainCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.Pacientes;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 
 //import androidx.lifecycle.ViewModelProviders;
 
-public class HomeFragmentCuidadores extends Fragment {
+public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAdapter.OnPacienteListener{
     
     private static final String TAG = "HomeFragmentCuidadores";
 
@@ -43,7 +45,7 @@ public class HomeFragmentCuidadores extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home_cuidadores, container, false);
 
         rvCuidadores = (RecyclerView) root.findViewById(R.id.rvMainCuidadores);
-        adapter = new MainCuidadoresAdapter();
+        adapter = new MainCuidadoresAdapter(this);
         glm = new GridLayoutManager(root.getContext(), 1);
         rvCuidadores.setLayoutManager(glm);
         rvCuidadores.setAdapter(adapter);
@@ -83,6 +85,8 @@ public class HomeFragmentCuidadores extends Fragment {
 
             }
         });
+
+
         return root;
     }
 
@@ -116,4 +120,11 @@ public class HomeFragmentCuidadores extends Fragment {
         return data;
     }
 
+    @Override
+    public void onPacienteClick(int position) {
+        Pacientes paciente = adapter.getPaciente(position);
+        Intent intent = new Intent(this.getActivity(), CuidadorMonitorTemperature.class);
+        intent.putExtra("pactienteId", paciente.getId());
+        startActivity(intent);
+    }
 }
