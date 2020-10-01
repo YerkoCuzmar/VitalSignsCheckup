@@ -150,7 +150,7 @@ public class MonitorHeartRate extends AppCompatActivity  {
                             }
                             String progress = String.valueOf(mService.getPpm());
                             ppmText.setText(progress);
-                            enviarABD(mService.getPpm());
+//                            enviarABD(mService.getPpm());
                             // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
                         }
