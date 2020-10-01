@@ -4,31 +4,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.TextView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import java.util.Objects;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -47,7 +41,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(MainActivity2.this, "Inicio", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity2.this, "Inicio", Toast.LENGTH_SHORT).show();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
@@ -97,7 +91,7 @@ public class MainActivity2 extends AppCompatActivity {
                     Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
                     startActivity(cuidadorIntent);
                 } else if (id == R.id.nav_configuracion) {
-                    Toast.makeText(MainActivity2.this, "Configuración", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity2.this, "Configuración", Toast.LENGTH_SHORT).show();
 
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
@@ -118,7 +112,7 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(MainActivity2.this, "InicioResume", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity2.this, "InicioResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
