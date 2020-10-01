@@ -46,6 +46,8 @@ public class ServiceStressLevel extends Service {
     double ppm = 0;
     int pulsaciones2 = 0;
 
+    double eda_value;
+
     int value_i = 0;
     int value_rate = 1;
 
@@ -107,6 +109,7 @@ public class ServiceStressLevel extends Service {
                 public void run() {
 //                    calcularSLSensores();
 //                    calcularSLantiguo();
+                    ppm = eda_value;
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -147,8 +150,8 @@ public class ServiceStressLevel extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-                double eda_value = intent.getExtras().getIntArray("analogData")[poseda];
-                ppm = eda_value;
+                eda_value = intent.getExtras().getIntArray("analogData")[poseda];
+
 
         }
     }
