@@ -147,7 +147,7 @@ public class ServiceTemperature extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(COLLECT_DATA){
-                double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
+                double temp_value = intent.getExtras().getIntArray("analogData")[0];
 //                data.add(temp_value);
                 singleData = temp_value;
             }

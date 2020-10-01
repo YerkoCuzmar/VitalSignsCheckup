@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,6 +59,7 @@ import static info.plux.api.bioplux.enums.Event.I_2_C_EVENT;
 import static info.plux.api.bioplux.enums.Event.ON_BODY_EVENT;
 import static info.plux.api.bioplux.enums.Event.SCHEDULE_CHANGE;
 import static info.plux.api.bioplux.enums.Event.SENSOR_ID_CHANGE;
+import static info.plux.api.enums.States.ACQUISITION_TRYING;
 import static info.plux.api.enums.States.CONNECTED;
 import static info.plux.api.enums.States.DISCONNECTED;
 import static info.plux.api.interfaces.Constants.ACTION_COMMAND_REPLY;
@@ -275,6 +277,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+            Log.d("TAGCITO", action);
             if (ACTION_STATE_CHANGED.equals(action)) {
                 final String identifier = intent.getStringExtra(IDENTIFIER);
                 final States state = (States) intent.getSerializableExtra(EXTRA_STATE_CHANGED);
@@ -291,9 +294,13 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
                     disconnectButton.setEnabled(true);
                     connectButton.setEnabled(false);
                 }
+                if(state.equals(ACQUISITION_TRYING)) {
+
+                }
             } else if (ACTION_DATA_AVAILABLE.equals(action)) {
                 if (intent.hasExtra(EXTRA_DATA)) {
                     Parcelable parcelable = intent.getParcelableExtra(EXTRA_DATA);
+                    Log.d("TAGCITO", "ACTION_DATA_AVAILABLE");
                     if (parcelable.getClass().equals(BiopluxFrame.class)) { //biosignals
                         biopluxResultsTextView.setText(parcelable.toString().subSequence(0,1));
                     }
@@ -355,7 +362,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
                 } else if (event.equals(DIGITAL_INPUT_CHANGE)) {
                     final DigitalInputChange digitalInputChange = intent.getParcelableExtra(EXTRA_EVENT_DATA);
-                    Log.d(TAG, digitalInputChange.toString());
+                    Log.d("TAGCITO", digitalInputChange.toString());
                 } else if (event.equals(SCHEDULE_CHANGE)) {
 
                 } else if (event.equals(CLOCK_SYNCHRONIZATION)) {
@@ -398,7 +405,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if (frame instanceof BiopluxFrame) {
             final BiopluxFrame biopluxFrame = (BiopluxFrame) frame;
 
-            //Log.d("TAG", Arrays.toString(biopluxFrame.getAnalogData()));
+            Log.d("TAGCITO", Arrays.toString(biopluxFrame.getAnalogData()));
 
             Intent i = new Intent();
             i.putExtra("analogData", biopluxFrame.getAnalogData());
@@ -422,7 +429,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
 
     @Override
     public void onDataAvailable(String identifier, int sequence, int[] data, int digitalInput) {
-
+        Log.d("TAGCITO", "On data available equivocado");
     }
 
     @Override
@@ -546,33 +553,38 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
          * ---------------------------------------------------------------------------------------*/
 
         SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        String portbvp = preferences.getString("port", null);
+        //String portbvp = preferences.getString("port", null);
 
-        preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        String portecg = preferences.getString("port", null);
+        //preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        //String portecg = preferences.getString("port", null);
 
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", null);
 
-        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-        String porteda = preferences.getString("port", null);
+        //preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        //String porteda = preferences.getString("port", null);
 
         //add the necessary sources following the instructions above
+        if(porttemp != null){
+            sources.add(new Source(Integer.parseInt(porttemp), 16, (byte) 0x01, 100));
+        }
+        /*
         if(portbvp != null){
             sources.add(new Source(Integer.parseInt(portbvp), 16, (byte) 0x01, 100));
         }
         if(portecg != null){
             sources.add(new Source(Integer.parseInt(portecg), 16, (byte) 0x01, 100));
         }
-        if(porttemp != null){
-            sources.add(new Source(Integer.parseInt(porttemp), 16, (byte) 0x01, 100));
-        }
         if(porteda != null){
             sources.add(new Source(Integer.parseInt(porteda), 16, (byte) 0x01, 100));
         }
+
+         */
         //Comment this try-catch block for fNIRS
         try {
+
             bioplux.start(samplingRate, sources);
+            Log.d("TAGCITO", "TRY");
         } catch (PLUXException e) {
             e.printStackTrace();
         }
