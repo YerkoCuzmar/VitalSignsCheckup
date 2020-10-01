@@ -66,6 +66,8 @@ public class ListaCuidadores extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Agregar Cuidadores");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

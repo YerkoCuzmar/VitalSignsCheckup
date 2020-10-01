@@ -46,6 +46,8 @@ public class MisPacientesActivity extends AppCompatActivity {
         add_cuidador = (FloatingActionButton) findViewById(R.id.add_cuidadores); //agregar cuidadores
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Mis Pacientes");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

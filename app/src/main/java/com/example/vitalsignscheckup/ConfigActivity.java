@@ -53,6 +53,8 @@ public class ConfigActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Configuraciones");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
