@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
-//                startActivity(monitorStressLevelIntent);
+                startActivity(monitorStressLevelIntent);
 //                Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
