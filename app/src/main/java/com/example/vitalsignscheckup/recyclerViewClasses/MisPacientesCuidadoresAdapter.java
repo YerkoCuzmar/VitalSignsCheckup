@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +30,12 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
     private DatabaseReference mDataBase;
     FirebaseAuth mAuth;
 
+    String name;
+    String email;
+
+
+    PacienteCuidador miPacienteCuidador;
+
     public MisPacientesCuidadoresAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
@@ -49,7 +54,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
 
     @Override
     public void onBindViewHolder(MisPacientesCuidadoresViewHolder holder, int position) {
-        PacienteCuidador miPacienteCuidador = data.get(position);
+        miPacienteCuidador = data.get(position);
         //holder.ivProfile.setImageResource(miPacienteCuidador.getImage());
         holder.tvName.setText(miPacienteCuidador.getName());
         holder.tvEmail.setText(miPacienteCuidador.getEmail());
@@ -71,8 +76,8 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
                                 //Eliminar de la BD
 
                                 Log.i("Result","Success");
-                                String name = miPacienteCuidador.getName();
-                                String email = miPacienteCuidador.getEmail();
+                                name = miPacienteCuidador.getName();
+                                email = miPacienteCuidador.getEmail();
                                 Log.d("name ", name);
                                 Log.d("email ", email);
                                 String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual

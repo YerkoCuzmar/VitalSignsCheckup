@@ -41,6 +41,11 @@ public class ListaCuidadores extends AppCompatActivity {
 
     private String id_cuidador;
 
+    String name_cuidador;
+    String email_cuidador;
+    String is;
+
+
     private EditText etCuidador;
     private String cuidador = "";
     FirebaseAuth mAuth;
@@ -96,9 +101,9 @@ public class ListaCuidadores extends AppCompatActivity {
                 if (dataSnapshot.exists()){
                     String cuidador = etCuidador.getText().toString();
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
-                        String name_cuidador = ds.child("name").getValue().toString();
-                        String email_cuidador = ds.child("email").getValue().toString();
-                        String is = ds.child("paciente").getValue().toString();
+                        name_cuidador = ds.child("name").getValue().toString();
+                        email_cuidador = ds.child("email").getValue().toString();
+                        is = ds.child("paciente").getValue().toString();
 
                         Iterable<DataSnapshot> list_ids = dataSnapshot.getChildren();  //lista con los ids de los usuarios
                         if (email_cuidador.equals(cuidador) && is.equals("false")){
