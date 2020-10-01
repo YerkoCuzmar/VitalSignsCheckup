@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,18 +30,6 @@ public class MisPacientesAdapter extends RecyclerView.Adapter<MisPacientesAdapte
     private DatabaseReference mDataBase;
     FirebaseAuth mAuth;
 
-
-    public MisPacientesAdapter(int isPaciente) {
-        this.data = new ArrayList<>();
-        this.isPaciente = isPaciente;
-        if(isPaciente == 1){
-            dialogMsg = "Eliminar de mis cuidadores";
-        }else{
-            dialogMsg = "Eliminar de mis pacientes";
-        }
-    }
-
-
     public MisPacientesAdapter(ArrayList<PacienteCuidador> data, int isPaciente) {
         this.data = data;
         this.isPaciente = isPaciente;
@@ -45,20 +37,6 @@ public class MisPacientesAdapter extends RecyclerView.Adapter<MisPacientesAdapte
             dialogMsg = "Eliminar de mis cuidadores";
         }else{
             dialogMsg = "Eliminar de mis pacientes";
-        }
-    }
-
-    public void addPaciente(PacienteCuidador paciente){
-        if(!data.contains(paciente)){
-            data.add(paciente);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void removePaciente(PacienteCuidador paciente){
-        if (data.contains(paciente)){
-            data.remove(paciente);
-            notifyDataSetChanged();
         }
     }
 
@@ -87,51 +65,47 @@ public class MisPacientesAdapter extends RecyclerView.Adapter<MisPacientesAdapte
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Log.i("Result","Success");
+
+                                //Eliminar de la BD
+
+                                Log.i("Result","Success");
+                                String name = miPacienteCuidador.getName();
+                                String email = miPacienteCuidador.getEmail();
+                                Log.d("name ", name);
+                                Log.d("email ", email);
                                 String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
-                                mDataBase.child("Usuarios")
-                                        .child(id).child("pacientes")
-                                        .child(data.get(position).getId()).removeValue();
+                                mDataBase.child("Usuarios").child(id).child("pacientes").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Log.d("algo ", name);
+                                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                            Log.d("nada", name);
+                                            //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
 
+                                            //data.add(new PacienteCuidador(ds.child("Correo").getValue().toString(),
+                                            //        ds.child("Nombre").getValue().toString(),
+                                            //        R.drawable.ic_awesome_user_circle));
+                                            Log.d("valor: ", ds.child("name").getValue().toString());
+                                            if (ds.child("name").getValue().toString().equals(name)){
+                                                Log.d("igual1", name);
+                                                if(ds.child("email").getValue().toString().equals(email)){
+                                                    Log.d("igual2", name);
 
-//                                Log.i("Result","Success");
-//
-//                                //Eliminar de la BD
-//
-//                                Log.i("Result","Success");
-//                                String name = miPacienteCuidador.getName();
-//                                String email = miPacienteCuidador.getEmail();
-//                                Log.d("name ", name);
-//                                Log.d("email ", email);
-//                                String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
-//                                mDataBase.child("Usuarios").child(id).child("pacientes").addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                        Log.d("algo ", name);
-//                                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                                            Log.d("nada", name);
-//                                            //Iterable<DataSnapshot> list_ids = ds.child("cuidadores").child("correo").getChildren();
-//
-//                                            //data.add(new PacienteCuidador(ds.child("Correo").getValue().toString(),
-//                                            //        ds.child("Nombre").getValue().toString(),
-//                                            //        R.drawable.ic_awesome_user_circle));
-//                                            Log.d("valor: ", ds.child("Nombre").getValue().toString());
-//                                            if (ds.child("Nombre").getValue().toString().equals(name)){
-//                                                Log.d("igual1", name);
-//                                                if(ds.child("Correo").getValue().toString().equals(email)){
-//                                                    Log.d("igual2", name);
-//                                                    ds.getRef().removeValue();
-//                                                    data.remove(miPacienteCuidador);
-//                                                    notifyDataSetChanged();
-//                                                    //notifyItemRemoved(position);
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                    }
-//                                });
+                                                    data.remove(miPacienteCuidador);
+                                                    notifyDataSetChanged();
+                                                    ds.getRef().removeValue();
+
+                                                    //notifyItemRemoved(position);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

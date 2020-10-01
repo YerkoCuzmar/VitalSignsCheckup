@@ -89,7 +89,7 @@ public class ListaCuidadores extends AppCompatActivity {
         etCuidador = (EditText) findViewById(R.id.search_users);
     }
 
-    private boolean addCuidadorToPaciente(){
+    private void addCuidadorToPaciente(){
         mDataBase.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -103,8 +103,8 @@ public class ListaCuidadores extends AppCompatActivity {
                         Iterable<DataSnapshot> list_ids = dataSnapshot.getChildren();  //lista con los ids de los usuarios
                         if (email_cuidador.equals(cuidador) && is.equals("false")){
                             Map<String, Object> map = new HashMap<>();
-                            map.put("Nombre", name_cuidador);
-                            map.put("Correo", email_cuidador);
+                            map.put("name", name_cuidador);
+                            map.put("email", email_cuidador);
                             String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario actual
 
 
@@ -119,18 +119,19 @@ public class ListaCuidadores extends AppCompatActivity {
                             }
                             mDataBase.child("Usuarios").child(id).child("cuidadores").child(id_cuidador).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-
                                 public void onComplete(@NonNull Task<Void> task2) {
                                     Log.d("Entrando", "entro a mdabatase");
                                     if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
+
                                         startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
                                         finish();
+                                        agregado = true;
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                         " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
-                                        agregado = true;
                                     }
                                     else{
+
                                         startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
                                         finish();
                                         Toast.makeText(ListaCuidadores.this, "No se ha podido agregar " + name_cuidador +
@@ -154,6 +155,5 @@ public class ListaCuidadores extends AppCompatActivity {
                 finish();
             }
         });
-        return agregado;
     }
 }
