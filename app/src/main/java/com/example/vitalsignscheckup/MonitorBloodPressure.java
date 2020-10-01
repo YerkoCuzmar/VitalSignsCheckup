@@ -29,9 +29,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
     private ServiceBloodPressure mService;              //servicio
     private MonitorBloodPressureViewModel mViewModel;   //viewModel
     private HistoryAdapter historyAdapter;
-
-    TextView hist1;
-    TextView hist2;
+    RecyclerView historyRV;
 
     TextView textViewBp;
     TextView textViewBp2;
@@ -60,14 +58,13 @@ public class MonitorBloodPressure extends AppCompatActivity {
             }
         });
 
-        RecyclerView historyRV = (RecyclerView) findViewById(R.id.historyRecyclerView);
-
         historyAdapter = new HistoryAdapter();
+        historyRV = (RecyclerView) findViewById(R.id.BPHistoryRecyclerView);
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
-        textViewBp = (TextView)findViewById(R.id.bp_medicion_mmhg);
-        textViewBp2 = (TextView)findViewById(R.id.bp_medicion_mmhg2);
+        textViewBp = (TextView) findViewById(R.id.bp_medicion_mmhg);
+        textViewBp2 = (TextView) findViewById(R.id.bp_medicion_mmhg2);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorBloodPressureViewModel.class);
 
@@ -81,6 +78,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
                     mViewModel.setIsBPUpdating(true);
+                    mViewModel.setNewBP(false);
                 }
                 else {
                     //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
@@ -102,15 +100,18 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 mViewModel.setIsBPUpdating(false);
                             }
                             if(mService.getNewBp()){
+                                Log.d(TAG, "run: " + mService.getNewBp());
                                 String bp = String.valueOf(mService.getBp());
                                 String bp2 = String.valueOf(mService.getBp2());
                                 textViewBp.setText(bp);
-                                textViewBp.setText(bp2);
+                                textViewBp2.setText(bp2);
                                 Mediciones medicion = new Mediciones(mService.getBp(), mService.getBp2(),2 );
                                 historyAdapter.addNewHistory(medicion);
-                                handler.postDelayed(this, 100);
                                 mService.setNewBp(false);
+
                             }
+
+                            handler.postDelayed(this, 1000);
                         }
                         else {
                             handler.removeCallbacks(this);

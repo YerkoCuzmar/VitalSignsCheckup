@@ -50,9 +50,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         holder.date.setText(data.getDate());
         holder.time.setText(data.getTime());
         if(data.getType() == 2){
-            mRead = String.format("%s/%s", df.format(data.getMedicion()), df.format(data.getMedicion2()));
+            mRead = (int) data.getMedicion() + "/" + (int) data.getMedicion2();
         }
-        mRead = df.format(data.getMedicion());
+        else {
+            mRead = df.format(data.getMedicion());
+        }
         holder.read.setText(mRead);
     }
 

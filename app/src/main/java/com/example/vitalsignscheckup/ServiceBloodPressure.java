@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -133,17 +132,17 @@ public class ServiceBloodPressure extends Service {
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
 
-        System.out.println("CANTIDAD DE PULSACIONES ECG " + pulsaciones);
+//        System.out.println("CANTIDAD DE PULSACIONES ECG " + pulsaciones);
         m = data.size();
-        System.out.println("valor de m es " + m);
+//        System.out.println("valor de m es " + m);
 
-        System.out.println("CANTIDAD DE BVP ES " + pulsaciones_);
+//        System.out.println("CANTIDAD DE BVP ES " + pulsaciones_);
         m2 = data2.size();
-        System.out.println("valor de m2 es " + m2);
+//        System.out.println("valor de m2 es " + m2);
 
-        System.out.println("at0 " + arrayTiempos[0]);
-        System.out.println("at1 " + arrayTiempos[1]);
-        System.out.println("at2 " + arrayTiempos[2]);
+//        System.out.println("at0 " + arrayTiempos[0]);
+//        System.out.println("at1 " + arrayTiempos[1]);
+//        System.out.println("at2 " + arrayTiempos[2]);
     }
 
     //como si estuviese corriendon una tarea largamente
@@ -386,9 +385,9 @@ public class ServiceBloodPressure extends Service {
     public void calcularHRantiguo() {
 
 
-        Log.d("data size", String.valueOf(data.size()));
-
-        Log.d("collect ", String.valueOf(COLLECT_DATA));
+//        Log.d("data size", String.valueOf(data.size()));
+//
+//        Log.d("collect ", String.valueOf(COLLECT_DATA));
 
 
         resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, DATA_SIZE);
@@ -512,6 +511,7 @@ public class ServiceBloodPressure extends Service {
 
             }
         }
+        newBp = true;
         count++;
 
         value_i = count* Integer.valueOf((int) sample_rate);
