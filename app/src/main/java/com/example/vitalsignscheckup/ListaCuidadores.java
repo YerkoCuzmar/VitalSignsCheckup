@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.recyclerViewClasses.MisCuidadoresAdapter;
-import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -124,19 +123,19 @@ public class ListaCuidadores extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task2) {
                                     Log.d("Entrando", "entro a mdabatase");
                                     if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
+                                        startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
+                                        finish();
                                         Toast.makeText(ListaCuidadores.this, "Has agregado a " + name_cuidador +
                                                         " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
-                                        //startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
-                                        //finish();
                                         agregado = true;
                                     }
                                     else{
+                                        startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
+                                        finish();
                                         Toast.makeText(ListaCuidadores.this, "No se ha podido agregar " + name_cuidador +
                                                         " a tu lista de cuidadores",
                                                 Toast.LENGTH_SHORT).show();
-                                        //startActivity(new Intent(ListaCuidadores.this, MisCuidadoresActivity.class));
-                                        //finish();
                                     }
                                 }
                             });

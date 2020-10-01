@@ -135,11 +135,11 @@ public class ListaPacientes extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
+                                startActivity(new Intent(ListaPacientes.this, MisPacientesActivity.class));
+                                finish();
                                 Toast.makeText(ListaPacientes.this, "Has agregado a " + name_cuidador +
                                                 " a tu lista de pacientes",
                                         Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ListaPacientes.this, MisPacientesActivity.class));
-                                finish();
                                 agregado = true;
 
                             }
