@@ -14,10 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.MisCuidadoresActivity;
-import com.example.vitalsignscheckup.R;
 import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesAdapter;
-import com.example.vitalsignscheckup.recyclerViewClasses.MisPacientesCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.PacienteCuidador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
