@@ -52,7 +52,8 @@ public class MonitorTemperature extends AppCompatActivity {
         setContentView(R.layout.activity_monitor_temperature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("Temperatura Actual");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

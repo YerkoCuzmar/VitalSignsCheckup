@@ -1,6 +1,8 @@
 package com.example.vitalsignscheckup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.View;
@@ -50,6 +52,8 @@ public class ActivityRegister extends AppCompatActivity {
     private String pass = "";
     private boolean isPaciente = false;
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor spEditor;
 
     //firebase
 
@@ -138,19 +142,26 @@ public class ActivityRegister extends AppCompatActivity {
                     Map<String, Object> map = new HashMap<>();
                     map.put("name", name);
                     map.put("email", email);
-                    map.put("password", pass);
+                    //map.put("password", pass);
                     map.put("mobile", mobile);
                     map.put("paciente", isPaciente);
+
+                    preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    spEditor = preferences.edit();
+                    spEditor.putString("email", email);
+                    spEditor.putString("name", name);
+                    spEditor.apply();
 
                     String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
 
                     if (isPaciente){
-                        mDataBase.child("Pacientes").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDataBase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
                                     startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    //Toast.makeText(ActivityRegister.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{
@@ -161,12 +172,13 @@ public class ActivityRegister extends AppCompatActivity {
                         });
                     }
                     else{
-                        mDataBase.child("Cuidadores").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDataBase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task2) {
                                 if(task2.isSuccessful()){ //tarea ahora es crear datos en la bd
-                                    startActivity(new Intent(ActivityRegister.this, MainActivity2.class));
+                                    startActivity(new Intent(ActivityRegister.this, MainActivityCuidadores.class));
+                                    //Toast.makeText(ActivityRegister.this, "Has entrado como cuidador", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                                 else{

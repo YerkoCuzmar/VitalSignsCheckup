@@ -53,6 +53,8 @@ public class ConfigActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Configuraciones");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +67,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         portBVP = (EditText) findViewById(R.id.text_portBVP);
         portECG = (EditText) findViewById(R.id.text_portECG);
-        portTemp = findViewById(R.id.text_portTemp);
+        portTemp = (EditText) findViewById(R.id.text_portTemp);
 
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
@@ -140,12 +142,12 @@ public class ConfigActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portECG.getText().toString());
+        spEditor.putString("port", portBVP.getText().toString());
         spEditor.apply();
 
         preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
-        spEditor.putString("port", portBVP.getText().toString());
+        spEditor.putString("port", portECG.getText().toString());
         spEditor.apply();
 
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
@@ -156,41 +158,5 @@ public class ConfigActivity extends AppCompatActivity {
         Intent intent = new Intent(ConfigActivity.this, ScanActivity.class);
         System.out.println("Scan Fin");
         startActivity(intent);
-
-    }
-
-    public static class ActivityLogin extends AppCompatActivity {
-
-        TextInputLayout tiName, tiMobile, tiEmail, tiPass;
-        EditText etName, etMobile, etEmail, etPass;
-        Button btnRegister;
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
-            instanceElements();
-
-            btnRegister.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                    Intent mainActivityIntent = new Intent(v.getContext(), MainActivity.class);
-    //                startActivity(monitorTemperatureIntent);
-                    Toast.makeText(ActivityLogin.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-        }
-
-        private void instanceElements(){
-            etName = (EditText)findViewById(R.id.editTextName);
-            etMobile = (EditText)findViewById(R.id.editTextMobile);
-            etEmail = (EditText)findViewById(R.id.editTextEmail);
-            etPass = (EditText)findViewById(R.id.editTextPassword);
-            btnRegister = (Button)findViewById(R.id.cirLoginButton);
-        }
-
     }
 }

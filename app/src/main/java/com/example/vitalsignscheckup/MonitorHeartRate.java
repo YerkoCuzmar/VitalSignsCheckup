@@ -87,6 +87,8 @@ public class MonitorHeartRate extends AppCompatActivity  {
         setContentView(R.layout.activity_monitor_heart_rate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Ritmo Cardíaco Actual");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
         //si no está no sé cuál es la diferencia

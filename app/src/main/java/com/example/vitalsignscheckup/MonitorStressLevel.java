@@ -32,7 +32,8 @@ public class MonitorStressLevel extends AppCompatActivity {
         setContentView(R.layout.activity_monitor_stress_level);
         Toolbar toolbar = (Toolbar) findViewById(R.id.stressToolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("Estrés Actual");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

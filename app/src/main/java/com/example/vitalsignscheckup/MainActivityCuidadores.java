@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.TextView;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.Objects;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivityCuidadores extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -47,14 +47,10 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(MainActivity2.this, "Inicio", Toast.LENGTH_SHORT).show();
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-
+        setContentView(R.layout.activity_main_cuidadores);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -71,12 +67,17 @@ public class MainActivity2 extends AppCompatActivity {
         navUsername.setText(name);
         navEmail.setText(email);
 
+        //mTextViewName = (TextView) findViewById(R.id.get_nombre);
+        //mTextViewEmail = (TextView) findViewById(R.id.get_correo);
+
         //firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_perfil, R.id.nav_mi_cuidador, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
+                R.id.nav_perfil, R.id.nav_mis_pacientes, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
                 .setDrawerLayout(drawer)
                 .build();
         //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -93,17 +94,19 @@ public class MainActivity2 extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_perfil) {
-                } else if (id == R.id.nav_mi_cuidador) {
-                    Intent cuidadorIntent = new Intent(getApplicationContext(), MisCuidadoresActivity.class);
+                } else if (id == R.id.nav_mis_pacientes) {
+                    Intent cuidadorIntent = new Intent(getApplicationContext(), MisPacientesActivity.class);
                     startActivity(cuidadorIntent);
-                } else if (id == R.id.nav_configuracion) {
-                    Toast.makeText(MainActivity2.this, "Configuración", Toast.LENGTH_SHORT).show();
-
+                }
+                /*
+                else if (id == R.id.nav_configuracion) {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
-                } else if (id == R.id.nav_cerrar_sesion) {
+
+                }*/
+                else if (id == R.id.nav_cerrar_sesion) {
                     mAuth.signOut();
-                    startActivity(new Intent(MainActivity2.this, ActivityLogin.class));
+                    startActivity(new Intent(MainActivityCuidadores.this, ActivityLogin.class));
                     finish(); //para no volver atras cuando se cierre sesion
                 }
 
@@ -113,12 +116,6 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         //getUserInfo();  //Para actualizar los datos del usuario en la barra lateral izquierda
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(MainActivity2.this, "InicioResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -136,16 +133,30 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_cuidadores);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
 
-    /*
-    private void getUserInfo(){
+    /*private void getUserInfo(){
+        String id = mAuth.getCurrentUser().getUid();
+        mDatabase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+        //cambiar "Users" por Pacientes o Familiares, depende
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String name = dataSnapshot.child("name").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
 
-        mTextViewName.setText(name);
-        mTextViewEmail.setText(email);
-    }
-     */
+                    mTextViewName.setText(name);
+                    mTextViewEmail.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 }

@@ -16,7 +16,7 @@ package="com.example.vitalsignscheckup">
     <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 <application
-    android:icon="@mipmap/ic_launcher"
+    android:icon="@drawable/vsc_logo"
     android:label="@string/app_name"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
@@ -39,8 +39,12 @@ package="com.example.vitalsignscheckup">
     <activity android:name=".MonitorHeartRate" />
     <activity android:name=".ConfigActivity" />
     <activity android:name=".MisCuidadoresActivity" />
+    <activity android:name=".MisPacientesActivity" />
+    <activity android:name=".ListaCuidadores" />
+    <activity android:name=".ListaPacientes" />
     <activity android:name=".MainActivity2"
         android:theme="@style/MaterialCardTheme" />
+    <activity android:name=".MainActivityCuidadores" />
     <activity android:name=".MonitorTemperature" />
     <activity android:name=".ActivityRegister"
         android:theme="@style/AppTheme.NoActionBar"/>

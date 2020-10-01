@@ -47,6 +47,8 @@ public class MonitorBloodPressure extends AppCompatActivity {
         setContentView(R.layout.activity_monitor_blood_pressure);
         Toolbar toolbar = (Toolbar) findViewById(R.id.bloodPressureToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Presión Actual");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

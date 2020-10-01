@@ -2,6 +2,7 @@ package com.example.vitalsignscheckup.recyclerViewClasses;
 
 public class PacienteCuidador {
 
+    private String id;
     private String name;
     private String email;
     private int image;
@@ -15,6 +16,17 @@ public class PacienteCuidador {
         this.email = email;
         this.image = image;
     }
+
+    public PacienteCuidador(String id, String name, String email, int image) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.image = image;
+    }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 
     public String getName() {
         return name;
