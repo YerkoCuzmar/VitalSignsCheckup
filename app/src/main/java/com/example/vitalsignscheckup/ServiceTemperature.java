@@ -79,8 +79,8 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-//                    calcularTempSensores();
-                    calcularTempantiguo();
+                    calcularTempSensores();
+//                    calcularTempantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -157,12 +157,7 @@ public class ServiceTemperature extends Service {
 
     public void calcularTempSensores() {
 
-        while (data.size() < DATA_SIZE) {
-
-        }
-        COLLECT_DATA = false;
-
-        temp = transformDataToSingleTemp(data);
+        temp = transformarVaC(singleData);
         new_temp = true;
 
 
