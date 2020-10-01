@@ -46,6 +46,8 @@ public class MisCuidadoresActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Mis Cuidadores");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
 

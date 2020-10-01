@@ -20,24 +20,55 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="Buscar..."
-        android:id="@+id/search_users"/>
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:background="@color/colorCard"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/agregar_cuidador"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="agregar cuidador" />
+        <TextView
+            android:id="@+id/tvAddOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000D00"
+            android:textSize="20dp"
+            android:text="Ingrese el mail" />
+
+        <EditText
+            android:id="@+id/search_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:hint="Buscar..." />
+
+        <Button
+            android:id="@+id/agregar_cuidador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="agregar cuidador" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCuidadores"
         android:layout_width="match_parent"
-        android:layout_height="531dp"
-        android:background="@color/colorBackground" >
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@color/colorBackground">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -97,10 +97,14 @@ public class MainActivityCuidadores extends AppCompatActivity {
                 } else if (id == R.id.nav_mis_pacientes) {
                     Intent cuidadorIntent = new Intent(getApplicationContext(), MisPacientesActivity.class);
                     startActivity(cuidadorIntent);
-                } else if (id == R.id.nav_configuracion) {
+                }
+                /*
+                else if (id == R.id.nav_configuracion) {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
-                } else if (id == R.id.nav_cerrar_sesion) {
+
+                }*/
+                else if (id == R.id.nav_cerrar_sesion) {
                     mAuth.signOut();
                     startActivity(new Intent(MainActivityCuidadores.this, ActivityLogin.class));
                     finish(); //para no volver atras cuando se cierre sesion

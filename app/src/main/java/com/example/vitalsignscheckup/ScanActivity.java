@@ -46,6 +46,13 @@ public class ScanActivity extends AppCompatActivity implements AdapterView.OnIte
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.scan_activity_title);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         deviceScan = new DeviceScan(this);
 
