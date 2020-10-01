@@ -128,9 +128,9 @@ public class MonitorTemperature extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference("Usuarios");  //nodo principal de la base de datos
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
-        reference.child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
+        reference.child("Usuarios").child(id).child("mediciones").child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 System.out.println(dataSnapshot);
