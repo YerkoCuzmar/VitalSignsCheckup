@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -109,39 +109,39 @@ public class ServiceTemperature extends Service {
     public Boolean getNew_temp(){ return new_temp; }
 
     public class TempDataReciever extends BroadcastReceiver {
-        int[] puertos;
+        ArrayList<Integer> puertos;
         int portbvp, portecg, porttemp, porteda;
         int postemp;
 
         public TempDataReciever(){
-            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
+            puertos = new ArrayList<>();
+//            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
             SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
             if(preferences != null){
-                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[0] = portbvp;
+                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
+                puertos.add(portbvp);
             }
 
             preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
             if(preferences != null){
                 portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[1] = portecg;
+                puertos.add(portecg);
             }
 
             preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
             if(preferences != null){
                 porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[2] = porttemp;
+                puertos.add(porttemp);
             }
 
             preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
             if(preferences != null){
                 porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[3] = porteda;
+                puertos.add(porteda);
             }
 
-            Arrays.sort(puertos);
-            String sPuertos = Arrays.toString(puertos);
-            postemp = sPuertos.indexOf(String.valueOf(porttemp));
+            Collections.sort(puertos);
+            postemp = puertos.indexOf(porttemp);
         }
 
         @Override
