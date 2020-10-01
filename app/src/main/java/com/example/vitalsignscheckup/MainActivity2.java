@@ -1,9 +1,12 @@
 package com.example.vitalsignscheckup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +43,8 @@ public class MainActivity2 extends AppCompatActivity {
     private TextView mTextViewName;
     private TextView mTextViewEmail;
 
+    String name, email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Toast.makeText(MainActivity2.this, "Inicio", Toast.LENGTH_SHORT).show();
@@ -56,14 +61,19 @@ public class MainActivity2 extends AppCompatActivity {
         // menu should be considered as top level destinations.
 
         //get nombre y correo
-        //mTextViewName = (TextView) findViewById(R.id.get_nombre);
-        //mTextViewEmail = (TextView) findViewById(R.id.get_correo);
+        SharedPreferences preferences = this.getSharedPreferences("user", Context.MODE_PRIVATE);
+        name = preferences.getString("name", null);
+        email = preferences.getString("email", null);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.get_nombre);
+        TextView navEmail = (TextView) headerView.findViewById(R.id.get_correo);
+        navUsername.setText(name);
+        navEmail.setText(email);
 
         //firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_perfil, R.id.nav_mi_cuidador, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
@@ -131,25 +141,11 @@ public class MainActivity2 extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    /*private void getUserInfo(){
-        String id = mAuth.getCurrentUser().getUid();
-        mDatabase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-        //cambiar "Users" por Pacientes o Familiares, depende
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String name = dataSnapshot.child("name").getValue().toString();
-                    String email = dataSnapshot.child("email").getValue().toString();
+    /*
+    private void getUserInfo(){
 
-                    mTextViewName.setText(name);
-                    mTextViewEmail.setText(email);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
+        mTextViewName.setText(name);
+        mTextViewEmail.setText(email);
+    }
+     */
 }

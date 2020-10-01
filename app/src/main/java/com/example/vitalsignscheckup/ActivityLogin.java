@@ -1,7 +1,9 @@
 package com.example.vitalsignscheckup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,9 @@ public class ActivityLogin extends AppCompatActivity {
     //datos que se llenan
     private String email = "";
     private String pass = "";
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor spEditor;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
@@ -144,6 +149,13 @@ public class ActivityLogin extends AppCompatActivity {
                                 //Log.d("id ", ds.child(""))
                                 if (ds.getKey().toString().equals(id_user)){
                                     String is = ds.child("paciente").getValue().toString();
+
+                                    preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                    spEditor = preferences.edit();
+                                    spEditor.putString("email", email);
+                                    spEditor.putString("name", ds.child("name").getValue().toString());
+                                    spEditor.apply();
+
                                     if (is.equals("true")){
                                         //Toast.makeText(ActivityLogin.this, "Has entrado como paciente", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(ActivityLogin.this, MainActivity2.class));
