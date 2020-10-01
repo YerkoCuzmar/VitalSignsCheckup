@@ -152,8 +152,8 @@ public class ServiceBloodPressure extends Service {
 
                 @Override
                 public void run() {
-//                    calcularHRSensores();
-                    calcularHRantiguo();
+                    calcularBPSensores();
+//                    calcularHRantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -186,50 +186,31 @@ public class ServiceBloodPressure extends Service {
     public void setNewBp(Boolean bp){ this.newBp = bp; }
 
     public class BPDataReciever extends BroadcastReceiver {
-        int[] puertos;
-        int portbvp, portecg, porttemp, porteda;
+        int portbvp, portecg;
         int posbvp, posecg;
 
         public BPDataReciever(){
-            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
+
             SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[0] = portbvp;
-            }
+            portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
             preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[1] = portecg;
-            }
+            portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
-            preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[2] = porttemp;
+            if(portbvp != 9){
+                posbvp = portbvp - 1;
             }
-
-            preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[3] = porteda;
+            if(portecg != 9){
+                posecg = portecg - 1;
             }
-
-            Arrays.sort(puertos);
-            String sPuertos = Arrays.toString(puertos);
-            posbvp = sPuertos.indexOf(String.valueOf(portbvp));
-            posecg = sPuertos.indexOf(String.valueOf(portecg));
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(COLLECT_DATA){
-                double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
-                double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
-                data.add(bvp_value);
-                data.add(ecg_value);
-            }
+            double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
+            double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
+            data.add(bvp_value);
+            data.add(ecg_value);
         }
     }
 
