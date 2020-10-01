@@ -108,8 +108,7 @@ public class ServiceTemperature extends Service {
     public Boolean getNew_temp(){ return new_temp; }
 
     public class TempDataReciever extends BroadcastReceiver {
-        ArrayList<Integer> puertos;
-        int portbvp, portecg, porttemp, porteda;
+        int porttemp;
         int postemp;
 
         public TempDataReciever(){
@@ -120,12 +119,10 @@ public class ServiceTemperature extends Service {
             if(porttemp != 9){
                 postemp = porttemp - 1;
             }
-            postemp = 0;
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("TAGCITO", String.valueOf(intent.getExtras().getIntArray("analogData")));
             double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
 //                data.add(temp_value);
             singleData = temp_value;
