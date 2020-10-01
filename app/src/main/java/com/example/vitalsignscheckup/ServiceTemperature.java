@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,31 +116,13 @@ public class ServiceTemperature extends Service {
             puertos = new ArrayList<>();
 //            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
             SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
-                puertos.add(portbvp);
-            }
-
-            preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos.add(portecg);
-            }
 
             preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos.add(porttemp);
-            }
+            porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
-            preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos.add(porteda);
+            if(porttemp != 9){
+                postemp = porttemp - 1;
             }
-
-            Collections.sort(puertos);
-            postemp = puertos.indexOf(porttemp);
         }
 
         @Override
