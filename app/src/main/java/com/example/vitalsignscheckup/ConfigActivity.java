@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 import info.plux.api.DeviceScan;
 
@@ -28,6 +25,7 @@ public class ConfigActivity extends AppCompatActivity {
     EditText portBVP;
     EditText portECG;
     EditText portTemp;
+    EditText portEDA;
     private DeviceScan deviceScan;
 
     // Stops scanning after 10 seconds.
@@ -68,6 +66,7 @@ public class ConfigActivity extends AppCompatActivity {
         portBVP = (EditText) findViewById(R.id.text_portBVP);
         portECG = (EditText) findViewById(R.id.text_portECG);
         portTemp = (EditText) findViewById(R.id.text_portTemp);
+        portEDA = (EditText) findViewById(R.id.text_portEDA);
 
 
         preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
@@ -81,6 +80,10 @@ public class ConfigActivity extends AppCompatActivity {
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", "");
         portTemp.setText(porttemp);
+
+        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", "");
+        portEDA.setText(porteda);
     }
 
     @Override
@@ -151,6 +154,11 @@ public class ConfigActivity extends AppCompatActivity {
         spEditor.apply();
 
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+        spEditor = preferences.edit();
+        spEditor.putString("port", portTemp.getText().toString());
+        spEditor.apply();
+
+        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
         spEditor = preferences.edit();
         spEditor.putString("port", portTemp.getText().toString());
         spEditor.apply();

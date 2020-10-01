@@ -554,6 +554,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", null);
 
+        preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", null);
 
         //add the necessary sources following the instructions above
         if(portbvp != null){
@@ -565,7 +567,9 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         if(porttemp != null){
             sources.add(new Source(Integer.parseInt(porttemp), 16, (byte) 0x01, 100));
         }
-
+        if(porteda != null){
+            sources.add(new Source(Integer.parseInt(porteda), 16, (byte) 0x01, 100));
+        }
         //Comment this try-catch block for fNIRS
         try {
             bioplux.start(samplingRate, sources);

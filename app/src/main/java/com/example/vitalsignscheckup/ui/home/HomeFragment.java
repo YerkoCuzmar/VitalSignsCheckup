@@ -92,6 +92,10 @@ public class HomeFragment extends Fragment {
         String porttemp = preferences.getString("port", null);
         System.out.println("puertoTEMP: " + porttemp);
 
+        preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", null);
+        System.out.println("puertoTEMP: " + porttemp);
+
         return root;
     }
 
@@ -101,9 +105,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", null);
-        String interbvp = preferences.getString("interval", null);
-        System.out.println("puertoBVP: " + portbvp);
-        System.out.println("interBVP: " + interbvp);
+
 
         preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", null);
