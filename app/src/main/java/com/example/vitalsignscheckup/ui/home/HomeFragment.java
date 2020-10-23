@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.vitalsignscheckup.MonitorBloodPressure;
 import com.example.vitalsignscheckup.MonitorHeartRate;
 import com.example.vitalsignscheckup.MonitorStressLevel;
 import com.example.vitalsignscheckup.MonitorTemperature;
@@ -66,8 +65,8 @@ public class HomeFragment extends Fragment {
         //BLOOD PRESSURE
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
-                startActivity(monitorBloodPressureIntent);
+//                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+//                startActivity(monitorBloodPressureIntent);
             }
         });
 
@@ -75,7 +74,7 @@ public class HomeFragment extends Fragment {
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
-//                startActivity(monitorStressLevelIntent);
+                startActivity(monitorStressLevelIntent);
 //                Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });

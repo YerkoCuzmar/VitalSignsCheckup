@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -83,7 +82,7 @@ public class MonitorHeartRate extends AppCompatActivity  {
 */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(MonitorHeartRate.this, "monitor_heartRate", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MonitorHeartRate.this, "monitor_heartRate", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_monitor_heart_rate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
         setSupportActionBar(toolbar);
@@ -150,7 +149,7 @@ public class MonitorHeartRate extends AppCompatActivity  {
                             }
                             String progress = String.valueOf(mService.getPpm());
                             ppmText.setText(progress);
-                            enviarABD(mService.getPpm());
+//                            enviarABD(mService.getPpm());
                             // TODO: AGREGAR AL HISTORIAL
                             handler.postDelayed(this, 100);
                         }

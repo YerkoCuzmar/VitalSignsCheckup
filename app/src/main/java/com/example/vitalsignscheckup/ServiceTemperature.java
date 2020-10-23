@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -109,48 +108,25 @@ public class ServiceTemperature extends Service {
     public Boolean getNew_temp(){ return new_temp; }
 
     public class TempDataReciever extends BroadcastReceiver {
-        int[] puertos;
-        int portbvp, portecg, porttemp, porteda;
+        int porttemp;
         int postemp;
 
         public TempDataReciever(){
-            puertos = new int[]{9, 9, 9, 9}; //puertos van del 1-4, 9 no altera el orden del sort
-            SharedPreferences preferences = getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portbvp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[0] = portbvp;
-            }
 
-            preferences = getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                portecg = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[1] = portecg;
-            }
+            SharedPreferences preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+            porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "9")));
 
-            preferences = getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porttemp = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[2] = porttemp;
+            if(porttemp != 9){
+                postemp = porttemp - 1;
             }
-
-            preferences = getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-            if(preferences != null){
-                porteda = Integer.parseInt(Objects.requireNonNull(preferences.getString("port", "0")));
-                puertos[3] = porteda;
-            }
-
-            Arrays.sort(puertos);
-            String sPuertos = Arrays.toString(puertos);
-            postemp = sPuertos.indexOf(String.valueOf(porttemp));
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(COLLECT_DATA){
-                double temp_value = intent.getExtras().getIntArray("analogData")[0];
+            double temp_value = intent.getExtras().getIntArray("analogData")[postemp];
 //                data.add(temp_value);
-                singleData = temp_value;
-            }
+            singleData = temp_value;
+
         }
     }
 

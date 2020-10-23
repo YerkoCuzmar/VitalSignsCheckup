@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(MainActivity.this, "INICIO", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "INICIO", Toast.LENGTH_SHORT).show();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
                 startActivity(monitorTemperatureIntent);
-                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
                 startActivity(monitorHeartRateIntent);
-                Toast.makeText(MainActivity.this, "heartRate", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "heartRate", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
                 startActivity(monitorBloodPressureIntent);
-                Toast.makeText(MainActivity.this, "bloodPressure", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "bloodPressure", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
 //                startActivity(monitorStressLevelIntent);
-                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 

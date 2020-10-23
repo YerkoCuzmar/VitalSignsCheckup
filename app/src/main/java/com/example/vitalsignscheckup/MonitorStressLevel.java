@@ -30,7 +30,7 @@ public class MonitorStressLevel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_stress_level);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.stressToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.stresstoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Estrés Actual");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -42,7 +42,7 @@ public class MonitorStressLevel extends AppCompatActivity {
             }
         });
 
-        //TODO: definir stressText
+        stressText = findViewById(R.id.medida_eda);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorStressLevelViewModel.class);
 
