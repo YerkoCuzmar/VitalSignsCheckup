@@ -105,8 +105,8 @@ public class ServiceHeartRate extends Service {
 
                 @Override
                 public void run() {
-                    calcularHRSensores();
-//                    calcularHRantiguo();
+//                    calcularHRSensores();
+                    calcularHRantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
