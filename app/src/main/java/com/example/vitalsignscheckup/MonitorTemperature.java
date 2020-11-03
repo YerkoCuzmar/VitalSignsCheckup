@@ -68,7 +68,6 @@ public class MonitorTemperature extends AppCompatActivity {
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
-        //TODO: definir tempText
 
         tempText = findViewById(R.id.medida_temp);
 
@@ -137,7 +136,6 @@ public class MonitorTemperature extends AppCompatActivity {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
-                tempText.setText(df.format(medicion.getMedicion()));
                 historyAdapter.addNewHistory(medicion);
             }
 
