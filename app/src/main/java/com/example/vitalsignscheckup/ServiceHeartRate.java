@@ -247,9 +247,10 @@ public class ServiceHeartRate extends Service {
         COLLECT_DATA = false;
         int ppm_total = 0;
         for (i = value_i; i < 5*sample_rate*value_rate ; i++) {
+
             dif = dif + 1;
 
-            Log.d("Conjunto: ", String.valueOf(5*sample_rate*value_rate));
+            //Log.d("Conjunto: ", String.valueOf(5*sample_rate*value_rate));
 
             if (signalsList.get(i) == 1) {
                 if (i + 1 < signalsList.size()) {
@@ -266,7 +267,7 @@ public class ServiceHeartRate extends Service {
 
               //  ppm = (ppm + (pulsaciones2 *60/5))/2;
 
-                Log.d("Publish: ", String.valueOf(ppm));
+                //Log.d("Publish: ", String.valueOf(ppm));
 
                 //publishProgress(String.valueOf(ppm));
 
@@ -280,14 +281,14 @@ public class ServiceHeartRate extends Service {
         value_i = 5*count*sample_rate;
         value_rate = value_rate + 1;
 
-        if(5*sample_rate*value_rate >= DATA_SIZE) {
+        if(i + 1 >= data.size()) {
 
             count = 0;
             value_i = 0;
             value_rate = 1;
 //            data.clear();
             COLLECT_DATA = true;
-            Log.d("TERMINO", "a");
+            //Log.d("TERMINO", "a");
         }
     }
 
