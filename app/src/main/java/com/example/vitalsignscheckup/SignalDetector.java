@@ -1,6 +1,7 @@
 package com.example.vitalsignscheckup;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 
 public class SignalDetector {
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public HashMap<String, List> analyzeDataForSignals(List<Double> data, int lag, Double threshold, Double influence, int DATA_SIZE) {
@@ -37,7 +39,7 @@ public class SignalDetector {
 
         //Señales menores no las toma en cuenta
 
-        if (data.get(0) > 15000){
+        /*if (data.get(0) > 15000){
             for (int i = 0; i < DATA_SIZE; i ++){
 
                 VCC = 3;      // operating voltage
@@ -49,7 +51,7 @@ public class SignalDetector {
 
                 data.set(i,ECG_mV);
             }
-        }
+        }*/
 
         for (int i = 0; i < lag; i++) {
             stats.accept(data.get(i));
