@@ -36,6 +36,8 @@ public class ServiceStressLevel extends Service {
     private Handler mHandler;
     private Boolean isPaused;
 
+    private Boolean newStressLevel;
+
     int lag = 30;
     double threshold = 3.5;
     double influence = 0;
@@ -43,10 +45,10 @@ public class ServiceStressLevel extends Service {
     int pulsaciones = 0;
     int dif = 0;
     int sample_rate = 50;
-    double ppm = 0;
+    int ppm = 0;
     int pulsaciones2 = 0;
 
-    double eda_value;
+    int eda_value;
 
     int value_i = 0;
     int value_rate = 1;
@@ -96,6 +98,7 @@ public class ServiceStressLevel extends Service {
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         isPaused = true;
         br = new SLDataReciever();
+        newStressLevel = false;
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
     }
@@ -129,9 +132,13 @@ public class ServiceStressLevel extends Service {
         startPretendLongRunningTask();
     }
 
-    public double getSL(){
+    public int getSL(){
         return ppm;
     }
+
+    public void setNewStressLevel(Boolean bool){ newStressLevel = bool; }
+
+    public Boolean getNewStressLevel(){ return newStressLevel; }
 
     public class SLDataReciever extends BroadcastReceiver {
         int[] puertos;
