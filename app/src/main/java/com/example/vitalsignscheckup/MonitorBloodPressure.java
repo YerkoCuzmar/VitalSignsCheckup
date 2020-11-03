@@ -111,16 +111,14 @@ public class MonitorBloodPressure extends AppCompatActivity {
                             }
                             if(mService.getNewBp()){
                                 Log.d(TAG, "run: " + mService.getNewBp());
-                                String bp = String.valueOf(mService.getBp());
-                                String bp2 = String.valueOf(mService.getBp2());
-                                textViewBp.setText(bp);
-                                textViewBp2.setText(bp2);
-                                Mediciones medicion = new Mediciones(mService.getBp(), mService.getBp2(),4 );
+                                int bp = mService.getBp();
+                                int bp2 = mService.getBp2();
+                                textViewBp.setText(String.valueOf(bp));
+                                textViewBp2.setText(String.valueOf(bp2));
+                                Mediciones medicion = new Mediciones(bp, bp2,4 );
                                 historyAdapter.addNewHistory(medicion);
                                 mService.setNewBp(false);
-
                             }
-
                             handler.postDelayed(this, 1000);
                         }
                         else {
