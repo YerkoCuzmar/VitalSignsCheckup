@@ -299,4 +299,10 @@ public class ServiceStressLevel extends Service {
         }
     }
 
+    public double signalToEDA(double adc){
+        int n = 16;
+        int vcc = 3;
+        return ((adc/Math.pow(2, n))*vcc)/0.12;
+    }
+
 }
