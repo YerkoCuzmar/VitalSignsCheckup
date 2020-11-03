@@ -132,7 +132,6 @@ public class MonitorTemperature extends AppCompatActivity {
         reference.child("Mediciones").child(id).child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
@@ -201,13 +200,6 @@ public class MonitorTemperature extends AppCompatActivity {
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 
-    public void viewHistory(View view){
-        if(historyAdapter != null){
-            Mediciones med = new Mediciones(medicion, 1);
-            med.enviaraBD();
-            medicion++;
-        }
-    }
 
 
 }
