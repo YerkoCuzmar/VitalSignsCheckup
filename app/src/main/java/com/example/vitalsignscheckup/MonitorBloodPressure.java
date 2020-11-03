@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorBloodPressure extends AppCompatActivity {
@@ -30,6 +37,9 @@ public class MonitorBloodPressure extends AppCompatActivity {
     private MonitorBloodPressureViewModel mViewModel;   //viewModel
     private HistoryAdapter historyAdapter;
     RecyclerView historyRV;
+
+    FirebaseAuth mAuth;
+    DatabaseReference reference;
 
     TextView textViewBp;
     TextView textViewBp2;
@@ -105,7 +115,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 String bp2 = String.valueOf(mService.getBp2());
                                 textViewBp.setText(bp);
                                 textViewBp2.setText(bp2);
-                                Mediciones medicion = new Mediciones(mService.getBp(), mService.getBp2(),2 );
+                                Mediciones medicion = new Mediciones(mService.getBp(), mService.getBp2(),4 );
                                 historyAdapter.addNewHistory(medicion);
                                 mService.setNewBp(false);
 
@@ -122,6 +132,39 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 if (isUpdating){
                     handler.postDelayed(runnable, 100);
                 }
+            }
+        });
+
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child("Mediciones").child(id).child("4").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(4);
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
