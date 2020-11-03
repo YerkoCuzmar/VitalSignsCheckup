@@ -30,6 +30,8 @@ public class ServiceHeartRate extends Service {
     private Runnable runnable;
     private BroadcastReceiver br;
 
+    Boolean newPpm;
+
     int count = 0;
 
     private IBinder mBinder = new MyBinder();
@@ -94,6 +96,7 @@ public class ServiceHeartRate extends Service {
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
         isPaused = true;
         br = new HRDataReciever();
+        newPpm = false;
         IntentFilter filt = new IntentFilter("analogData");
         this.registerReceiver(br, filt);
     }
@@ -129,6 +132,10 @@ public class ServiceHeartRate extends Service {
     public int getPpm(){
         return ppm;
     }
+
+    public void setNewPpm(Boolean bool) { newPpm = bool; }
+
+    public Boolean getNewPpm(){ return newPpm; }
 
     public class HRDataReciever extends BroadcastReceiver {
         int portbvp;
@@ -204,6 +211,7 @@ public class ServiceHeartRate extends Service {
 
             if ((j % (sample_rate*5)) == 0){
                 ppm = (ppm + (pulsaciones2*60/5))/2;
+                newPpm = true;
 
                 Log.d("Publish: ", String.valueOf(ppm));
 
@@ -271,6 +279,7 @@ public class ServiceHeartRate extends Service {
 
             if ((i % (sample_rate*5)) == 0){
                 ppm = (ppm + (pulsaciones2*60/5))/2;
+                newPpm = true;
 
                 Log.d("Publish: ", String.valueOf(ppm));
 

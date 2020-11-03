@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.vitalsignscheckup.models.Mediciones;
+
 import java.text.DecimalFormat;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -31,7 +33,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
 
     TextView tv1;
     TextView tv3;
-    TextView h1, h3;
 
 //    int lag = 30;
 //    double threshold = 3.5;
@@ -95,7 +96,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
         });
 
         tv1 = (TextView) findViewById(R.id.alerta_heart);
-        tv1.setText("Mostrar Alerta");
 
         ppmText = findViewById(R.id.medida_heart);
         ppmText.setText("   --");
@@ -104,8 +104,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
         tv3.setText("  ppm");
 
 //        textView = (TextView) findViewById(R.id.medida_heart);
-        h1 = (TextView) findViewById(R.id.heart1);
-        h3 = (TextView) findViewById(R.id.heart3);
 
         ppmText = findViewById(R.id.medida_heart);
 
@@ -143,10 +141,14 @@ public class MonitorHeartRate extends AppCompatActivity  {
                             if(mViewModel.getBinder().getValue() != null){
                                 mViewModel.setIsPpmUpdating(false);
                             }
-                            String progress = String.valueOf(mService.getPpm());
-                            ppmText.setText(progress);
-//                            enviarABD(mService.getPpm());
-                            // TODO: AGREGAR AL HISTORIAL
+                            if(mService.getNewPpm()){
+                                double ppm = mService.getPpm();
+                                Mediciones medicion = new Mediciones(ppm, 2);
+                                Log.d(TAG, "run: new ppm " + ppm);
+                                ppmText.setText(String.valueOf((int)ppm));
+                                medicion.enviaraBD();
+                                mService.setNewPpm(false);
+                            }
                             handler.postDelayed(this, 100);
                         }
                         else {
