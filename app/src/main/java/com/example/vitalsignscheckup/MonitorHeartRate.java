@@ -10,16 +10,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
-
-import java.text.DecimalFormat;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorHeartRate extends AppCompatActivity  {
@@ -30,6 +37,10 @@ public class MonitorHeartRate extends AppCompatActivity  {
     private ServiceHeartRate mService;              //servicio
     private MonitorHeartRateViewModel mViewModel;   //viewModel
     private TextView ppmText;                       //medida de presión
+    private HistoryAdapter historyAdapter;
+
+    FirebaseAuth mAuth;
+    DatabaseReference reference;
 
     TextView tv1;
     TextView tv3;
@@ -48,8 +59,6 @@ public class MonitorHeartRate extends AppCompatActivity  {
 //    int value_rate = 1;
     int finalPulsaciones;
 
-
-    DecimalFormat df = new DecimalFormat("#0.000");
 
 //    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 //    Date date = new Date();
@@ -94,6 +103,12 @@ public class MonitorHeartRate extends AppCompatActivity  {
                 finish();
             }
         });
+
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.heartRateHistoryRecyclerView);
+
+        historyAdapter = new HistoryAdapter();
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         tv1 = (TextView) findViewById(R.id.alerta_heart);
 
@@ -163,7 +178,42 @@ public class MonitorHeartRate extends AppCompatActivity  {
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child("Mediciones").child(id).child("2").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(dataSnapshot);
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(2);
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
+
+
 
 
     @Override
