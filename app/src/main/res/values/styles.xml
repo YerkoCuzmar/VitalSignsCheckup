@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="background">@color/colorBackground</item>
     </style>
+    
+    <style name="sosButton" parent="parent">
+        <item name="backgroundTint">@color/colorDanger</item>
+    </style>
 
     <style name="MaterialCardTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -111,7 +115,7 @@
 
     <style name="modifiedEditText" parent="parent">
         <item name="android:textSize">@dimen/newsMoreTextSize</item>
-        <item name="android:backgroundTint">@color/primaryTextColor</item>
+        <item name="backgroundTint">@color/primaryTextColor</item>
     </style>
 
     <style name="viewParent">

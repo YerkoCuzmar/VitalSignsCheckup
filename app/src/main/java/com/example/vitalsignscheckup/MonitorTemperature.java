@@ -103,7 +103,6 @@ public class MonitorTemperature extends AppCompatActivity {
                                 mViewModel.setIsTempUpdating(false);
                             }
                             if (mService.getNew_temp()){
-
                                 String temp =  df.format(mService.getTemp());
                                 Mediciones medicion = new Mediciones(mService.getTemp(), 1);
                                 Log.d(TAG, "run: newTemp" + temp);

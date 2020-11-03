@@ -36,18 +36,12 @@ public class MonitorBloodPressure extends AppCompatActivity {
     private ServiceBloodPressure mService;              //servicio
     private MonitorBloodPressureViewModel mViewModel;   //viewModel
     private HistoryAdapter historyAdapter;
-    RecyclerView historyRV;
 
     FirebaseAuth mAuth;
     DatabaseReference reference;
 
     TextView textViewBp;
     TextView textViewBp2;
-
-//    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-//    Date date = new Date();
-//    String dateformatted = dateFormat.format(date);
-//    String histroy_log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +61,10 @@ public class MonitorBloodPressure extends AppCompatActivity {
                 finish();
             }
         });
+        
+        RecyclerView historyRV = (RecyclerView) findViewById(R.id.BPHistoryRecyclerView);
 
         historyAdapter = new HistoryAdapter();
-        historyRV = (RecyclerView) findViewById(R.id.BPHistoryRecyclerView);
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 

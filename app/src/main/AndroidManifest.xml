@@ -32,6 +32,7 @@ package="com.example.vitalsignscheckup">
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
+    <activity android:name=".CuidadorMonitorBloodPressure"/>
     <activity android:name=".CuidadorMonitorStressLevel"/>
     <activity android:name=".CuidadorMonitorHeartRate"/>
     <activity android:name=".CuidadorMonitorTemperature"/>
