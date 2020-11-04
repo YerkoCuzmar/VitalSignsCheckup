@@ -16,6 +16,7 @@ package="com.example.vitalsignscheckup">
     <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 <application
+    android:name=".App"
     android:icon="@drawable/vsc_logo"
     android:label="@string/app_name"
     android:roundIcon="@mipmap/ic_launcher_round"

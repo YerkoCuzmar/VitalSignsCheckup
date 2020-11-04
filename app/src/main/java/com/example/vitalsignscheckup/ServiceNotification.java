@@ -1,13 +1,10 @@
 package com.example.vitalsignscheckup;
 
-import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ServiceNotification extends Service {
+
+    public static final String CHANNEL_ID = "notificationServiceChannel";
 
     private IBinder mBinder = new MyBinder();
     private String id;
@@ -50,22 +49,15 @@ public class ServiceNotification extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        mAuth = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
-        id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("My notification", "My notification", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
     }
 
     @Override
     public int onStartCommand(Intent intention, int flags, int idArranque) {
-
+        mAuth = FirebaseAuth.getInstance();
+        id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
         getPacientes(id);
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override
@@ -74,6 +66,8 @@ public class ServiceNotification extends Service {
     }
 
     private void getPacientes(String id) {
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         reference.child("Usuarios").child(id).child("pacientes").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,6 +91,7 @@ public class ServiceNotification extends Service {
         for(i = 0; i < nPacientes; i++) {
 
             final int finalI = i;
+            reference = FirebaseDatabase.getInstance().getReference();
             reference.child("Notificaciones").child(pacientes.get(i)).child(String.valueOf(key)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -132,6 +127,7 @@ public class ServiceNotification extends Service {
     }
 
     private void getPacientesName(String id){
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         reference.child("Usuarios").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,20 +146,36 @@ public class ServiceNotification extends Service {
         });
     }
 
-    private void crearNotificacion(String name){
+    private void crearNotificacion(String name) {
 
         Toast.makeText(this, name + " se está muriendo", Toast.LENGTH_SHORT).show();
         Log.d("Notificacion", "deberia mostar una alerta de " + name);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "M_CH_ID")
-                        .setSmallIcon(R.drawable.ic_launcher_background) //set icon for notification
-                        .setContentTitle("Alerta SOS")
-                        .setContentText("Su paciente " + name + " ha enviado una alerta")
-                        .setAutoCancel(true) // makes auto cancel of notification
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT); //set priority of notification
 
+        Intent notificationIntent = new Intent(this, MainActivityCuidadores.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Alerta SOS")
+                .setContentText("Su paciente " + name + " ha enviado una alerta")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        startForeground(1, notification);
+
+//        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setContentTitle("Alerta SOS")
+//                .setContentText("Su paciente " + name + " ha enviado una alerta")
+//                .setSmallIcon(R.drawable.ic_launcher_background) //set icon for notification
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true) // makes auto cancel of notification
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT); //set priority of notification
+//
+//        startForeground(1, );
         // Add as notification
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, builder.build());
+//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        manager.notify(1, builder.build());
 
     }
 
