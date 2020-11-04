@@ -34,7 +34,7 @@ import java.text.DecimalFormat;
 public class MonitorTemperature extends AppCompatActivity {
 
     int medicion = 0;
-    private static final String TAG = "MonitorStressLevel";
+    private static final String TAG = "MonitorTemperature";
     DecimalFormat df = new DecimalFormat("#0.00");
 
     FirebaseAuth mAuth;
@@ -78,14 +78,14 @@ public class MonitorTemperature extends AppCompatActivity {
             @Override
             public void onChanged(ServiceTemperature.MyBinder myBinder){
                 if(myBinder != null){
-                    //Log.d(TAG, "onChanged: connected to service"); no se porque tira error
+                    Log.d(TAG, "onChanged: connected to service");
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
                     mViewModel.setIsTempUpdating(true);
                     mViewModel.setNewTemp(false);
                 }
                 else {
-                    //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
+                    Log.d(TAG, "onChanged: unbound from service");
                     mService = null;
                 }
             }
@@ -110,7 +110,6 @@ public class MonitorTemperature extends AppCompatActivity {
                                 medicion.enviaraBD();
                                 mService.setNew_temp(false);
                             }
-
                             handler.postDelayed(this, 1000);
                         }
                         else {

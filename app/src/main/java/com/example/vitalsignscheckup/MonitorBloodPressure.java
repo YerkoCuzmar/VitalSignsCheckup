@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,51 +28,52 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DecimalFormat;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorBloodPressure extends AppCompatActivity {
 
     private static final String TAG = "MonitorBloodPressure";
-    private ServiceBloodPressure mService;              //servicio
-    private MonitorBloodPressureViewModel mViewModel;   //viewModel
-    private HistoryAdapter historyAdapter;
+    DecimalFormat df = new DecimalFormat("#0");
 
     FirebaseAuth mAuth;
-    DatabaseReference reference;
+    DatabaseReference reference;  //nodo principal de la base de datos
 
-    TextView textViewBp;
-    TextView textViewBp2;
+    private ServiceBloodPressure mService;                 //servicio
+    private MonitorBloodPressureViewModel mViewModel;      //viewModel
+    private TextView bpText;                       //medida de nivel de estres
+    private TextView bp2Text;                       //medida de nivel de estres
+    private HistoryAdapter historyAdapter;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "BloodPressure", Toast.LENGTH_SHORT).show();
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_monitor_blood_pressure);
         Toolbar toolbar = (Toolbar) findViewById(R.id.bloodPressureToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Presión Actual");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        
+
         RecyclerView historyRV = (RecyclerView) findViewById(R.id.BPHistoryRecyclerView);
 
         historyAdapter = new HistoryAdapter();
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
-        textViewBp = (TextView) findViewById(R.id.bp_medicion_mmhg);
-        textViewBp2 = (TextView) findViewById(R.id.bp_medicion_mmhg2);
+
+        bpText = findViewById(R.id.bp_medicion_mmhg);
+        bp2Text = findViewById(R.id.bp_medicion_mmhg2);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorBloodPressureViewModel.class);
 
-        //habian dos cosas para importar y no se si importe el correcto
         mViewModel.getBinder().observe(this, new Observer<ServiceBloodPressure.MyBinder>(){
 
             @Override
@@ -92,7 +92,6 @@ public class MonitorBloodPressure extends AppCompatActivity {
             }
         });
 
-
         mViewModel.getIsBPUpdating().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean isUpdating) {
@@ -104,16 +103,17 @@ public class MonitorBloodPressure extends AppCompatActivity {
                             if(mViewModel.getBinder().getValue() != null){
                                 mViewModel.setIsBPUpdating(false);
                             }
-                            if(mService.getNewBp()){
-                                Log.d(TAG, "run: " + mService.getNewBp());
+                            if (mService.getNewBp()){
                                 int bp = mService.getBp();
                                 int bp2 = mService.getBp2();
-                                textViewBp.setText(String.valueOf(bp));
-                                textViewBp2.setText(String.valueOf(bp2));
-                                Mediciones medicion = new Mediciones(bp, bp2,4 );
-                                historyAdapter.addNewHistory(medicion);
+                                Mediciones medicion = new Mediciones(bp, bp2, 4);
+                                Log.d(TAG, "run: newTemp " + bp + "/" + bp2);
+                                bpText.setText(df.format(bp));
+                                bp2Text.setText(df.format(bp2));
+                                medicion.enviaraBD();
                                 mService.setNewBp(false);
                             }
+
                             handler.postDelayed(this, 1000);
                         }
                         else {
@@ -136,7 +136,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(4);
-                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion() + "/" + medicion.getMedicion2());
                 historyAdapter.addNewHistory(medicion);
             }
 
@@ -160,6 +160,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
@@ -176,18 +177,18 @@ public class MonitorBloodPressure extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume: ");
-        super.onResume();
-        startService();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         if(mViewModel.getBinder() != null){
             unbindService(mViewModel.getServiceConnection());
         }
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        startService();
     }
 
     private void startService(){
