@@ -107,11 +107,9 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-
-
     <style name="modifiedEditText" parent="parent">
         <item name="android:textSize">@dimen/newsMoreTextSize</item>
-        <item name="android:backgroundTint">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="viewParent">

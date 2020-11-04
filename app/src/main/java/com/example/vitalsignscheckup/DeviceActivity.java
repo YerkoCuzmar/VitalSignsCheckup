@@ -82,7 +82,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
     public final static String FRAME = "info.plux.android.sample.DeviceActivity.FRAME";
     public final static String ELAPSED_TIME_EVENT = "info.plux.android.sample.DeviceActivity.ELAPSED_TIME_EVENT";
 
-    private int samplingRate = 5000;
+    private int samplingRate = 1000;
     //Sources
     private boolean settingParameter = true;//fNIRS sensor
     private List<Source> sources = new ArrayList<>();

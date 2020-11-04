@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import com.example.vitalsignscheckup.MonitorHeartRate;
 import com.example.vitalsignscheckup.MonitorStressLevel;
 import com.example.vitalsignscheckup.MonitorTemperature;
 import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.android.material.card.MaterialCardView;
 
 //import androidx.lifecycle.ViewModelProviders;
@@ -31,6 +33,8 @@ public class HomeFragment extends Fragment {
         MaterialCardView heartRateCard     = (MaterialCardView) root.findViewById(R.id.heartRateCard);
         MaterialCardView bloodPressureCard = (MaterialCardView) root.findViewById(R.id.bloodPressureCard);
         MaterialCardView stressLevelCard   = (MaterialCardView) root.findViewById(R.id.stressLevelCard);
+
+        Button btnNotification = (Button) root.findViewById(R.id.btnNotification);
 
         //TEMPERATURE
         temperatureCard.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +80,13 @@ public class HomeFragment extends Fragment {
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
                 startActivity(monitorStressLevelIntent);
 //                Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Notificaciones notificacion = new Notificaciones(5);
+                notificacion.enviaraBD();
             }
         });
 

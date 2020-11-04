@@ -195,4 +195,25 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        >
+        <Button
+            android:id="@+id/btnNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/menu_notificacion"
+            android:backgroundTint="@color/colorDanger"
+            android:textColor="@color/whiteTextColor"
+            android:textSize="18dp"
+            android:padding="10dp"
+            />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
