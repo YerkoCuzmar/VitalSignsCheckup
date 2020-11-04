@@ -197,7 +197,4 @@ public class MonitorTemperature extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, ServiceTemperature.class);
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
-
-
-
 }
