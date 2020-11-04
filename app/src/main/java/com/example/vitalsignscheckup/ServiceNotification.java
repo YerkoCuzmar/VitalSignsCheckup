@@ -1,5 +1,6 @@
 package com.example.vitalsignscheckup;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +33,7 @@ public class ServiceNotification extends Service {
     FirebaseAuth mAuth;
     DatabaseReference reference;
     ArrayList<String> pacientes = new ArrayList<>();
+    private boolean flag = false;
 
     @Nullable
     @Override
@@ -96,7 +100,11 @@ public class ServiceNotification extends Service {
             reference.child("Notificaciones").child(pacientes.get(i)).child(String.valueOf(key)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    getPacientesName(pacientes.get(finalI));
+                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+                        if(flag){
+                            getPacientesName(pacientes.get(finalI));
+                        }
+                    }
                 }
 
                 @Override
@@ -119,9 +127,8 @@ public class ServiceNotification extends Service {
 
                 }
             });
-
-
         }
+        flag = true;
     }
 
     private void getPacientesName(String id){
@@ -145,6 +152,8 @@ public class ServiceNotification extends Service {
 
     private void crearNotificacion(String name){
 
+        Toast.makeText(this, name + " se está muriendo", Toast.LENGTH_SHORT).show();
+        Log.d("Notificacion", "deberia mostar una alerta de " + name);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "M_CH_ID")
                         .setSmallIcon(R.drawable.ic_launcher_background) //set icon for notification
                         .setContentTitle("Alerta SOS")
