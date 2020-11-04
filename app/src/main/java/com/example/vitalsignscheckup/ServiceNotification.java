@@ -49,7 +49,7 @@ public class ServiceNotification extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-
+        crearNotificacion("onCreate");
     }
 
     @Override
