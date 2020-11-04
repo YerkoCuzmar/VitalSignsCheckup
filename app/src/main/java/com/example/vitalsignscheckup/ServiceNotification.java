@@ -163,19 +163,6 @@ public class ServiceNotification extends Service {
 
         startForeground(1, notification);
 
-//        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setContentTitle("Alerta SOS")
-//                .setContentText("Su paciente " + name + " ha enviado una alerta")
-//                .setSmallIcon(R.drawable.ic_launcher_background) //set icon for notification
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true) // makes auto cancel of notification
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT); //set priority of notification
-//
-//        startForeground(1, );
-        // Add as notification
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        manager.notify(1, builder.build());
-
     }
 
 }
