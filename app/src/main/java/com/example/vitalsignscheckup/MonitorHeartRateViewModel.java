@@ -9,11 +9,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ServiceConfigurationError;
-
 public class MonitorHeartRateViewModel extends ViewModel {
     private static final String TAG = "MonitorHeartRateViewMod";
     private MutableLiveData<Boolean> isPpmUpdating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> newPpm = new MutableLiveData<>();
     private MutableLiveData<ServiceHeartRate.MyBinder> mBinder = new MutableLiveData<>();
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -35,6 +34,8 @@ public class MonitorHeartRateViewModel extends ViewModel {
         return isPpmUpdating;
     }
 
+    public LiveData<Boolean> getNewPpm() { return newPpm; }
+
     public LiveData<ServiceHeartRate.MyBinder> getBinder(){
         return mBinder;
     }
@@ -46,5 +47,7 @@ public class MonitorHeartRateViewModel extends ViewModel {
     public void setIsPpmUpdating(Boolean isUpdating){
         isPpmUpdating.postValue(isUpdating);
     }
+
+    public void setNewPpm(Boolean ppm){newPpm.postValue(ppm);}
 
 }

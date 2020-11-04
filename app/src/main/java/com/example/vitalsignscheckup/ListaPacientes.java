@@ -61,7 +61,7 @@ public class ListaPacientes extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         rvCuidadores.setLayoutManager(new LinearLayoutManager(this));
         agregar_cuidador = (Button) findViewById(R.id.agregar_cuidador);
-
+        agregar_cuidador.setText("Agregar Paciente");
         id_cuidador = "";
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.configToolbar);

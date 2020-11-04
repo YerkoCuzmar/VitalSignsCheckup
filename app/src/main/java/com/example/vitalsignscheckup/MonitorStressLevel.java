@@ -16,6 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.vitalsignscheckup.models.Mediciones;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorStressLevel extends AppCompatActivity {
@@ -24,13 +30,18 @@ public class MonitorStressLevel extends AppCompatActivity {
 
     private ServiceStressLevel mService;                 //servicio
     private MonitorStressLevelViewModel mViewModel;      //viewModel
+    private HistoryAdapter historyAdapter;
+    RecyclerView historyRV;
+    FirebaseAuth mAuth;
+    DatabaseReference reference;
+
     private TextView stressText;                       //medida de nivel de estres
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_stress_level);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.stresstoolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.stressToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Estrés Actual");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -42,7 +53,12 @@ public class MonitorStressLevel extends AppCompatActivity {
             }
         });
 
-        stressText = findViewById(R.id.medida_eda);
+        historyAdapter = new HistoryAdapter();
+        historyRV = (RecyclerView) findViewById(R.id.stressHistoryRecyclerView);
+        historyRV.setAdapter(historyAdapter);
+        historyRV.setLayoutManager(new LinearLayoutManager(this));
+
+        stressText = (TextView) findViewById(R.id.medida_stress);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorStressLevelViewModel.class);
 
@@ -74,9 +90,13 @@ public class MonitorStressLevel extends AppCompatActivity {
                             if(mViewModel.getBinder().getValue() != null){
                                 mViewModel.setIsStressUpdating(false);
                             }
-                            String progress = String.valueOf(mService.getSL());
-                            stressText.setText(progress);
-                            // TODO: AGREGAR AL HISTORIAL
+                            if(mService.getNewStressLevel()){
+                                int stress = mService.getSL();
+                                Mediciones medicion = new Mediciones(stress, 3);
+                                stressText.setText(String.valueOf(stress));
+                                historyAdapter.addNewHistory(medicion);
+                                mService.setNewStressLevel(false);
+                            }
                             handler.postDelayed(this, 100);
                         }
                         else {

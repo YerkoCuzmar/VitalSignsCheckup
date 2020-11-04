@@ -13,6 +13,10 @@ public class DoubleSummary extends DoubleSummaryStatistics {
     private double sumOfSquareCompensation; // Low order bits of sum
     private double simpleSumOfSquare; // Used to compute right sum for non-finite inputs
 
+    public DoubleSummary(){
+
+    }
+
     @Override
     public void accept(double value) {
             super.accept(value);

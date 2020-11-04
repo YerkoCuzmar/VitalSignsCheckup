@@ -46,7 +46,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_thermometer" />
+                android:background="@drawable/ic_thermometer" />
 
             <TextView
                 android:id="@+id/medida_temp"
@@ -55,14 +55,14 @@
                 android:layout_weight="1"
                 android:gravity="center|center_vertical"
                 android:text="--"
-                android:textSize="30sp" />
+                android:textSize="50sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="°C"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
 
         </LinearLayout>
 

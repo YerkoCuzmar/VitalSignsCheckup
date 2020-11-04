@@ -31,9 +31,10 @@ public class ServiceTemperature extends Service {
     double temp;
     Boolean new_temp;
 
-    double d = 33628.0;
+//    double d = 33628.0;
+    double d = 24920.0; // 50 = 8
 
-    private IBinder mBinder = new MyBinder();
+    private IBinder mBinder;
     private Handler mHandler;
     private Boolean isPaused;
 
@@ -64,6 +65,7 @@ public class ServiceTemperature extends Service {
     public void onCreate(){
         super.onCreate();
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
+        mBinder = new MyBinder();
         isPaused = true;
         br = new TempDataReciever();
         new_temp = false;
@@ -78,8 +80,8 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-                    calcularTempSensores();
-//                    calcularTempantiguo();
+//                    calcularTempSensores();
+                    calcularTempantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -149,7 +151,13 @@ public class ServiceTemperature extends Service {
         Log.d("collect ", String.valueOf(COLLECT_DATA));
 
         singleData = d;
-        d += 10;
+        if(Math.random() < 0.7){
+            if(Math.random() < 0.6){
+                d += 10;
+            } else {
+                d -= 20;
+            }
+        }
 
         temp = transformarVaC(singleData);
         Log.d(TAG, "calcularTempantiguo: new Temp " + temp);

@@ -54,11 +54,11 @@
 
         <ImageView
             android:id="@+id/ivMoreOptions"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_weight="0.2"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/more_option"
+            android:src="@drawable/ic_round_clear_24"
             android:contentDescription="Options" />
 
 
