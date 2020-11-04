@@ -159,7 +159,6 @@ public class ServiceNotification extends Service {
                 .setContentText("Su paciente " + name + " ha enviado una alerta")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
                 .build();
 
         startForeground(1, notification);
