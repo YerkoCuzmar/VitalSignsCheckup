@@ -33,7 +33,6 @@ public class MisPacientesActivity extends AppCompatActivity {
     private FloatingActionButton add_cuidador; //para agregar cuidadores
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_cuidadores);
         mDataBase = FirebaseDatabase.getInstance().getReference();

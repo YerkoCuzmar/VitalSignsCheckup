@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,8 @@ public class MainActivityCuidadores extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_cuidadores);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,6 +62,7 @@ public class MainActivityCuidadores extends AppCompatActivity {
         //get nombre y correo
         SharedPreferences preferences = this.getSharedPreferences("user", Context.MODE_PRIVATE);
         name = preferences.getString("name", null);
+        //name = "Lucas";
         email = preferences.getString("email", null);
 
         View headerView = navigationView.getHeaderView(0);

@@ -31,12 +31,12 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
 
     int medicion = 0;
     private static final String TAG = "MonitorStressLevel";
-    DecimalFormat df = new DecimalFormat("#0.00");
+    public static DecimalFormat df = new DecimalFormat("#0.00");
     private String idPaciente;
     private String namePaciente;
 
     FirebaseAuth mAuth;
-    DatabaseReference reference;  //nodo principal de la base de datos
+    public static DatabaseReference reference;  //nodo principal de la base de datos
 
 //    private ServiceTemperature mService;                 //servicio
 //    private MonitorTemperatureViewModel mViewModel;      //viewModel
@@ -212,5 +212,8 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
         }
     }
 
+    public static DatabaseReference getTemp(){
+        return reference;
+    }
 
 }

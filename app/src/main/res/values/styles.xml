@@ -14,7 +14,7 @@
         <item name="backgroundTint">@color/colorDanger</item>
     </style>
 
-    <style name="MaterialCardTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MaterialCardTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -24,6 +24,7 @@
     </style>
 
     <style name="MenuCardViewTopLeft" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="theme">@style/Theme.MaterialComponents.Light.NoActionBar</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.TopLeftCorner</item>
     </style>
     <style name="ShapeAppearanceOverlay.MaterialCardView.TopLeftCorner" parent="">
@@ -36,6 +37,7 @@
 
     <style name="MenuCardViewTopRight" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.TopRightCorner</item>
+        <item name="theme">@style/Theme.MaterialComponents.Light.NoActionBar</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialCardView.TopRightCorner" parent="">
@@ -47,6 +49,7 @@
     </style>
 
     <style name="MenuCardViewBottomLeft" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="theme">@style/Theme.MaterialComponents.Light.NoActionBar</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.BottomLeftCorner</item>
     </style>
 
@@ -59,6 +62,7 @@
     </style>
 
     <style name="MenuCardViewBottomRight" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="theme">@style/Theme.MaterialComponents.Light.NoActionBar</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.BottomRightCorner</item>
     </style>
 

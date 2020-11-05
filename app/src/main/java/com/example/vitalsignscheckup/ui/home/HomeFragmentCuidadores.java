@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.CuidadorMonitorTemperature;
+import com.example.vitalsignscheckup.MainActivityCuidadorPaciente;
 import com.example.vitalsignscheckup.R;
 import com.example.vitalsignscheckup.recyclerViewClasses.MainCuidadoresAdapter;
 import com.example.vitalsignscheckup.recyclerViewClasses.Pacientes;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 //import androidx.lifecycle.ViewModelProviders;
 
 public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAdapter.OnPacienteListener{
-    
     private static final String TAG = "HomeFragmentCuidadores";
 
     private RecyclerView rvCuidadores;
@@ -41,6 +41,9 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        Toast.makeText(getContext(), "hola2", Toast.LENGTH_SHORT).show();
+
         // Inflar o cargar el layout para el Fragment
         View root = inflater.inflate(R.layout.fragment_home_cuidadores, container, false);
 
@@ -60,6 +63,13 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
                 Pacientes paciente = new Pacientes();
                 paciente.setId(dataSnapshot.getKey());
                 paciente.setName(dataSnapshot.child("name").getValue().toString());
+                if(dataSnapshot.child("place").exists()){
+                    paciente.setPlace(dataSnapshot.child("place").getValue().toString());
+                }
+                else{
+                    paciente.setPlace("No informa");
+                }
+                Log.d(TAG, "onChildAdded: img" + paciente.getImage());
 //                dataSnapshot.child("mediciones").child("1").getValue()
                 adapter.addPaciente(paciente);
                 adapter.notifyDataSetChanged();
@@ -123,9 +133,13 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
     @Override
     public void onPacienteClick(int position) {
         Pacientes paciente = adapter.getPaciente(position);
-        Intent intent = new Intent(this.getActivity(), CuidadorMonitorTemperature.class);
-        intent.putExtra("pactienteId", paciente.getId());
-        intent.putExtra("pacienteName", paciente.getName());
+        Intent intent = new Intent(this.getActivity(), MainActivityCuidadorPaciente.class); //pasa de actividad a monitoreo de tal sensor
+        Log.d("pacienteID", paciente.getId());
+        intent.putExtra("pactienteId", paciente.getId()); // antes de startearlo
+        //intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
         startActivity(intent);
+        getActivity().finish();
     }
+
+
 }

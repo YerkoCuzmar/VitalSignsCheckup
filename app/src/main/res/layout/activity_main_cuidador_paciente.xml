@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:background="@color/colorBackground"
-    tools:context=".ui.home.HomeFragment">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
-        android:layout_width="wrap_content"
+    tools:context=".MainActivityCuidadorPaciente">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04136253" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.96107054" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/pacienteToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@color/colorTitleText"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="583dp" />
+        android:padding="16dp">
+        <ImageView
+            android:id="@+id/ivfotoperfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="7dp"
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="MissingConstraints"
+            android:src="@drawable/ic_awesome_user_circle">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/idnombreapellido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Apellido"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="240dp"
+            tools:layout_editor_absoluteY="98dp" />
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -36,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
         app:layout_constraintStart_toEndOf="@id/guideline_top"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top">
+        app:layout_constraintTop_toTopOf="@id/guideline_top">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/temperatureCard"
@@ -56,13 +76,29 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
-                    android:contentDescription="@string/contentDescriptionTemperature"
-                    android:src="@drawable/ic_thermometer">
-                </ImageView>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="96dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/contentDescriptionTemperature"
+                        android:src="@drawable/ic_thermometer">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/medidatempCuid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:gravity="center"
+                        android:text="TextView" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -97,13 +133,30 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
-                    android:contentDescription="@string/contentDescriptionHeartRate"
-                    android:src="@drawable/ic_heart">
-                </ImageView>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="52dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:contentDescription="@string/contentDescriptionHeartRate"
+                        android:src="@drawable/ic_heart">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/medidaritmCui"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.30"
+                        android:gravity="center"
+                        android:text="textView" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -136,13 +189,45 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="@string/contentDescriptionBloodPressure"
-                    android:src="@drawable/ic_blood_pressure"
-                    android:layout_weight="0.3">
-                </ImageView>
+                    android:layout_weight="0.3"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="152dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:contentDescription="@string/contentDescriptionBloodPressure"
+                        android:src="@drawable/ic_blood_pressure">
+
+                    </ImageView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/medicionbpCuitop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:text="TextView" />
+
+                        <TextView
+                            android:id="@+id/medicionbpCuibot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:text="TextView" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -175,13 +260,30 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:contentDescription="@string/contentDescriptionStressLevel"
-                    android:src="@drawable/ic_stress">
-                </ImageView>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="62dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:contentDescription="@string/contentDescriptionStressLevel"
+                        android:src="@drawable/ic_stress">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/medicionestresCui"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="TextView" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -195,4 +297,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </GridLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
