@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorBackground"
     tools:context=".MainActivityCuidadorPaciente">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivfotoperfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="7dp"
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="MissingConstraints" >
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="143dp" />
+        </ImageView>
+        <TextView
+            android:id="@+id/idnombreapellido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Apellido"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="240dp"
+            tools:layout_editor_absoluteY="98dp"/>
+    </LinearLayout>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -36,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
         app:layout_constraintStart_toEndOf="@id/guideline_top"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top">
+        app:layout_constraintTop_toTopOf="@id/guideline_top">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/temperatureCard"
@@ -197,24 +200,4 @@
     </GridLayout>
 
 
-    <ImageView
-        android:id="@+id/ivfotoperfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="7dp"
-        tools:srcCompat="@tools:sample/avatars"
-        tools:ignore="MissingConstraints" >
-
-    </ImageView>
-
-    <TextView
-        android:id="@+id/idnombreapellido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre Apellido"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="240dp"
-        tools:layout_editor_absoluteY="98dp"></TextView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

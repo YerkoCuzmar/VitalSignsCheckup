@@ -1,18 +1,9 @@
 package com.example.vitalsignscheckup;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.google.android.material.card.MaterialCardView;
-
-import java.util.Objects;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
