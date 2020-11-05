@@ -32,6 +32,9 @@ public class MisCuidadoresActivity extends AppCompatActivity {
     private FloatingActionButton add_cuidador; //para agregar cuidadores
 
 
+    ArrayList<PacienteCuidador> data;
+
+
     private DatabaseReference mDataBase;
     FirebaseAuth mAuth;
     @Override
@@ -75,7 +78,7 @@ public class MisCuidadoresActivity extends AppCompatActivity {
     }
 
     private ArrayList<PacienteCuidador> dataSet() {
-        ArrayList<PacienteCuidador> data = new ArrayList<>();
+        data = new ArrayList<>();
         //data.add(new PacienteCuidador("Elva Stoncito", "Imagine.Dragons@ufale.chile", R.drawable.ic_awesome_user_circle));
         //data.add(new PacienteCuidador("Radioactive", "Ima.ragons@2.cia", R.drawable.ic_awesome_user_circle));
 //        data.add(new PacienteCuidador("Asomecha", "AsomechaDragons@3.ciwei", R.drawable.ic_awesome_user_circle));
