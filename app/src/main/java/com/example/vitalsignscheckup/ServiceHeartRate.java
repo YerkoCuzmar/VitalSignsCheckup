@@ -183,12 +183,10 @@ public class ServiceHeartRate extends Service {
         signalsList = resultsMap.get("signals");
         filteredDataList = resultsMap.get("filteredData");
         datos = resultsMap.get("data");
-
         COLLECT_DATA = false;
 
         for (int j = value_i; j < sample_rate ; j++) {
             dif = dif + 1;
-
             if ((j + 1) < signalsList.size()){
                 if (signalsList.get(j) == 0){
                     if (signalsList.get((j+1)) == 1){
@@ -241,11 +239,8 @@ public class ServiceHeartRate extends Service {
 
     public void calcularHRantiguo() {
 
-
         Log.d("data size", String.valueOf(data.size()));
-
         Log.d("collect ", String.valueOf(COLLECT_DATA));
-
 
         resultsMap = signalDetector.analyzeDataForSignals(data, lag, threshold, influence, data.size());
         signalsList = resultsMap.get("signals");
@@ -253,13 +248,9 @@ public class ServiceHeartRate extends Service {
         datos = resultsMap.get("data");
 
         COLLECT_DATA = false;
-        int ppm_total = 0;
         for (i = value_i; i < 5*sample_rate*value_rate ; i++) {
-
             dif = dif + 1;
-
             //Log.d("Conjunto: ", String.valueOf(5*sample_rate*value_rate));
-
             if (signalsList.get(i) == 1) {
                 if (i + 1 < signalsList.size()) {
                     if (signalsList.get(i + 1) == -1) {
@@ -268,37 +259,22 @@ public class ServiceHeartRate extends Service {
                 }
             }
 
-
-            //if ((i % (sample_rate*5)) == 0){             //cada 100 mediciones, si sample_rate = 20, son 5 segundos
             if (i == 5*sample_rate*value_rate -1){            //cada vez q completa el for, calcula, en este caso 20*5 = 100, cada 5 segundos
                 ppm = (ppm + (pulsaciones2*60/5))/2;
                 newPpm = true;
-
-              //  ppm = (ppm + (pulsaciones2 *60/5))/2;
-
-                //Log.d("Publish: ", String.valueOf(ppm));
-
-                //publishProgress(String.valueOf(ppm));
-
-                //mHandler.postDelayed(runnable, 1000);
-
                 pulsaciones2 = 0;
             }
-
         }
         count++;
         value_i = 5*count*sample_rate;
         value_rate = value_rate + 1;
-
         if(i + 1 >= data.size()) {
-
             count = 0;
             value_i = 0;
             value_rate = 1;
-//            data.clear();
+            //data.clear();
             COLLECT_DATA = true;
             //Log.d("TERMINO", "a");
         }
     }
-
 }
