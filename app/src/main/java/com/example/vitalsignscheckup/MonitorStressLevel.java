@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 
@@ -100,14 +105,14 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 Double stress = mService.getSL();
                                 String text = "";
                                 Mediciones medicion = new Mediciones(stress, 3);
-                                if(stress < 5){
+                                if(stress < 10){
                                     text = "Niveles de Estrés Normales";
                                 }else{
                                     text = "Niveles de Estrés Elevados";
                                 }
-                                stressText.setText(df.format(stress));
+                                stressText.setText(df.format(stress) + " \u00B5" + "S");
                                 stressParam.setText(text);
-                                historyAdapter.addNewHistory(medicion);
+                                medicion.enviaraBD();
                                 mService.setNewStressLevel(false);
                             }
                             handler.postDelayed(this, 100);
@@ -123,7 +128,42 @@ public class MonitorStressLevel extends AppCompatActivity {
                 }
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child("Mediciones").child(id).child("3").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(3);
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

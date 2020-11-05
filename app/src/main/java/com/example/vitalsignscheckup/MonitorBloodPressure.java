@@ -108,7 +108,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 double bp2 = mService.getBp2();
                                 Mediciones medicion = new Mediciones(bp, bp2, 4);
                                 Log.d(TAG, "run: newTemp " + bp + "/" + bp2);
-                                bpText.setText(df.format(bp));
+                                bpText.setText(String.valueOf((int) bp));
                                 bp2Text.setText(df.format(bp2));
                                 medicion.enviaraBD();
                                 mService.setNewBp(false);

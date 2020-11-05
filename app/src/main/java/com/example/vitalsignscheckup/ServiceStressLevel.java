@@ -177,11 +177,18 @@ public class ServiceStressLevel extends Service {
         }
         COLLECT_DATA = false;
         Double suma = 0.0;
+        Double calculo = 0.0;
+        //ArrayList<Double> moda = new ArrayList<Double>();
 
-        for(int i = 0; i < DATA_SIZE; i++)
-            suma += ((data.get(i)/Math.pow(2, 16)) * 3) / 0.12;
+
+        for(int i = 0; i < DATA_SIZE; i++) {
+            calculo = ((data.get(i)/Math.pow(2, 16)) * 3) / 0.12;
+            suma += calculo;
+            //moda.add(calculo);
+        }
 
         us = suma / DATA_SIZE;
+
         newStressLevel = true;
 
         data.clear();
