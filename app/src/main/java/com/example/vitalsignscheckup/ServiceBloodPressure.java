@@ -152,8 +152,8 @@ public class ServiceBloodPressure extends Service {
 
                 @Override
                 public void run() {
-                    calcularBPSensores();
-//                    calcularHRantiguo();
+//                    calcularBPSensores();
+                    calcularHRantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };

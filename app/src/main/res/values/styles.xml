@@ -10,7 +10,7 @@
         <item name="background">@color/colorBackground</item>
     </style>
 
-    <style name="MaterialCardTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MaterialCardTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
