@@ -7,9 +7,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -49,10 +56,21 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
             holder.ivProfile.setImageResource(paciente.getImage());
         }
         holder.tvName.setText(paciente.getName());
-        holder.tvTemperature.setText(paciente.getLastTemp());
-        holder.tvHeartRate.setText(paciente.getLastHeartRate());
-        holder.tvPressure.setText(paciente.getLastPressure());
-        holder.tvStress.setText(paciente.getLastStress());
+        holder.tvPlace.setText(paciente.getPlace());
+
+        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mDataBase.child("Notificaciones").child(paciente.getId()).child("5").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                holder.tvBadge.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 //        holder.llPaciente.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -82,17 +100,15 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         OnPacienteListener onPacienteListener;
 
         ImageView ivProfile;
-        TextView tvName, tvTemperature, tvHeartRate, tvPressure, tvStress;
+        TextView tvName, tvPlace, tvBadge;
         LinearLayout llPaciente;
 
         public MainCuidadoresViewHolder(View itemView, OnPacienteListener onPacienteListener) {
             super(itemView);
             ivProfile = (ImageView) itemView.findViewById(R.id.ivProfilePhoto);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
-            tvTemperature = (TextView) itemView.findViewById(R.id.tvTemperature);
-            tvHeartRate = (TextView) itemView.findViewById(R.id.tvHeartRate);
-            tvPressure = (TextView) itemView.findViewById(R.id.tvBloodPressure);
-            tvStress = (TextView) itemView.findViewById(R.id.tvStress);
+            tvPlace = (TextView) itemView.findViewById(R.id.tvPlace);
+            tvBadge = (TextView) itemView.findViewById(R.id.badgeNumber);
             llPaciente = (LinearLayout) itemView.findViewById(R.id.llPacientes);
             this.onPacienteListener = onPacienteListener;
 
