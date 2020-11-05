@@ -128,12 +128,11 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
     public void onPacienteClick(int position) {
         Pacientes paciente = adapter.getPaciente(position);
         Intent intent = new Intent(this.getActivity(), MainActivityCuidadorPaciente.class); //pasa de actividad a monitoreo de tal sensor
-        //intent.putExtra("pactienteId", paciente.getId()); // antes de startearlo
+        Log.d("pacienteID", paciente.getId());
+        intent.putExtra("pactienteId", paciente.getId()); // antes de startearlo
         //intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
         startActivity(intent);
     }
-
-
 
 
 }
