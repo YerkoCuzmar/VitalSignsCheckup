@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -35,13 +34,8 @@ public class ServiceNotification extends Service {
     FirebaseAuth mAuth;
     DatabaseReference reference;
     ArrayList<String> pacientes = new ArrayList<>();
-    private boolean flag = false;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-    private String date;
-    private String time;
-    private Date fecha = null;
+    Date serviceStartDate;
 
     @Nullable
     @Override
@@ -58,16 +52,9 @@ public class ServiceNotification extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
+        serviceStartDate = new Date();
+        Log.d("ServiceNotification", "onCreate: " + serviceStartDate);
         crearNotificacion("onCreate");
-
-        Date datetime = new Date();
-        date = dateFormat.format(datetime);
-        time = timeFormat.format(datetime);
-        try {
-            fecha = timeFormat.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -81,6 +68,12 @@ public class ServiceNotification extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        super.onTaskRemoved(rootIntent);
+        stopSelf();
     }
 
     private void getPacientes(String id) {
@@ -110,25 +103,25 @@ public class ServiceNotification extends Service {
 
             final int finalI = i;
             reference = FirebaseDatabase.getInstance().getReference();
-            reference.child("Notificaciones").child(pacientes.get(i)).addChildEventListener(new ChildEventListener() {
+            reference.child("Notificaciones").child(pacientes.get(i)).child(String.valueOf(key)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    for (DataSnapshot ds: dataSnapshot.getChildren()){
-
-                        if(ds.child("date").getValue().toString().equals(date)){
-                            String hour = ds.child("time").getValue().toString();
-                            Date hora = null;
-                            try {
-                                hora = timeFormat.parse(hour);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            if(hora.compareTo(fecha) >= 0){
-                                Log.d("Notificaciones - notif", ds.toString());
+                            Notificaciones notification = dataSnapshot.getValue(Notificaciones.class);
+                        try {
+                            assert notification != null;
+                            Date notificationDate = notification.getDateTime();
+                            if(notificationDate.after(serviceStartDate)){
+                                Log.d("dataSnapshot", "onChildAdded: notificacion despues");
                                 getPacientesName(pacientes.get(finalI));
                             }
+                            else {
+                                Log.d("dataSnapshot", "onChildAdded: notificacion antes");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
-                    }
+
+
                 }
 
                 @Override
@@ -174,11 +167,7 @@ public class ServiceNotification extends Service {
         });
     }
 
-    private void crearNotificacion(String name){
-
-        Toast.makeText(this, name + " se está muriendo", Toast.LENGTH_SHORT).show();
-        Log.d("Notificacion", "deberia mostar una alerta de " + name);
-
+    private void crearNotificacion(String name) {
         Intent notificationIntent = new Intent(this, MainActivityCuidadores.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
@@ -190,8 +179,6 @@ public class ServiceNotification extends Service {
                 .build();
 
         startForeground(1, notification);
-
-
 
     }
 

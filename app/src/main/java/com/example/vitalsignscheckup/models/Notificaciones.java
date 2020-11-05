@@ -4,8 +4,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Notificaciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion ; 5 = SOS
@@ -51,6 +53,12 @@ public class Notificaciones {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Date getDateTime() throws ParseException {
+        String sDateTime = this.date + "-" + this.time;
+        SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss", Locale.getDefault());
+        return parser.parse(sDateTime);
     }
 
     public void enviaraBD() {
