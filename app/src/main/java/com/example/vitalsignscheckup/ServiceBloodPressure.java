@@ -177,8 +177,8 @@ public class ServiceBloodPressure extends Service {
 
                 @Override
                 public void run() {
-                    //calcularBPSensores();
-                    calcularHRantiguo();
+                    calcularBPSensores();
+                    //calcularHRantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -314,39 +314,59 @@ public class ServiceBloodPressure extends Service {
     //TODO: CALCULAR BVP
     public void calcularBPSensores() {
 
-        /*while (data.size() < sample_rate) {
+        while (data.size() < sample_rate) {
 
-        }*/
+        }
 
-        resultsMap = signalDetector.analyzeDataForSignals(data, lag1, threshold1, influence1, DATA_SIZE);
-        signalsList = resultsMap.get("signals");
+        SimpleDateFormat h_bvp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
+        SimpleDateFormat h_ecg = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
 
-        resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag2, threshold2, influence2, DATA_SIZE);
-        signalsList2 = resultsMap2.get("signals");
+        Date f_bvp = null;
+        Date f_ecg = null;
+
+        HashMap<String, List> resultsMap = editar();
+
+        List<Integer> horas_bvp = new ArrayList<Integer>();
+        List<Integer> horas_ecg = new ArrayList<Integer>();   //si es con la hora cambiar a string y descomentar try,catch,etc...
+
+        horas_bvp = resultsMap.get("horas_bvp");
+        horas_ecg = resultsMap.get("horas_ecg");
 
         COLLECT_DATA = false;
-        //data = BVP
-        //data2 = ECG
 
-        //signalsList = BVP
-        //signalList2 = ECG
+        for (i = value_i; i < conj*value_rate; i++){
+            Log.d("entrando: ", "entra");
+            /*try {
+                f_bvp = h_bvp.parse(horas_bvp.get(i));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                f_ecg = h_ecg.parse(horas_ecg.get(i));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
+            //Log.d("bvp: ", String.valueOf(f_bvp));
+            //Log.d("ecg: ", String.valueOf(f_ecg));
+            //Log.d("Diferencia: ", String.valueOf(Math.abs(f_bvp.getTime()-f_ecg.getTime())));
+            Log.d("Diferencia: ", String.valueOf((Math.abs(horas_bvp.get(i) - horas_ecg.get(i)))));
+            //ptt_valor = f_bvp.getTime() - f_ecg.getTime();
+            dif = (Math.abs(horas_bvp.get(i) - horas_ecg.get(i)));  //numero entero
 
-        for (int i = 0; i < signalsList.size(); i++){
-            if (signalsList.get(i) == 1){
-                for (int j = 0; j < 10; j ++){
-                    if (i-j > 0 && (i+1) < signalsList2.size()){ //verificar que este dentro del arreglo
-                        if (signalsList2.get(i+1) == 1 && signalsList2.get(i-1) == 1){ //asi no esta atrapado entre puros 1 el peak de BVP
-                            j = 10;
-                        }
-                        else if (signalsList2.get(i-j) == 1 && (i-j) > 0){
+            ptt_valor =  (double) dif/sample_rate;
+            ptt_valor = ptt_valor * 1000;
 
-                        }
-                    }
-                }
+            Log.d("PTT: ", String.valueOf(ptt_valor));
+
+            if (ptt_valor > 130 && ptt_valor < 250){   //harcodeando los valores para que sean coherentes
+                ppm = ((int) (218 + (-0.53) * ptt_valor) + ppm)/2;
+                ppm2 = ((int) (83 + 0.1 * ptt_valor) + ppm2)/2;
+                newBp = true;
             }
         }
         data.clear();
         data2.clear();
+
         COLLECT_DATA = true;
     }
 
