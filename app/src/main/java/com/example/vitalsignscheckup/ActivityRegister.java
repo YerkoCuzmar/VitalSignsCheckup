@@ -4,23 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,7 +37,11 @@ public class ActivityRegister extends AppCompatActivity {
     private EditText etName, etMobile, etEmail, etPass;
     private Button btnRegister;
     private TextView tvIngresar;
-    private CheckBox cbPaciente;
+    private RadioButton rbPaciente;
+    private RadioButton rbCuidador;
+    private RadioButton rbSalud;
+    private RadioButton rbParticular;
+    private RadioButton rbReposo;
 
     //variables datos a registrar
 
@@ -51,6 +54,7 @@ public class ActivityRegister extends AppCompatActivity {
     private String email = "";
     private String pass = "";
     private boolean isPaciente = false;
+    private String ubicacionPaciente = "";
 
     SharedPreferences preferences;
     SharedPreferences.Editor spEditor;
@@ -87,9 +91,34 @@ public class ActivityRegister extends AppCompatActivity {
         etMobile = (EditText) findViewById(R.id.editTextMobile);
         etEmail = (EditText) findViewById(R.id.editTextEmail);
         etPass = (EditText) findViewById(R.id.editTextPassword);
+        rbPaciente = (RadioButton) findViewById(R.id.radiobuttonPaciente);
+        rbCuidador = (RadioButton) findViewById(R.id.radiobuttonCuidador);
+        rbSalud = (RadioButton) findViewById(R.id.radiobuttonSalud);
+        rbParticular = (RadioButton) findViewById(R.id.radiobuttonParticular);
+        rbReposo = (RadioButton) findViewById(R.id.radiobuttonReposo);
+
         btnRegister = (Button) findViewById(R.id.cirLoginButton);
         tvIngresar = (TextView) findViewById(R.id.tvIngresar);
-        cbPaciente = (CheckBox) findViewById(R.id.checkBox);
+
+        rbCuidador.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    rbSalud.setChecked(false);
+                    rbParticular.setChecked(false);
+                    rbReposo.setChecked(false);
+
+                    rbSalud.setEnabled(false);
+                    rbParticular.setEnabled(false);
+                    rbReposo.setEnabled(false);
+                }
+                else {
+                    rbSalud.setEnabled(true);
+                    rbParticular.setEnabled(true);
+                    rbReposo.setEnabled(true);
+                }
+            }
+        });
 
         btnRegister.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -103,9 +132,21 @@ public class ActivityRegister extends AppCompatActivity {
                 mobile = etMobile.getText().toString();
                 email = etEmail.getText().toString();
                 pass = etPass.getText().toString();
-                isPaciente = cbPaciente.isChecked(); //true si es paciente
+                isPaciente = rbPaciente.isChecked();
+                if(rbSalud.isChecked()){
+                    ubicacionPaciente = "Centro de salud";
+                }
+                else if (rbParticular.isChecked()){
+                    ubicacionPaciente = "Casa particular";
+                }
+                else if (rbReposo.isChecked()){
+                    ubicacionPaciente = "Casa de reposo";
+                }
 
-                if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !mobile.isEmpty()){
+                Boolean tipoPacienteSeleccionado = rbPaciente.isChecked() || rbCuidador.isChecked();
+                Boolean ubicacionPacienteSeleccionado = rbPaciente.isChecked() && (rbSalud.isChecked() || rbParticular.isChecked() || rbReposo.isChecked());
+
+                if (!name.isEmpty() && !email.isEmpty() && !pass.isEmpty() && !mobile.isEmpty() && tipoPacienteSeleccionado && ubicacionPacienteSeleccionado){
 
                     if(pass.length() >= 6) {
 
@@ -145,6 +186,8 @@ public class ActivityRegister extends AppCompatActivity {
                     //map.put("password", pass);
                     map.put("mobile", mobile);
                     map.put("paciente", isPaciente);
+                    map.put("ubicacion", ubicacionPaciente);
+                    Log.d("Registro", "onComplete: " + map);
 
                     preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
                     spEditor = preferences.edit();
