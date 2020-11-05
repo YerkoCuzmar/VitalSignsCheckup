@@ -27,6 +27,7 @@
     <string name="menu_configuracion">Configuración</string>
     <string name="menu_cerrar_sesion">Cerrar sesión</string>
     <string name="menu_mis_pacientes">Mis pacientes</string>
+    <string name="menu_notificacion">Enviar alerta (SOS)</string>
 
 
     <string name="ConfigTitle">Configuración</string>

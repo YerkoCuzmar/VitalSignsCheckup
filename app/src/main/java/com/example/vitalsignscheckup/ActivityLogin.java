@@ -1,11 +1,9 @@
 package com.example.vitalsignscheckup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 public class ActivityLogin extends AppCompatActivity {
 
     //layout_login
@@ -38,6 +34,8 @@ public class ActivityLogin extends AppCompatActivity {
     //datos que se llenan
     private String email = "";
     private String pass = "";
+
+    String id_user;
 
     SharedPreferences preferences;
     SharedPreferences.Editor spEditor;
@@ -140,7 +138,7 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    String id_user = mAuth.getUid();
+                    id_user = mAuth.getUid();
                     mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -198,7 +196,7 @@ public class ActivityLogin extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (mAuth.getCurrentUser() != null){ //con esto se puede cerrar la app y aun asi la sesion sigue iniciada
-            String id_user = mAuth.getUid();
+            id_user = mAuth.getUid();
             mDataBase.child("Usuarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

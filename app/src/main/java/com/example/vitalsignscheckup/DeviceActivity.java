@@ -82,7 +82,7 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
     public final static String FRAME = "info.plux.android.sample.DeviceActivity.FRAME";
     public final static String ELAPSED_TIME_EVENT = "info.plux.android.sample.DeviceActivity.ELAPSED_TIME_EVENT";
 
-    private int samplingRate = 5000;
+    private int samplingRate = 1000;
     //Sources
     private boolean settingParameter = true;//fNIRS sensor
     private List<Source> sources = new ArrayList<>();
@@ -549,8 +549,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         //add the necessary sources following the instructions above
         sources.add(new Source(1, 16, (byte) 0x01, 100));
         sources.add(new Source(2, 16, (byte) 0x01, 100));
-        //sources.add(new Source(3, 16, (byte) 0x01, 100));
-        //sources.add(new Source(4, 16, (byte) 0x01, 100));
+        sources.add(new Source(3, 16, (byte) 0x01, 100));
+        sources.add(new Source(4, 16, (byte) 0x01, 100));
 
         //Comment this try-catch block for fNIRS
         try {
