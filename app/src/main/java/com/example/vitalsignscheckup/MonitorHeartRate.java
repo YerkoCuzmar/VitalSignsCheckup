@@ -35,7 +35,7 @@ public class MonitorHeartRate extends AppCompatActivity {
 
     int medicion = 0;
     private static final String TAG = "MonitorHeartRate";
-    DecimalFormat df = new DecimalFormat("#0.00");
+    DecimalFormat df = new DecimalFormat("#0");
 
     FirebaseAuth mAuth;
     DatabaseReference reference;  //nodo principal de la base de datos
@@ -103,9 +103,10 @@ public class MonitorHeartRate extends AppCompatActivity {
                             }
                             if (mService.getNewPpm()) {
                                 double ppm = mService.getPpm();
+                                String sppm =  df.format(ppm);
                                 Mediciones medicion = new Mediciones(ppm, 2);
                                 Log.d(TAG, "run: new ppm " + ppm);
-                                ppmText.setText(String.valueOf((int) ppm));
+                                ppmText.setText(sppm);
                                 medicion.enviaraBD();
                                 mService.setNewPpm(false);
                             }

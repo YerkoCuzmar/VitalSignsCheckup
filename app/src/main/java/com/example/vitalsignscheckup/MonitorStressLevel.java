@@ -103,6 +103,7 @@ public class MonitorStressLevel extends AppCompatActivity {
                             }
                             if(mService.getNewStressLevel()){
                                 Double stress = mService.getSL();
+                                String sbp =  df.format(stress);
                                 String text = "";
                                 Mediciones medicion = new Mediciones(stress, 3);
                                 if(stress < 10){
@@ -110,7 +111,7 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 }else{
                                     text = "Niveles de Estrés Elevados";
                                 }
-                                stressText.setText(df.format(stress) + " \u00B5" + "S");
+                                stressText.setText(sbp + " \u00B5" + "S");
                                 stressParam.setText(text);
                                 medicion.enviaraBD();
                                 mService.setNewStressLevel(false);
