@@ -18,8 +18,8 @@
             tools:layout_editor_absoluteX="40dp"
             tools:layout_editor_absoluteY="7dp"
             tools:srcCompat="@tools:sample/avatars"
-            tools:ignore="MissingConstraints" >
-
+            tools:ignore="MissingConstraints"
+            android:src="@drawable/ic_awesome_user_circle">
         </ImageView>
 
         <TextView
