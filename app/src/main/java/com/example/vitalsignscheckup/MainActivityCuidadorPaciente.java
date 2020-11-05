@@ -53,8 +53,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
-        idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
-        //idPaciente = intent.getStringExtra("pacienteId");
+        //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
+        idPaciente = intent.getStringExtra("pacienteId");
+        Log.d("pacienteID", "hola" + idPaciente);
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_cuidador_paciente);
@@ -92,7 +93,6 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         reference.child("Mediciones").child(idPaciente).child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 tempText.setText(df.format(medicion.getMedicion()));
@@ -122,7 +122,6 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         reference.child("Mediciones").child(idPaciente).child("2").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(2);
                 hrText.setText(df.format(medicion.getMedicion()));
@@ -152,7 +151,6 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         reference.child("Mediciones").child(idPaciente).child("3").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(3);
                 estresText.setText(df.format(medicion.getMedicion()));
@@ -182,7 +180,6 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         reference.child("Mediciones").child(idPaciente).child("4").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(4);
                 bpTexttop.setText(df.format(medicion.getMedicion()));
