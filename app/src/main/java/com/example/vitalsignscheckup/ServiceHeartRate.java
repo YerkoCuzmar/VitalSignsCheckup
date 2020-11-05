@@ -200,7 +200,7 @@ public class ServiceHeartRate extends Service {
 
             if (i == 5 * sample_rate){//cada vez q completa el for, calcula, en este caso 20*5 = 100, cada 5 segundos
                 ppm = (ppm + (pulsaciones2*60/5))/2;
-                ppm = (ppm + 60)/2;
+                ppm = (ppm + 50)/2;
                 newPpm = true;
                 pulsaciones2 = 0;
                 mHandler.postDelayed(runnable, 1000);

@@ -27,6 +27,7 @@
         <activity android:name=".MainActivityCuidadorPaciente"/>
 
         <service android:name=".ServiceHeartRate" />
+        <service android:name=".ServiceStressLevel" />
         <service android:name=".ServiceBloodPressure" />
         <service android:name=".ServiceTemperature" />
         <service android:name=".ServiceNotification" />

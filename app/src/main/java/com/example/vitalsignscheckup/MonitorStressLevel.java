@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +22,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DecimalFormat;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorStressLevel extends AppCompatActivity {
 
     private static final String TAG = "MonitorStressLevel";
+
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     private ServiceStressLevel mService;                 //servicio
     private MonitorStressLevelViewModel mViewModel;      //viewModel
@@ -35,7 +44,8 @@ public class MonitorStressLevel extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference reference;
 
-    private TextView stressText;                       //medida de nivel de estres
+    private TextView stressText;
+    private TextView stressParam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +69,7 @@ public class MonitorStressLevel extends AppCompatActivity {
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         stressText = (TextView) findViewById(R.id.medida_stress);
+        stressParam = (TextView) findViewById(R.id.alerta_stress);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorStressLevelViewModel.class);
 
@@ -91,10 +102,17 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 mViewModel.setIsStressUpdating(false);
                             }
                             if(mService.getNewStressLevel()){
-                                int stress = mService.getSL();
+                                Double stress = mService.getSL();
+                                String text = "";
                                 Mediciones medicion = new Mediciones(stress, 3);
-                                stressText.setText(String.valueOf(stress));
-                                historyAdapter.addNewHistory(medicion);
+                                if(stress < 10){
+                                    text = "Niveles de Estrés Normales";
+                                }else{
+                                    text = "Niveles de Estrés Elevados";
+                                }
+                                stressText.setText(df.format(stress) + " \u00B5" + "S");
+                                stressParam.setText(text);
+                                medicion.enviaraBD();
                                 mService.setNewStressLevel(false);
                             }
                             handler.postDelayed(this, 100);
@@ -110,7 +128,42 @@ public class MonitorStressLevel extends AppCompatActivity {
                 }
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+        reference.child("Mediciones").child(id).child("3").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                medicion.setType(3);
+                Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
+                historyAdapter.addNewHistory(medicion);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
