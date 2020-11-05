@@ -261,7 +261,6 @@ public class ServiceBloodPressure extends Service {
         resultsMap2 = signalDetector2.analyzeDataForSignals(data2, lag2, threshold2, influence2, data2.size());
         signalsList2 = resultsMap2.get("signals");
 
-        COLLECT_DATA = false;
 
         //List<String> horas_bvp = new ArrayList<String>(Collections.nCopies(DATA_SIZE, ""));
         //List<String> horas_ecg = new ArrayList<String>(Collections.nCopies(DATA_SIZE, ""));
@@ -270,6 +269,10 @@ public class ServiceBloodPressure extends Service {
 
         String time_bvp, time_ecg;
         HashMap<String, List> returnMap = new HashMap<String, List>();
+
+        Log.d("signal1 ", String.valueOf(signalsList.get(3)));
+        Log.d("signal2 ", String.valueOf(signalsList2.get(3)));
+
         for (int i = 0; i < signalsList.size(); i++){
             Log.d("entra1", "entra");
             if (signalsList.get(i) == 1){
@@ -315,7 +318,7 @@ public class ServiceBloodPressure extends Service {
     public void calcularBPSensores() {
 
         while (data.size() < sample_rate) {
-
+            Log.d("FaltaDatos: ", "menos de SR");
         }
 
         SimpleDateFormat h_bvp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
@@ -331,6 +334,8 @@ public class ServiceBloodPressure extends Service {
 
         horas_bvp = resultsMap.get("horas_bvp");
         horas_ecg = resultsMap.get("horas_ecg");
+
+        Log.d("hora: ", String.valueOf(horas_bvp.get(3)));
 
         COLLECT_DATA = false;
 
@@ -364,8 +369,20 @@ public class ServiceBloodPressure extends Service {
                 newBp = true;
             }
         }
-        data.clear();
-        data2.clear();
+        count++;
+        value_i = conj*count;
+        value_rate = value_rate + 1;
+
+        if(i > data.size()){
+            count = 0;
+            value_i = 0;
+            value_rate = 1;
+            data.clear();
+            data2.clear();
+            COLLECT_DATA = true;
+        }
+
+
 
         COLLECT_DATA = true;
     }
