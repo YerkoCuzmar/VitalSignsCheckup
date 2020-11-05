@@ -40,6 +40,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference reference;
     private String idPaciente;
+    private String namePaciente;
     DecimalFormat df = new DecimalFormat("#0.00");
 
 
@@ -50,8 +51,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
         final Intent intent = getIntent();
-        //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
+
         idPaciente = intent.getStringExtra("pacienteId");
+        namePaciente = intent.getStringExtra("pacienteName");
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_cuidador_paciente);
@@ -251,7 +253,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         buttonNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "notificaciones", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), ListNotifications.class);
+                intent.putExtra("pacienteName", namePaciente);
+                startActivity(intent);
             }
         });
 
