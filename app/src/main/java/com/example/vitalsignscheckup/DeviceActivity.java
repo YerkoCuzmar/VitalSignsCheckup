@@ -549,8 +549,8 @@ public class DeviceActivity extends AppCompatActivity implements OnDataAvailable
         //add the necessary sources following the instructions above
         sources.add(new Source(1, 16, (byte) 0x01, 100));
         sources.add(new Source(2, 16, (byte) 0x01, 100));
-        //sources.add(new Source(3, 16, (byte) 0x01, 100));
-        //sources.add(new Source(4, 16, (byte) 0x01, 100));
+        sources.add(new Source(3, 16, (byte) 0x01, 100));
+        sources.add(new Source(4, 16, (byte) 0x01, 100));
 
         //Comment this try-catch block for fNIRS
         try {
