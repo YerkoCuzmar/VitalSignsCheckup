@@ -63,6 +63,12 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
                 Pacientes paciente = new Pacientes();
                 paciente.setId(dataSnapshot.getKey());
                 paciente.setName(dataSnapshot.child("name").getValue().toString());
+                if(dataSnapshot.child("place").exists()){
+                    paciente.setPlace(dataSnapshot.child("place").getValue().toString());
+                }
+                else{
+                    paciente.setPlace("No informa");
+                }
                 Log.d(TAG, "onChildAdded: img" + paciente.getImage());
 //                dataSnapshot.child("mediciones").child("1").getValue()
                 adapter.addPaciente(paciente);
@@ -133,6 +139,7 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
         //intent.putExtra("pacienteId", "5ulURkmhPUOuKOhPIrd4DsUsTAh1"); // antes de startearlo
         //intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
         startActivity(intent);
+        getActivity().finish();
     }
 
 

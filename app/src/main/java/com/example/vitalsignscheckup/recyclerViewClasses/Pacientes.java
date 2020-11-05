@@ -2,19 +2,22 @@ package com.example.vitalsignscheckup.recyclerViewClasses;
 
 public class Pacientes {
 
-    private String id, name, lastTemp, lastHeartRate, lastPressure, lastStress;
+    private String id, name, place;
+    private int notifications;
     private int image;
 
     public Pacientes(){
-
+        this.id = "";
+        this.name = "";
+        this.place = "";
+        this.notifications = 0;
+        this.image = 0;
     }
 
-    public Pacientes(String name, String lastTemp, String lastHeartRate, String lastPressure, String lastStress, int image){
+    public Pacientes(String name, String place, int notifications, int image){
         this.name = name;
-        this.lastTemp = lastTemp;
-        this.lastHeartRate = lastHeartRate;
-        this.lastPressure = lastPressure;
-        this.lastStress = lastStress;
+        this.place = place;
+        this.notifications = notifications;
         this.image = image;
     }
 
@@ -30,36 +33,28 @@ public class Pacientes {
         this.name = name;
     }
 
-    public String getLastTemp() {
-        return lastTemp;
+    public String getPlace() {
+        return place;
     }
 
-    public void setLastTemp(String lastTemp) {
-        this.lastTemp = lastTemp;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public String getLastHeartRate() {
-        return lastHeartRate;
+    public int getNotifications() {
+        return notifications;
     }
 
-    public void setLastHeartRate(String lastHeartRate) {
-        this.lastHeartRate = lastHeartRate;
+    public void setNotifications(int notifications) {
+        this.notifications = notifications;
     }
 
-    public String getLastPressure() {
-        return lastPressure;
+    public void addNotification(){
+        this.notifications += 1;
     }
 
-    public void setLastPressure(String lastPressure) {
-        this.lastPressure = lastPressure;
-    }
-
-    public String getLastStress() {
-        return lastStress;
-    }
-
-    public void setLastStress(String lastStress) {
-        this.lastStress = lastStress;
+    public void subNotification(){
+        this.notifications -= 1;
     }
 
     public int getImage() {
