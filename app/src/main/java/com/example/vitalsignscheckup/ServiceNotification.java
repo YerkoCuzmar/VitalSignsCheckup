@@ -54,7 +54,17 @@ public class ServiceNotification extends Service {
         super.onCreate();
         serviceStartDate = new Date();
         Log.d("ServiceNotification", "onCreate: " + serviceStartDate);
-        crearNotificacion("onCreate");
+        Intent notificationIntent = new Intent(this, MainActivityCuidadores.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Vital Signs Checkup")
+                .setContentText("Aqui recibirás las alertas de tus pacientes")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        startForeground(1, notification);
     }
 
     @Override
