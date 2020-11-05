@@ -70,7 +70,7 @@ public class MainActivityCuidadores extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = new Intent(this, ServiceNotification.class);
-        ContextCompat.startForegroundService(this, intent);
+        startService(intent);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_perfil, R.id.nav_mis_pacientes, R.id.nav_configuracion,R.id.nav_cerrar_sesion )
