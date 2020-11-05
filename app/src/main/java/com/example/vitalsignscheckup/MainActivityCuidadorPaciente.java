@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -57,12 +58,17 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_cuidador_paciente);
         setContentView(R.layout.activity_main_cuidador_paciente);
-
-//        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        actionBar.setCustomView(R.layout.custom_app_bar);
-//        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-//        actionBarTitle.setText(R.string.app_name);
+        Toolbar toolbar = findViewById(R.id.pacienteToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Mi Paciente");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         MaterialCardView temperatureCard   = findViewById(R.id.temperatureCard);
 
