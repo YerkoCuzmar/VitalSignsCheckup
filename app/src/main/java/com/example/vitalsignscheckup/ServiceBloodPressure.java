@@ -232,6 +232,7 @@ public class ServiceBloodPressure extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+
             double bvp_value = intent.getExtras().getIntArray("analogData")[posbvp];
             double ecg_value = intent.getExtras().getIntArray("analogData")[posecg];
             data.add(bvp_value);
@@ -317,9 +318,11 @@ public class ServiceBloodPressure extends Service {
     //TODO: CALCULAR BVP
     public void calcularBPSensores() {
 
-        while (data.size() < sample_rate) {
+        while (data.size() < DATA_SIZE) {
             Log.d("FaltaDatos: ", "menos de SR");
         }
+
+        COLLECT_DATA = false;
 
         SimpleDateFormat h_bvp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
         SimpleDateFormat h_ecg = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
@@ -337,9 +340,8 @@ public class ServiceBloodPressure extends Service {
 
         Log.d("hora: ", String.valueOf(horas_bvp.get(3)));
 
-        COLLECT_DATA = false;
 
-        for (i = value_i; i < conj*value_rate; i++){
+        for (i = 0; i < horas_ecg.size(); i++){
             Log.d("entrando: ", "entra");
             /*try {
                 f_bvp = h_bvp.parse(horas_bvp.get(i));
@@ -369,22 +371,14 @@ public class ServiceBloodPressure extends Service {
                 newBp = true;
             }
         }
-        count++;
-        value_i = conj*count;
-        value_rate = value_rate + 1;
+        //count++;
+        //value_i = conj*count;
+        //value_rate = value_rate + 1;
 
-        if(i > data.size()){
-            count = 0;
-            value_i = 0;
-            value_rate = 1;
-            data.clear();
-            data2.clear();
-            COLLECT_DATA = true;
-        }
-
-
-
+        data.clear();
+        data2.clear();
         COLLECT_DATA = true;
+
     }
 
 
