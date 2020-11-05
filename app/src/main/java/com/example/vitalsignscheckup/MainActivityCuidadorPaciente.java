@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     private TextView bpTexttop;
     private TextView bpTextbot;
     private TextView estresText;
+    private Button buttonNotifications;
 
     FirebaseAuth mAuth;
     DatabaseReference reference;
@@ -47,10 +49,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
         idPaciente = intent.getStringExtra("pacienteId");
-        Log.d("pacienteID", "hola" + idPaciente);
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_cuidador_paciente);
@@ -83,6 +84,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         bpTexttop = findViewById(R.id.medicionbpCuitop);
         bpTextbot = findViewById(R.id.medicionbpCuibot);
         estresText = findViewById(R.id.medicionestresCui);
+        buttonNotifications = findViewById(R.id.buttonNotification);
 
         mAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
@@ -210,6 +212,8 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         //estresText.setText("25O");
         //bpText.setText("25O");
 
+
+
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
@@ -244,7 +248,12 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             }
         });
 
-
+        buttonNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "notificaciones", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
