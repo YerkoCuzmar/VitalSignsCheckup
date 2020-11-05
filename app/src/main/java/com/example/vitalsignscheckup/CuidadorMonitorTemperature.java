@@ -47,13 +47,13 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        idPaciente = intent.getStringExtra("pactienteId");
-        namePaciente = intent.getStringExtra("pacienteName");
+        idPaciente = intent.getStringExtra("pacienteId");
+        //namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_temperature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(namePaciente);
+        getSupportActionBar().setTitle("Temperatura"); //en vez de nombre paciente
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
         reference.child("Mediciones").child(idPaciente).child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
+                //System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 Log.d(TAG, "onChildAdded: " + medicion.getMedicion());

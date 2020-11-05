@@ -43,7 +43,7 @@ public class CuidadorMonitorStressLevel extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        idPaciente = intent.getStringExtra("pactienteId");
+        idPaciente = intent.getStringExtra("pacienteId");
         namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_stress_level);

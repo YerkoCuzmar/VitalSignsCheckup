@@ -48,8 +48,8 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
-        idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
-        //idPaciente = intent.getStringExtra("pacienteId");
+        //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
+        idPaciente = intent.getStringExtra("pacienteId");
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main_cuidador_paciente);
@@ -86,6 +86,8 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
+
+        //temperatura
         reference.child("Mediciones").child(idPaciente).child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -116,6 +118,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             }
         });
 
+        //ritmo cardíaco
         reference.child("Mediciones").child(idPaciente).child("2").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -146,6 +149,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             }
         });
 
+        //estrés
         reference.child("Mediciones").child(idPaciente).child("3").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -176,6 +180,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             }
         });
 
+        //presión sanguínea
         reference.child("Mediciones").child(idPaciente).child("4").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -183,7 +188,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(4);
                 bpTexttop.setText(df.format(medicion.getMedicion()));
-                bpTextbot.setText(df.format(medicion.getMedicion()));
+                bpTextbot.setText(df.format(medicion.getMedicion2()));
             }
 
             @Override
@@ -215,7 +220,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+//                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+                Intent monitorTemperatureIntent = new Intent(view.getContext(), CuidadorMonitorTemperature.class);
+                monitorTemperatureIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorTemperatureIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
@@ -224,7 +231,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         heartRateCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+//                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+                Intent monitorHeartRateIntent = new Intent(view.getContext(), CuidadorMonitorHeartRate.class);
+                monitorHeartRateIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorHeartRateIntent);
 //                Toast.makeText(MainActivity.this, "heartRate", Toast.LENGTH_SHORT).show();
             }
@@ -232,7 +241,9 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+//                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+                Intent monitorBloodPressureIntent = new Intent(view.getContext(), CuidadorMonitorBloodPressure.class);
+                monitorBloodPressureIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorBloodPressureIntent);
 //                Toast.makeText(MainActivity.this, "bloodPressure", Toast.LENGTH_SHORT).show();
             }
@@ -241,8 +252,10 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
-//                startActivity(monitorStressLevelIntent);
+//                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
+                Intent monitorStressLevelIntent = new Intent(view.getContext(), CuidadorMonitorStressLevel.class);
+                monitorStressLevelIntent.putExtra("pacienteId", idPaciente);
+                startActivity(monitorStressLevelIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });

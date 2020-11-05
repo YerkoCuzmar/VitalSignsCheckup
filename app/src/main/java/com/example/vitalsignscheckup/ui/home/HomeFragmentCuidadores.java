@@ -33,7 +33,9 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
     private static final String TAG = "HomeFragmentCuidadores";
 
     private RecyclerView rvCuidadores;
+
     private GridLayoutManager glm;
+
     private MainCuidadoresAdapter adapter;
 
     private DatabaseReference mDataBase;
@@ -135,8 +137,8 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
         Pacientes paciente = adapter.getPaciente(position);
         Intent intent = new Intent(this.getActivity(), MainActivityCuidadorPaciente.class); //pasa de actividad a monitoreo de tal sensor
         Log.d("pacienteID", paciente.getId());
-        intent.putExtra("pactienteId", paciente.getId()); // antes de startearlo
-        //intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
+        intent.putExtra("pacienteId", paciente.getId()); // antes de startearlo
+        intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
         startActivity(intent);
         getActivity().finish();
     }

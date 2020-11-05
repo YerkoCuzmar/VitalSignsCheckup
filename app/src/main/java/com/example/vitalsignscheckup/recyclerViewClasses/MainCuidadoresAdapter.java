@@ -63,7 +63,7 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         mDataBase.child("Notificaciones").child(paciente.getId()).child("5").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                holder.tvBadge.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+                //holder.tvBadge.setText(String.valueOf(dataSnapshot.getChildrenCount()));
             }
 
             @Override
