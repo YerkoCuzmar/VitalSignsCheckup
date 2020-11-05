@@ -24,13 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListNotifications"></activity>
-        <activity android:name=".MainActivityCuidadorPaciente" />
+        <activity android:name=".MainActivityCuidadorPaciente"/>
 
         <service android:name=".ServiceHeartRate" />
         <service android:name=".ServiceBloodPressure" />
         <service android:name=".ServiceTemperature" />
         <service android:name=".ServiceNotification" />
-
         <activity android:name=".DeviceActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SplashScreenActivity">
@@ -65,5 +64,4 @@
             android:name=".ActivityLogin"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>
