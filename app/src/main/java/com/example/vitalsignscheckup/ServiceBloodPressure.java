@@ -53,7 +53,7 @@ public class ServiceBloodPressure extends Service {
     int DATA_SIZE = 1000;
     boolean COLLECT_DATA = true;
 
-    long ptt_valor;
+    double ptt_valor;
 
     int conj = 5;
     int value_i = 0;
@@ -109,7 +109,7 @@ public class ServiceBloodPressure extends Service {
     int pulsaciones = 0, pulsaciones_ = 0;
     int pulsaciones2 = 0, pulsaciones_2 = 0;
 
-    int ppm = 0, ppm2 = 0;
+    double ppm = 0.0, ppm2 = 0.0;
     int sample_rate = 20;
     int j = 0;
     int i = 0;
@@ -193,11 +193,11 @@ public class ServiceBloodPressure extends Service {
         startPretendLongRunningTask();
     }
 
-    public int getBp(){
+    public double getBp(){
         return this.ppm;
     }
 
-    public int getBp2(){
+    public double getBp2(){
         return this.ppm2;
     }
 
@@ -260,8 +260,8 @@ public class ServiceBloodPressure extends Service {
 
         //List<String> horas_bvp = new ArrayList<String>(Collections.nCopies(DATA_SIZE, ""));
         //List<String> horas_ecg = new ArrayList<String>(Collections.nCopies(DATA_SIZE, ""));
-        ArrayList<String> horas_bvp = new ArrayList<String>();
-        ArrayList<String> horas_ecg = new ArrayList<String>();
+        ArrayList<Integer> horas_bvp = new ArrayList<Integer>();
+        ArrayList<Integer> horas_ecg = new ArrayList<Integer>();
 
         String time_bvp, time_ecg;
         HashMap<String, List> returnMap = new HashMap<String, List>();
@@ -275,20 +275,25 @@ public class ServiceBloodPressure extends Service {
                         }
                         else if ((i-j) > 0){
                             if (signalsList2.get(i-j) == 1){
-                                time_ecg = horas.get(i-j);
-                                time_bvp = horas.get(i);
+                                //time_ecg = horas.get(i-j);
+                                //time_bvp = horas.get(i);
+                                horas_bvp.add(i);
+                                horas_ecg.add(i-j);
                                 j = 10;
-                                horas_bvp.add("2020-01-01 " + time_bvp);
-                                horas_ecg.add("2020-01-01 " + time_ecg);
+                                //horas_bvp.add("2020-01-01 " + time_bvp);
+                                //horas_ecg.add("2020-01-01 " + time_ecg); si se descomenta cambiar lista Integer a String
+
                             }
                         }
                         else if ((i+j) < signalsList2.size()){
                             if (signalsList2.get(i+j) == 1){
-                                time_ecg = horas.get(i+j);
-                                time_bvp = horas.get(i);
+                                //time_ecg = horas.get(i+j);
+                                //time_bvp = horas.get(i);
+                                horas_bvp.add(i);
+                                horas_ecg.add(i+j);
                                 j = 10;
-                                horas_bvp.add("2020-01-01 " + time_bvp);
-                                horas_ecg.add("2020-01-01 " + time_ecg);
+                                //horas_bvp.add("2020-01-01 " + time_bvp);
+                                //horas_ecg.add("2020-01-01 " + time_ecg);
                             }
                         }
                     }
@@ -355,20 +360,16 @@ public class ServiceBloodPressure extends Service {
 
         HashMap<String, List> resultsMap = editar();
 
-        List<String> horas_bvp = new ArrayList<String>();
-        List<String> horas_ecg = new ArrayList<String>();
-
+        List<Integer> horas_bvp = new ArrayList<Integer>();
+        List<Integer> horas_ecg = new ArrayList<Integer>();   //si es con la hora cambiar a string y descomentar try,catch,etc...
 
         horas_bvp = resultsMap.get("horas_bvp");
         horas_ecg = resultsMap.get("horas_ecg");
 
 
-        Log.d("Ejemplo : ", String.valueOf(horas_bvp.get(3)));
-        Log.d("Ejemplo : ", String.valueOf(horas_ecg.get(3)));
-
         for (i = value_i; i < conj*value_rate; i++){
             Log.d("entrando: ", "entra");
-            try {
+            /*try {
                 f_bvp = h_bvp.parse(horas_bvp.get(i));
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -377,14 +378,25 @@ public class ServiceBloodPressure extends Service {
                 f_ecg = h_ecg.parse(horas_ecg.get(i));
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
             //Log.d("bvp: ", String.valueOf(f_bvp));
             //Log.d("ecg: ", String.valueOf(f_ecg));
-            Log.d("Diferencia: ", String.valueOf(Math.abs(f_bvp.getTime()-f_ecg.getTime())));
-            ptt_valor = f_bvp.getTime() - f_ecg.getTime();
+            //Log.d("Diferencia: ", String.valueOf(Math.abs(f_bvp.getTime()-f_ecg.getTime())));
+            Log.d("Diferencia: ", String.valueOf((Math.abs(horas_bvp.get(i) - horas_ecg.get(i)))));
+            //ptt_valor = f_bvp.getTime() - f_ecg.getTime();
+            dif = (Math.abs(horas_bvp.get(i) - horas_ecg.get(i)));  //numero entero
 
-            ppm = ((int) (218 + (-0.53) * ptt_valor) + ppm)/2;
-            ppm2 = ((int) (83 + 0.1 * ptt_valor) + ppm2)/2;
+            ptt_valor =  (double) dif/sample_rate;
+            ptt_valor = ptt_valor * 1000;
+
+            Log.d("PTT: ", String.valueOf(ptt_valor));
+
+            if (ptt_valor > 130 && ptt_valor < 250){   //harcodeando los valores para que sean coherentes
+                ppm = ((int) (218 + (-0.53) * ptt_valor) + ppm)/2;
+                ppm2 = ((int) (83 + 0.1 * ptt_valor) + ppm2)/2;
+            }
+
+
             newBp = true;
         }
         count++;
