@@ -34,7 +34,7 @@ import java.text.DecimalFormat;
 public class MonitorTemperature extends AppCompatActivity {
 
     int medicion = 0;
-    private static final String TAG = "MonitorStressLevel";
+    private static final String TAG = "MonitorTemperature";
     DecimalFormat df = new DecimalFormat("#0.00");
 
     FirebaseAuth mAuth;
@@ -68,7 +68,6 @@ public class MonitorTemperature extends AppCompatActivity {
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
-        //TODO: definir tempText
 
         tempText = findViewById(R.id.medida_temp);
 
@@ -79,14 +78,14 @@ public class MonitorTemperature extends AppCompatActivity {
             @Override
             public void onChanged(ServiceTemperature.MyBinder myBinder){
                 if(myBinder != null){
-                    //Log.d(TAG, "onChanged: connected to service"); no se porque tira error
+                    Log.d(TAG, "onChanged: connected to service");
                     mService = myBinder.getService();
                     mService.unPausedPretendLongRunningTask();
                     mViewModel.setIsTempUpdating(true);
                     mViewModel.setNewTemp(false);
                 }
                 else {
-                    //Log.d(TAG, "onChanged: unbound from service"); no se porque tira error
+                    Log.d(TAG, "onChanged: unbound from service");
                     mService = null;
                 }
             }
@@ -104,7 +103,6 @@ public class MonitorTemperature extends AppCompatActivity {
                                 mViewModel.setIsTempUpdating(false);
                             }
                             if (mService.getNew_temp()){
-
                                 String temp =  df.format(mService.getTemp());
                                 Mediciones medicion = new Mediciones(mService.getTemp(), 1);
                                 Log.d(TAG, "run: newTemp" + temp);
@@ -112,7 +110,6 @@ public class MonitorTemperature extends AppCompatActivity {
                                 medicion.enviaraBD();
                                 mService.setNew_temp(false);
                             }
-
                             handler.postDelayed(this, 1000);
                         }
                         else {
@@ -133,11 +130,9 @@ public class MonitorTemperature extends AppCompatActivity {
         reference.child("Mediciones").child(id).child("1").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println(dataSnapshot);
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
                 Log.d(TAG, "onChildAdded: " + medicion.getMedicion());
-                tempText.setText(df.format(medicion.getMedicion()));
                 historyAdapter.addNewHistory(medicion);
             }
 
@@ -202,14 +197,4 @@ public class MonitorTemperature extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, ServiceTemperature.class);
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
-
-    public void viewHistory(View view){
-        if(historyAdapter != null){
-            Mediciones med = new Mediciones(medicion, 1);
-            med.enviaraBD();
-            medicion++;
-        }
-    }
-
-
 }

@@ -34,7 +34,7 @@ public class ServiceTemperature extends Service {
 //    double d = 33628.0;
     double d = 24920.0; // 50 = 8
 
-    private IBinder mBinder = new MyBinder();
+    private IBinder mBinder;
     private Handler mHandler;
     private Boolean isPaused;
 
@@ -65,6 +65,7 @@ public class ServiceTemperature extends Service {
     public void onCreate(){
         super.onCreate();
         mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()));
+        mBinder = new MyBinder();
         isPaused = true;
         br = new TempDataReciever();
         new_temp = false;

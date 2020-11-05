@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="background">@color/colorBackground</item>
     </style>
+    
+    <style name="sosButton" parent="parent">
+        <item name="backgroundTint">@color/colorDanger</item>
+    </style>
 
     <style name="MaterialCardTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

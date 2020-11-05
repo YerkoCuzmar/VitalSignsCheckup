@@ -49,7 +49,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         String mRead;
         holder.date.setText(data.getDate());
         holder.time.setText(data.getTime());
-        if(data.getType() == 2){
+        if(data.getType() == 4){
             mRead = (int) data.getMedicion() + "/" + (int) data.getMedicion2();
         }
         else {
