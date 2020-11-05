@@ -5,28 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".MainActivityCuidadorPaciente">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04136253" />
+        app:layout_constraintGuide_begin="16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.96107054" />
+        app:layout_constraintGuide_end="16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="677dp" />
+        app:layout_constraintGuide_begin="143dp" />
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -195,4 +195,26 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </GridLayout>
+
+
+    <ImageView
+        android:id="@+id/ivfotoperfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="7dp"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:ignore="MissingConstraints" >
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/idnombreapellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre Apellido"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="240dp"
+        tools:layout_editor_absoluteY="98dp"></TextView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

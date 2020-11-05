@@ -1,29 +1,32 @@
 package com.example.vitalsignscheckup;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toolbar;
 
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
-
-
+public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(MainActivity.this, "INICIOLALAALLA", Toast.LENGTH_SHORT).show();
-
+    protected void onCreate(Bundle savedInstanceState) {
+        Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main_cuidador_paciente);
+        setContentView(R.layout.activity_main_cuidador_paciente);
 
+
+
+
+/*
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.custom_app_bar);
@@ -55,18 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //servicio heartRate
-        /*
-        heartRateCard.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent ServiceHeartRateIntent = new Intent(MainActivity.this, ServiceHeartRate.class);
-                startService(ServiceHeartRateIntent);
-                Toast.makeText(MainActivity.this, "heartRateService", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
@@ -84,5 +75,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+*/
+
     }
+
 }
