@@ -3,17 +3,16 @@ package com.example.vitalsignscheckup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.Objects;
-
 public class MainActivityCuidadorPaciente extends AppCompatActivity {
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +21,12 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         //setContentView(R.layout.activity_main_cuidador_paciente);
         setContentView(R.layout.activity_main_cuidador_paciente);
 
-    /*
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.custom_app_bar);
-        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
-        actionBarTitle.setText(R.string.app_name);
-    */
+//        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(R.layout.custom_app_bar);
+//        TextView actionBarTitle = findViewById(R.id.custom_app_bar_title);
+//        actionBarTitle.setText(R.string.app_name);
+
         MaterialCardView temperatureCard   = findViewById(R.id.temperatureCard);
 
         MaterialCardView heartRateCard     = findViewById(R.id.heartRateCard);

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vitalsignscheckup.CuidadorMonitorTemperature;
 import com.example.vitalsignscheckup.MainActivityCuidadorPaciente;
 import com.example.vitalsignscheckup.R;
 import com.example.vitalsignscheckup.recyclerViewClasses.MainCuidadoresAdapter;
@@ -64,6 +63,7 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
                 Pacientes paciente = new Pacientes();
                 paciente.setId(dataSnapshot.getKey());
                 paciente.setName(dataSnapshot.child("name").getValue().toString());
+                Log.d(TAG, "onChildAdded: img" + paciente.getImage());
 //                dataSnapshot.child("mediciones").child("1").getValue()
                 adapter.addPaciente(paciente);
                 adapter.notifyDataSetChanged();

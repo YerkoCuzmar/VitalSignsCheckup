@@ -42,7 +42,12 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
     @Override
     public void onBindViewHolder(MainCuidadoresViewHolder holder, int position) {
         Pacientes paciente = data.get(position);
-        //holder.ivProfile.setImageResource(paciente.getImage());
+        if(paciente.getImage() == 0){
+            holder.ivProfile.setImageResource(R.drawable.ic_awesome_user_circle);
+        }
+        else {
+            holder.ivProfile.setImageResource(paciente.getImage());
+        }
         holder.tvName.setText(paciente.getName());
         holder.tvTemperature.setText(paciente.getLastTemp());
         holder.tvHeartRate.setText(paciente.getLastHeartRate());
