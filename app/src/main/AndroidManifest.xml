@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivityCuidadorPaciente"/>
+        <activity android:name=".ListNotifications"></activity>
+        <activity android:name=".MainActivityCuidadorPaciente" />
 
         <service android:name=".ServiceHeartRate" />
         <service android:name=".ServiceBloodPressure" />
@@ -62,7 +63,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityLogin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
