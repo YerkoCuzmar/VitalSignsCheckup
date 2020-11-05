@@ -262,7 +262,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         buttonNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "notificaciones", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), "notificaciones", Toast.LENGTH_SHORT).show();
             }
         });
 
