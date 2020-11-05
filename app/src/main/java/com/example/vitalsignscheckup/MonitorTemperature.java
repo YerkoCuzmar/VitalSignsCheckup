@@ -110,7 +110,7 @@ public class MonitorTemperature extends AppCompatActivity {
                                 medicion.enviaraBD();
                                 mService.setNew_temp(false);
                             }
-                            handler.postDelayed(this, 1000);
+                            handler.postDelayed(this, 10000);
                         }
                         else {
                             handler.removeCallbacks(this);
@@ -119,7 +119,7 @@ public class MonitorTemperature extends AppCompatActivity {
                 };
 
                 if (isUpdating){
-                    handler.postDelayed(runnable, 100);
+                    handler.postDelayed(runnable, 10000);
                 }
             }
         });

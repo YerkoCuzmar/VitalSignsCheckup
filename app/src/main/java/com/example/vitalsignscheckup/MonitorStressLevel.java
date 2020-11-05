@@ -23,10 +23,14 @@ import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.DecimalFormat;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorStressLevel extends AppCompatActivity {
 
     private static final String TAG = "MonitorStressLevel";
+
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     private ServiceStressLevel mService;                 //servicio
     private MonitorStressLevelViewModel mViewModel;      //viewModel
@@ -35,7 +39,8 @@ public class MonitorStressLevel extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference reference;
 
-    private TextView stressText;                       //medida de nivel de estres
+    private TextView stressText;
+    private TextView stressParam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class MonitorStressLevel extends AppCompatActivity {
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
         stressText = (TextView) findViewById(R.id.medida_stress);
+        stressParam = (TextView) findViewById(R.id.alerta_stress);
 
         mViewModel = ViewModelProviders.of(this).get(MonitorStressLevelViewModel.class);
 
@@ -91,9 +97,16 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 mViewModel.setIsStressUpdating(false);
                             }
                             if(mService.getNewStressLevel()){
-                                int stress = mService.getSL();
+                                Double stress = mService.getSL();
+                                String text = "";
                                 Mediciones medicion = new Mediciones(stress, 3);
-                                stressText.setText(String.valueOf(stress));
+                                if(stress < 5){
+                                    text = "Niveles de Estrés Normales";
+                                }else{
+                                    text = "Niveles de Estrés Elevados";
+                                }
+                                stressText.setText(df.format(stress));
+                                stressParam.setText(text);
                                 historyAdapter.addNewHistory(medicion);
                                 mService.setNewStressLevel(false);
                             }

@@ -24,6 +24,7 @@ package="com.example.vitalsignscheckup">
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <service android:name=".ServiceHeartRate" />
+    <service android:name=".ServiceStressLevel" />
     <service android:name=".ServiceBloodPressure" />
     <service android:name=".ServiceTemperature" />
     <service android:name=".ServiceNotification" />
