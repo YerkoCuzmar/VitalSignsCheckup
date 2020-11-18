@@ -50,14 +50,11 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
-        //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
         idPaciente = intent.getStringExtra("pacienteId");
 
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main_cuidador_paciente);
         setContentView(R.layout.activity_main_cuidador_paciente);
         Toolbar toolbar = findViewById(R.id.pacienteToolbar);
         setSupportActionBar(toolbar);
@@ -228,7 +225,6 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
                 Intent monitorHeartRateIntent = new Intent(view.getContext(), CuidadorMonitorHeartRate.class);
                 monitorHeartRateIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorHeartRateIntent);
-//                Toast.makeText(MainActivity.this, "heartRate", Toast.LENGTH_SHORT).show();
             }
         });
 
