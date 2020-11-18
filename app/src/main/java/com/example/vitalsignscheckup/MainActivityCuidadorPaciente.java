@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,13 +40,17 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     DatabaseReference reference;
     private String idPaciente;
     DecimalFormat df = new DecimalFormat("#0.00");
+    DecimalFormat tempFormat = new DecimalFormat("#0.00");
+    DecimalFormat HRFormat = new DecimalFormat("#0");
+    DecimalFormat BPFormat = new DecimalFormat("#0");
+    DecimalFormat SLFormat = new DecimalFormat("#0.00");
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "MOSTRÁ LOS DATOS PAPAFRITA", Toast.LENGTH_SHORT).show();
 
         Intent intent = getIntent();
         //idPaciente = "5ulURkmhPUOuKOhPIrd4DsUsTAh1";
@@ -96,7 +99,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(1);
-                tempText.setText(df.format(medicion.getMedicion()));
+                tempText.setText(tempFormat.format(medicion.getMedicion()) + "°C");
             }
 
             @Override
@@ -126,7 +129,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(2);
-                hrText.setText(df.format(medicion.getMedicion()));
+                hrText.setText(BPFormat.format(medicion.getMedicion())+"ppm");
             }
 
             @Override
@@ -156,7 +159,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(3);
-                estresText.setText(df.format(medicion.getMedicion()));
+                estresText.setText(SLFormat.format(medicion.getMedicion())+ " \u00B5" + "S");
             }
 
             @Override
@@ -186,8 +189,8 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
                 medicion.setType(4);
-                bpTexttop.setText(df.format(medicion.getMedicion()));
-                bpTextbot.setText(df.format(medicion.getMedicion2()));
+                bpTexttop.setText(BPFormat.format(medicion.getMedicion())+"mmHg");
+                bpTextbot.setText(BPFormat.format(medicion.getMedicion2())+"mmHg");
             }
 
             @Override
@@ -211,26 +214,17 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
             }
         });
 
-
-        //tempText.setText("25O");
-        //hrText.setText("25O");
-        //estresText.setText("25O");
-        //bpText.setText("25O");
-
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
                 Intent monitorTemperatureIntent = new Intent(view.getContext(), CuidadorMonitorTemperature.class);
                 monitorTemperatureIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorTemperatureIntent);
-//                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         heartRateCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
                 Intent monitorHeartRateIntent = new Intent(view.getContext(), CuidadorMonitorHeartRate.class);
                 monitorHeartRateIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorHeartRateIntent);
@@ -240,29 +234,24 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
                 Intent monitorBloodPressureIntent = new Intent(view.getContext(), CuidadorMonitorBloodPressure.class);
                 monitorBloodPressureIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorBloodPressureIntent);
-//                Toast.makeText(MainActivity.this, "bloodPressure", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
                 Intent monitorStressLevelIntent = new Intent(view.getContext(), CuidadorMonitorStressLevel.class);
                 monitorStressLevelIntent.putExtra("pacienteId", idPaciente);
                 startActivity(monitorStressLevelIntent);
-//                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 
         buttonNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(v.getContext(), "notificaciones", Toast.LENGTH_SHORT).show();
             }
         });
 

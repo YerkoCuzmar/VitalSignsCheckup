@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-//import androidx.lifecycle.ViewModelProviders;
 
 public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAdapter.OnPacienteListener{
     private static final String TAG = "HomeFragmentCuidadores";
@@ -44,7 +42,6 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Toast.makeText(getContext(), "hola2", Toast.LENGTH_SHORT).show();
 
         // Inflar o cargar el layout para el Fragment
         View root = inflater.inflate(R.layout.fragment_home_cuidadores, container, false);
