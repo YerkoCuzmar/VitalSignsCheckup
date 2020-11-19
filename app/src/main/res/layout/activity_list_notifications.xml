@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ListNotifications">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notification_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorTitleText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNotificaciones"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

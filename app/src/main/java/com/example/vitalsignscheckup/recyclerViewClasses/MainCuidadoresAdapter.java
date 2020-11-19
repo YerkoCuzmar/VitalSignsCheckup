@@ -89,6 +89,7 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
     public void addPaciente(Pacientes paciente){
         if(!data.contains(paciente)){
             data.add(paciente);
+            notifyDataSetChanged();
         }
     }
 

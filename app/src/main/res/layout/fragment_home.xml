@@ -1,42 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorBackground"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04136253" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.96107054" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="583dp" />
-
     <GridLayout
+        android:layout_marginTop="24dp"
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:rowCount="2"
-        app:layout_constraintEnd_toEndOf="@id/guideline_right"
-        app:layout_constraintStart_toEndOf="@id/guideline_top"
-        app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_top">
+        android:layout_gravity="center">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/temperatureCard"
@@ -61,8 +40,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
                     android:contentDescription="@string/contentDescriptionTemperature"
-                    android:src="@drawable/ic_thermometer">
-                </ImageView>
+                    android:src="@drawable/ic_thermometer"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -72,8 +50,7 @@
                     android:text="@string/MonitorTemperatureTitle"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="18sp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -102,8 +79,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
                     android:contentDescription="@string/contentDescriptionHeartRate"
-                    android:src="@drawable/ic_heart">
-                </ImageView>
+                    android:src="@drawable/ic_heart"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -112,8 +89,7 @@
                     android:text="@string/MonitorHeartRateTitle"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="18sp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -139,10 +115,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="0.3"
                     android:contentDescription="@string/contentDescriptionBloodPressure"
-                    android:src="@drawable/ic_blood_pressure"
-                    android:layout_weight="0.3">
-                </ImageView>
+                    android:src="@drawable/ic_blood_pressure"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -151,8 +127,7 @@
                     android:text="@string/MonitorBloodPressureTitle"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="18sp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -180,8 +155,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
                     android:contentDescription="@string/contentDescriptionStressLevel"
-                    android:src="@drawable/ic_stress">
-                </ImageView>
+                    android:src="@drawable/ic_stress"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -190,8 +165,7 @@
                     android:text="@string/MonitorStressLevelTitle"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="18sp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </GridLayout>
@@ -199,21 +173,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+
         <Button
             android:id="@+id/btnNotification"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/menu_notificacion"
+            android:background="@drawable/round_button"
             android:backgroundTint="@color/colorDanger"
-            android:textColor="@color/whiteTextColor"
-            android:textSize="18dp"
             android:padding="10dp"
-            />
+            android:text="@string/menu_notificacion"
+            android:textColor="@color/whiteTextColor"
+            android:textSize="18dp" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

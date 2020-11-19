@@ -128,7 +128,7 @@ public class MisPacientesCuidadoresAdapter extends RecyclerView.Adapter<MisPacie
         return data.size();
     }
 
-    class MisPacientesCuidadoresViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MisPacientesCuidadoresViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView ivProfile, ivMoreOptions;
         TextView tvName, tvEmail;

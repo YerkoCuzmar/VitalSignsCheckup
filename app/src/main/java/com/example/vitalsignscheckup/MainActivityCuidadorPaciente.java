@@ -39,6 +39,7 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference reference;
     private String idPaciente;
+    private String namePaciente;
     DecimalFormat df = new DecimalFormat("#0.00");
     DecimalFormat tempFormat = new DecimalFormat("#0.00");
     DecimalFormat HRFormat = new DecimalFormat("#0");
@@ -53,12 +54,13 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
 
         Intent intent = getIntent();
         idPaciente = intent.getStringExtra("pacienteId");
+        namePaciente = intent.getStringExtra("pacienteName");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_cuidador_paciente);
-        Toolbar toolbar = findViewById(R.id.pacienteToolbar);
+        toolbar = findViewById(R.id.pacienteToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Mi Paciente");
+        getSupportActionBar().setTitle(namePaciente);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -248,6 +250,10 @@ public class MainActivityCuidadorPaciente extends AppCompatActivity {
         buttonNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent notificationsIntent = new Intent(v.getContext(), ListNotifications.class);
+                notificationsIntent.putExtra("pacienteId", idPaciente);
+                notificationsIntent.putExtra("pacienteName", namePaciente);
+                startActivity(notificationsIntent);
             }
         });
 
