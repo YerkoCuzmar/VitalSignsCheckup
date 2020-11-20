@@ -30,7 +30,7 @@ import java.text.DecimalFormat;
 public class CuidadorMonitorStressLevel extends AppCompatActivity {
 
     private static final String TAG = "MonitorStressLevel";
-    DecimalFormat df = new DecimalFormat("#0");
+    DecimalFormat df = new DecimalFormat("#0.00");
     private String idPaciente;
     private String namePaciente;
 

@@ -56,6 +56,13 @@
                 android:gravity="center|center_vertical"
                 android:text="--"
                 android:textSize="50sp" />
+            <TextView
+                android:id="@+id/med_ppm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" \u00B5S"
+                android:textSize="30sp" />
 
         </LinearLayout>
 
