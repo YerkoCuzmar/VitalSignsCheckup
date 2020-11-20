@@ -111,7 +111,7 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 }else{
                                     text = "Niveles de Estrés Elevados";
                                 }
-                                stressText.setText(sbp + " \u00B5" + "S");
+                                stressText.setText(sbp);
                                 stressParam.setText(text);
                                 medicion.enviaraBD();
                                 mService.setNewStressLevel(false);
