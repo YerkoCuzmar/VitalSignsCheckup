@@ -3,11 +3,11 @@ package com.example.vitalsignscheckup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,14 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 public class ListNotifications extends AppCompatActivity {
 
     private Toolbar toolbar;
 
     private RecyclerView rvNotifications;
-    private ArrayList<Notificaciones> mNotificaciones = new ArrayList<>();
     private NotificacionesAdapter adapter;
     private GridLayoutManager glm;
 
@@ -69,7 +66,7 @@ public class ListNotifications extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        mDataBase.child("Notificaciones").child(idPaciente).child("5").addChildEventListener(new ChildEventListener() {
+        mDataBase.child("Notificaciones").child(idPaciente).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Notificaciones notificacion = dataSnapshot.getValue(Notificaciones.class);

@@ -6,6 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -62,9 +63,24 @@ public class Notificaciones {
     }
 
     public void enviaraBD() {
+        final ArrayList<String> idCuidadores = new ArrayList<>();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
-        mDataBase.child("Notificaciones").child(id).child(String.valueOf(this.type)).push().setValue(this);
+//        mDataBase.child("Usuarios").child(id).child("cuidadores").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.d("enviarNotificacion", "onDataChange: " + dataSnapshot.getKey());
+//                for (DataSnapshot cuidadorSnapshot : dataSnapshot.getChildren()) {
+//                    idCuidadores.add(cuidadorSnapshot.getKey());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        mDataBase.child("Notificaciones").child(id).push().setValue(this);
     }
 }
