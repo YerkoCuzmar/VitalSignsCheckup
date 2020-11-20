@@ -57,7 +57,7 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
         }
         holder.tvName.setText(paciente.getName());
         holder.tvPlace.setText(paciente.getPlace());
-        holder.tvBadge.setText(String.valueOf(0));
+//        holder.tvBadge.setText(String.valueOf(0));
 
         DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
