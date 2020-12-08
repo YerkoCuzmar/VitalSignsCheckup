@@ -3,10 +3,12 @@ package com.example.vitalsignscheckup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +39,18 @@ public class GraficoTemperature extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         String userId = mAuth.getCurrentUser().getUid();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.graficoToolbar);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Gráfico Temperatura");
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         double x,y;
         x = -5.0;
         GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -100,6 +113,8 @@ public class GraficoTemperature extends AppCompatActivity {
         graph.getViewport().setMaxX(10);
 
         graph.addSeries(series);
+
+
 
 
     }

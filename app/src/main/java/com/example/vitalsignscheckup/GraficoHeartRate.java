@@ -3,10 +3,12 @@ package com.example.vitalsignscheckup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.vitalsignscheckup.models.Mediciones;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +35,18 @@ public class GraficoHeartRate extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vergrafico);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.graficoToolbar);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Gráfico Ritmo cardíaco");
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         String userId = mAuth.getCurrentUser().getUid();
