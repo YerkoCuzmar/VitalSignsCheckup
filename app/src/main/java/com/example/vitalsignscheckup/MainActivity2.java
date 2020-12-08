@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,11 +96,19 @@ public class MainActivity2 extends AppCompatActivity {
                     Intent configIntent = new Intent(getApplicationContext(), ConfigActivity.class);
                     startActivity(configIntent);
                 } else if (id == R.id.nav_cerrar_sesion) {
+                    stopService(new Intent(getApplicationContext(), ServiceTemperature.class));
+                    stopService(new Intent(getApplicationContext(), ServiceHeartRate.class));
+                    stopService(new Intent(getApplicationContext(), ServiceBloodPressure.class));
+                    stopService(new Intent(getApplicationContext(), ServiceStressLevel.class));
                     mAuth.signOut();
                     startActivity(new Intent(MainActivity2.this, ActivityLogin.class));
+                    getApplicationContext().getSharedPreferences("Tutorial", Context.MODE_PRIVATE).edit().clear().apply();
+                    getApplicationContext().getSharedPreferences("TempConfig", Context.MODE_PRIVATE).edit().clear().apply();
+                    getApplicationContext().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE).edit().clear().apply();
+                    getApplicationContext().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE).edit().clear().apply();
+                    getApplicationContext().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE).edit().clear().apply();
                     finish(); //para no volver atras cuando se cierre sesion
                 }
-
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;

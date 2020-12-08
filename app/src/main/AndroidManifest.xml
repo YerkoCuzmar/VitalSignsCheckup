@@ -23,14 +23,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListNotifications"></activity>
-        <activity android:name=".MainActivityCuidadorPaciente"/>
+        <activity android:name=".TutorialActivity"></activity>
+        <activity android:name=".ListNotifications" />
+        <activity android:name=".MainActivityCuidadorPaciente" />
 
         <service android:name=".ServiceHeartRate" />
         <service android:name=".ServiceStressLevel" />
         <service android:name=".ServiceBloodPressure" />
         <service android:name=".ServiceTemperature" />
         <service android:name=".ServiceNotification" />
+
         <activity android:name=".DeviceActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".SplashScreenActivity">
@@ -40,9 +42,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CuidadorMonitorBloodPressure"/>
-        <activity android:name=".CuidadorMonitorStressLevel"/>
-        <activity android:name=".CuidadorMonitorHeartRate"/>
+        <activity android:name=".CuidadorMonitorBloodPressure" />
+        <activity android:name=".CuidadorMonitorStressLevel" />
+        <activity android:name=".CuidadorMonitorHeartRate" />
         <activity android:name=".CuidadorMonitorTemperature" />
         <activity android:name=".checkHistory" />
         <activity android:name=".MonitorStressLevel" />
@@ -65,4 +67,5 @@
             android:name=".ActivityLogin"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
+
 </manifest>

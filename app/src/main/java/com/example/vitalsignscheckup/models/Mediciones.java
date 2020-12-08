@@ -80,8 +80,9 @@ public class Mediciones {
     public void enviaraBD(){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
-        String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
-        mDataBase.child("Mediciones").child(id).child(String.valueOf(this.type)).push().setValue(this);
+        if(mAuth.getCurrentUser() != null){
+            String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario nuevo
+            mDataBase.child("Mediciones").child(id).child(String.valueOf(this.type)).push().setValue(this);
+        }
     }
-
 }
