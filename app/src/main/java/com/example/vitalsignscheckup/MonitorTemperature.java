@@ -124,6 +124,9 @@ public class MonitorTemperature extends AppCompatActivity {
             }
         });
 
+
+
+
         mAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario

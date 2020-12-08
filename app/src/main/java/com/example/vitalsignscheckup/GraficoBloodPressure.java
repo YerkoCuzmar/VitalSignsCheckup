@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 public class GraficoBloodPressure extends AppCompatActivity {
 
@@ -66,7 +70,22 @@ public class GraficoBloodPressure extends AppCompatActivity {
             series.appendData(new DataPoint(x,y), true, 500);
         }*/
         //graph.addSeries(series);  //RECORDAR ESTOOOOOOOOO!!!!!!!!!!!
-        Log.d("Paciente", idPaciente);
+        //Log.d("Paciente", idPaciente);
+
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+"agregar fecha y hora" + " Presión sistólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        series2.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+"agregar fecha y hora" + " Presión diastólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         final int[] i = {0};
         mDataBase.child("Mediciones").child(idPaciente).child("4").addChildEventListener(new ChildEventListener() {  //el "1" es por la temperatura
             @Override
@@ -124,6 +143,11 @@ public class GraficoBloodPressure extends AppCompatActivity {
         series.setColor(Color.RED);
         series2.setColor(Color.BLUE);
         series2.setTitle("Presión diastólica");
+        series.setDrawDataPoints(true);
+        series2.setDrawDataPoints(true);
+        series.setDataPointsRadius(15);
+        series2.setDataPointsRadius(15);
+
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 public class GraficoHeartRate extends AppCompatActivity {
 
@@ -62,7 +66,15 @@ public class GraficoHeartRate extends AppCompatActivity {
             series.appendData(new DataPoint(x,y), true, 500);
         }*/
         //graph.addSeries(series);  //RECORDAR ESTOOOOOOOOO!!!!!!!!!!!
-        Log.d("Paciente", idPaciente);
+        //Log.d("Paciente", idPaciente);
+
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(GraficoHeartRate.this, "Fecha y hora: "+"agregar fecha y hora" + " Ritmo cardíaco: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         final int[] i = {0};
         mDataBase.child("Mediciones").child(idPaciente).child("2").addChildEventListener(new ChildEventListener() {  //el "1" es por la temperatura
             @Override
@@ -114,6 +126,7 @@ public class GraficoHeartRate extends AppCompatActivity {
 
         graph.addSeries(series);
 
-
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(15);
     }
 }
