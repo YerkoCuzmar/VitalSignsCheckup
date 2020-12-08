@@ -53,6 +53,10 @@
         <activity android:name=".MisPacientesActivity" />
         <activity android:name=".ListaCuidadores" />
         <activity android:name=".ListaPacientes" />
+        <activity android:name=".GraficoTemperature"/>
+        <activity android:name=".GraficoHeartRate"/>
+        <activity android:name=".GraficoStressLevel"/>
+        <activity android:name=".GraficoBloodPressure"/>
         <activity
             android:name=".MainActivity2"
             android:theme="@style/MaterialCardTheme" />

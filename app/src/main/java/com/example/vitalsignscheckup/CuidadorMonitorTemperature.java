@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +45,7 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
     private TextView tempText;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
 
+    private Button verGrafico;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,9 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
         idPaciente = intent.getStringExtra("pacienteId");
         //namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitor_temperature);
+        setContentView(R.layout.activity_monitor_temperature_mipaciente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.temperatureToolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Temperatura"); //en vez de nombre paciente
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -68,6 +72,18 @@ public class CuidadorMonitorTemperature extends AppCompatActivity {
         historyAdapter = new HistoryAdapter();
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
+
+        verGrafico = (Button) findViewById(R.id.grafico);
+        verGrafico.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(CuidadorMonitorTemperature.this, GraficoTemperature.class); //pasa de actividad a monitoreo de tal sensor
+                intent.putExtra("pacienteId", idPaciente); // antes de startearlo
+                startActivity(intent);
+
+            }
+        });
+
 
         //TODO: definir tempText
 

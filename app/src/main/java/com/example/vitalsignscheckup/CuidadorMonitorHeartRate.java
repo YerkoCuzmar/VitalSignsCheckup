@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,7 @@ public class CuidadorMonitorHeartRate extends AppCompatActivity {
     DecimalFormat df = new DecimalFormat("#0");
     private String idPaciente;
     private String namePaciente;
-
+    private Button verGrafico;
     FirebaseAuth mAuth;
     DatabaseReference reference;  //nodo principal de la base de datos
     private TextView heartText;   //medida de nivel de pulso
@@ -46,7 +47,7 @@ public class CuidadorMonitorHeartRate extends AppCompatActivity {
         idPaciente = intent.getStringExtra("pacienteId");
         namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitor_heart_rate);
+        setContentView(R.layout.activity_monitor_heart_rate_mipaciente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.heartratetoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(namePaciente);
@@ -69,6 +70,18 @@ public class CuidadorMonitorHeartRate extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+
+        verGrafico = (Button) findViewById(R.id.grafico);
+        verGrafico.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(CuidadorMonitorHeartRate.this, GraficoHeartRate.class); //pasa de actividad a monitoreo de tal sensor
+                intent.putExtra("pacienteId", idPaciente); // antes de startearlo
+                startActivity(intent);
+
+            }
+        });
+
         reference.child("Mediciones").child(idPaciente).child("2").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
