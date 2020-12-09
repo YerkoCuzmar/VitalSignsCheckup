@@ -119,7 +119,7 @@ public class MonitorTemperature extends AppCompatActivity {
                 };
 
                 if (isUpdating){
-                    handler.postDelayed(runnable, 10000);
+                    handler.postDelayed(runnable, 100);
                 }
             }
         });
