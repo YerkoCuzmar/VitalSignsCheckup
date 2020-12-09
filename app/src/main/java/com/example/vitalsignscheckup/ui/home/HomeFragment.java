@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,7 +27,6 @@ import com.google.android.material.card.MaterialCardView;
 
 public class HomeFragment extends Fragment {
     SharedPreferences preferences;
-    SharedPreferences.Editor spEditor;
     int showTutorial = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,7 +40,55 @@ public class HomeFragment extends Fragment {
         MaterialCardView bloodPressureCard = (MaterialCardView) root.findViewById(R.id.bloodPressureCard);
         MaterialCardView stressLevelCard   = (MaterialCardView) root.findViewById(R.id.stressLevelCard);
 
+        ImageView temperatureDisconnected = root.findViewById(R.id.tempDisconnected);
+        ImageView heartRateDisconnected = root.findViewById(R.id.hrDisconnected);
+        ImageView bloodPressureDisconnected = root.findViewById(R.id.bpDisconnected);
+        ImageView stressLevelDisconnected = root.findViewById(R.id.stressDisconnected);
+
+        TextView bloodPressureTitle = root.findViewById(R.id.bpTitle);
+        TextView stressLevelTitle = root.findViewById(R.id.stressTitle);
+
         Button btnNotification = (Button) root.findViewById(R.id.btnNotification);
+
+        preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", null);
+        System.out.println("puertoBVP: " + portbvp);
+
+        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", null);
+        System.out.println("puertoECG: " + portecg);
+
+        preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+        String porttemp = preferences.getString("port", null);
+        System.out.println("puertoTEMP: " + porttemp);
+
+        preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", null);
+        System.out.println("puertoEDA: " + porteda);
+
+        if (porttemp == null){
+            temperatureCard.setEnabled(false);
+            temperatureDisconnected.setVisibility(View.VISIBLE);
+        }
+        if(portbvp == null){
+            heartRateCard.setEnabled(false);
+            heartRateDisconnected.setVisibility(View.VISIBLE);
+
+            bloodPressureCard.setEnabled(false);
+            bloodPressureDisconnected.setVisibility(View.VISIBLE);
+            bloodPressureTitle.setTextSize(16);
+        }
+        if(portecg == null){
+            bloodPressureCard.setEnabled(false);
+            bloodPressureDisconnected.setVisibility(View.VISIBLE);
+            bloodPressureTitle.setTextSize(16);
+        }
+        if(porteda == null){
+            stressLevelCard.setEnabled(false);
+            stressLevelDisconnected.setVisibility(View.VISIBLE);
+            stressLevelTitle.setTextSize(16);
+        }
+
 
         //TEMPERATURE
         temperatureCard.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +107,7 @@ public class HomeFragment extends Fragment {
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         //HEART RATE
         heartRateCard.setOnClickListener(new View.OnClickListener() {
@@ -131,21 +181,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        String portbvp = preferences.getString("port", null);
-        System.out.println("puertoBVP: " + portbvp);
-
-        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        String portecg = preferences.getString("port", null);
-        System.out.println("puertoECG: " + portecg);
-
-        preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-        String porttemp = preferences.getString("port", null);
-        System.out.println("puertoTEMP: " + porttemp);
-
-        preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-        String porteda = preferences.getString("port", null);
-        System.out.println("puertoTEMP: " + porttemp);
 
         return root;
     }

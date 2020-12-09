@@ -37,20 +37,33 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="0.30"
+                    android:padding="8dp"
                     android:contentDescription="@string/contentDescriptionTemperature"
                     android:src="@drawable/ic_thermometer"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70"
-                    android:gravity="center"
-                    android:text="@string/MonitorTemperatureTitle"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:id="@+id/tempDisconnected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_baseline_power_off_24"/>
+                    <TextView
+                        android:id="@+id/tempTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/MonitorTemperatureTitle"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -78,18 +91,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.30"
+                    android:padding="8dp"
                     android:contentDescription="@string/contentDescriptionHeartRate"
                     android:src="@drawable/ic_heart"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70"
-                    android:gravity="center"
-                    android:text="@string/MonitorHeartRateTitle"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:id="@+id/hrDisconnected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_baseline_power_off_24"/>
+                    <TextView
+                        android:id="@+id/hrTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/MonitorHeartRateTitle"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -116,18 +142,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
+                    android:padding="8dp"
                     android:contentDescription="@string/contentDescriptionBloodPressure"
                     android:src="@drawable/ic_blood_pressure"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70"
-                    android:gravity="center"
-                    android:text="@string/MonitorBloodPressureTitle"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:id="@+id/bpDisconnected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_baseline_power_off_24"/>
+                    <TextView
+                        android:id="@+id/bpTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/MonitorBloodPressureTitle"
+                        android:textColor="@color/colorPrimaryText"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -154,18 +194,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
+                    android:padding="8dp"
                     android:contentDescription="@string/contentDescriptionStressLevel"
                     android:src="@drawable/ic_stress"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.70"
-                    android:gravity="center"
-                    android:text="@string/MonitorStressLevelTitle"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="6dp">
+                    <ImageView
+                        android:id="@+id/stressDisconnected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_baseline_power_off_24"/>
+                    <TextView
+                        android:id="@+id/stressTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/MonitorStressLevelTitle"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </GridLayout>
