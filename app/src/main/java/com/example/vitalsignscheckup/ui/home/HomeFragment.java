@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.google.android.material.card.MaterialCardView;
 public class HomeFragment extends Fragment {
     SharedPreferences preferences;
     int showTutorial = 1;
+    String TAG = "PUERTOS";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,25 +54,29 @@ public class HomeFragment extends Fragment {
 
         preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", null);
-        System.out.println("puertoBVP: " + portbvp);
+        Log.d(TAG, "onCreateView: " + "puertoBVP: " + portbvp);
+        Log.d(TAG, "onCreateView: " + (portbvp == ""));
 
         preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", null);
-        System.out.println("puertoECG: " + portecg);
+        Log.d(TAG, "onCreateView: " + "puertoECG: " + portecg);
+        Log.d(TAG, "onCreateView: " + (portecg == ""));
 
         preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", null);
-        System.out.println("puertoTEMP: " + porttemp);
+        Log.d(TAG, "onCreateView: " + "puertoTEMP: " + porttemp);
+        Log.d(TAG, "onCreateView: " + (porttemp == ""));
 
         preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
         String porteda = preferences.getString("port", null);
-        System.out.println("puertoEDA: " + porteda);
+        Log.d(TAG, "onCreateView: " + "puertoEDA: " + porteda);
+        Log.d(TAG, "onCreateView: " + (porteda == ""));
 
-        if (porttemp == null){
+        if (porttemp == null || porttemp.equals("")){
             temperatureCard.setEnabled(false);
             temperatureDisconnected.setVisibility(View.VISIBLE);
         }
-        if(portbvp == null){
+        if(portbvp == null || portbvp.equals("")){
             heartRateCard.setEnabled(false);
             heartRateDisconnected.setVisibility(View.VISIBLE);
 
@@ -78,12 +84,12 @@ public class HomeFragment extends Fragment {
             bloodPressureDisconnected.setVisibility(View.VISIBLE);
             bloodPressureTitle.setTextSize(16);
         }
-        if(portecg == null){
+        if(portecg == null || portecg.equals("")){
             bloodPressureCard.setEnabled(false);
             bloodPressureDisconnected.setVisibility(View.VISIBLE);
             bloodPressureTitle.setTextSize(16);
         }
-        if(porteda == null){
+        if(porteda == null || porteda.equals("")){
             stressLevelCard.setEnabled(false);
             stressLevelDisconnected.setVisibility(View.VISIBLE);
             stressLevelTitle.setTextSize(16);

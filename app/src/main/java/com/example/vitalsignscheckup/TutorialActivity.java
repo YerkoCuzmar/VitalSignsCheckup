@@ -63,8 +63,8 @@ public class TutorialActivity extends AppCompatActivity {
                 preferences = this.getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
                 String portBvp = preferences.getString("port", null);
                 text = "Los sensores para medir presión están conectados en los puertos " + portBvp + " y " + portEcg + ".\n" +
-                        "El sensor del puerto " + portBvp + "se posiciona en el dedo indice de la mano." +
-                        "El sensor del puerto " + portEcg + "se posiciona en la zona de las costillas como se muestra en la imagen.";
+                        "El sensor del puerto " + portBvp + " se posiciona en el dedo indice de la mano" + ".\n" +
+                        "El sensor del puerto " + portEcg + " se posiciona en la zona de las costillas como se muestra en la imagen.";
                 tutorialImg.setImageResource(R.drawable.cuerpo_bvp);
                 tutorialImg2.setImageResource(R.drawable.cuerpo_ecg);
                 break;
