@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class CuidadorMonitorStressLevel extends AppCompatActivity {
     DatabaseReference reference;  //nodo principal de la base de datos
     private TextView stressText;   //medida de nivel de estres
     private HistoryAdapter historyAdapter;
+    private Button verGrafico;
 
 
     @Override
@@ -46,7 +48,7 @@ public class CuidadorMonitorStressLevel extends AppCompatActivity {
         idPaciente = intent.getStringExtra("pacienteId");
         namePaciente = intent.getStringExtra("pacienteName");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitor_stress_level);
+        setContentView(R.layout.activity_monitor_stress_level_mipaciente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.stressToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(namePaciente);
@@ -69,6 +71,18 @@ public class CuidadorMonitorStressLevel extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
+
+        verGrafico = (Button) findViewById(R.id.grafico);
+        verGrafico.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(CuidadorMonitorStressLevel.this, GraficoStressLevel.class); //pasa de actividad a monitoreo de tal sensor
+                intent.putExtra("pacienteId", idPaciente); // antes de startearlo
+                startActivity(intent);
+
+            }
+        });
+
         reference.child("Mediciones").child(idPaciente).child("3").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
