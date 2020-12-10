@@ -50,7 +50,7 @@ public class MonitorHeartRate extends AppCompatActivity {
     private TextView ppmText;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
 
-    private static final double minNormalValue = 60.0;
+    private static final double minNormalValue = 40.0;
     private static final double maxNormalValue = 100.0;
     private static final double minValue = 20.0;
     private static final double maxValue = 200.0;
