@@ -25,11 +25,12 @@ public class NotificacionDetalle extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
+
         mTemp = intent.getDoubleExtra("Temp", 0.0);
-        mHeartRate = intent.getIntExtra("HR", 0);
+        mHeartRate = intent.getIntExtra("HR", 2);
         mStress = intent.getDoubleExtra("Stress", 0.0);
-        mBP1 = intent.getIntExtra("BP1", 0);
-        mBP2 = intent.getIntExtra("BP2", 0);
+        mBP1 = intent.getIntExtra("BP1", 2);
+        mBP2 = intent.getIntExtra("BP2", 2);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notificacion_detalle);
@@ -44,6 +45,11 @@ public class NotificacionDetalle extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         String id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
 
+        T.setText(String.valueOf(mTemp) + " ºC");
+        HR.setText(String.valueOf(mHeartRate) + " ppm");
+        S.setText(String.valueOf(mStress) + " uS");
+        BP1.setText(String.valueOf(mBP1) + " mmHg");
+        BP2.setText(String.valueOf(mBP2) + " mmHg");
 
     }
 }
