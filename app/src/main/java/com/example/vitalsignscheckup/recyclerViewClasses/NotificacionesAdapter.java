@@ -17,19 +17,28 @@ import java.util.ArrayList;
 public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAdapter.ViewHolderNotificaciones> {
 
     private ArrayList<Notificaciones> listNotificaciones;
+    private OnNotificacionListener monNotificacionListener;
     Notificaciones notificacion;
 
     public NotificacionesAdapter(){
-
         this.listNotificaciones = new ArrayList<>();
-        //this.mOnPacienteListener = onPacienteListener();
     }
 
-    @NonNull
+    public NotificacionesAdapter(OnNotificacionListener onNotificacionListener){
+        this.listNotificaciones = new ArrayList<>();
+        this.monNotificacionListener = onNotificacionListener;
+    }
+
+    public NotificacionesAdapter(ArrayList<Notificaciones> data, OnNotificacionListener onNotificacionListener){
+        this.listNotificaciones = data;
+        this.monNotificacionListener = onNotificacionListener;
+    }
+
+
     @Override
     public ViewHolderNotificaciones onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_notification, parent, false);
-        return new ViewHolderNotificaciones(view);
+        return new ViewHolderNotificaciones(view, monNotificacionListener);
     }
 
     @Override
@@ -80,31 +89,32 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
 
     public class ViewHolderNotificaciones extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        OnPacienteListener onPacienteListener;
+        OnNotificacionListener onNotificacionListener;
 
         ImageView notificationIcon;
         TextView textMsg;
         TextView textDate;
         TextView textTime;
 
-        public ViewHolderNotificaciones(@NonNull View itemView) {
+        public ViewHolderNotificaciones(@NonNull View itemView, OnNotificacionListener onNotificacionListener) {
             super(itemView);
 
             notificationIcon = itemView.findViewById(R.id.notification_icon);
             textMsg = itemView.findViewById(R.id.notification_message);
             textDate = itemView.findViewById(R.id.notification_date);
             textTime = itemView.findViewById(R.id.notification_time);
-
+            this.onNotificacionListener = onNotificacionListener;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            onPacienteListener.onPacienteClick(getAdapterPosition());
+            onNotificacionListener.onNotificacionClick(getAdapterPosition());
         }
 
     }
 
-    public interface OnPacienteListener{
-        void onPacienteClick(int position);
+    public interface OnNotificacionListener{
+        void onNotificacionClick(int position);
     }
 }
