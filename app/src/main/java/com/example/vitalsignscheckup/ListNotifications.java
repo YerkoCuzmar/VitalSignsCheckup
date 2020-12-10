@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -99,7 +98,6 @@ public class ListNotifications extends AppCompatActivity implements Notificacion
 
     @Override
     public void onNotificacionClick(int position) {
-        Toast.makeText(this, "Click" + position, Toast.LENGTH_SHORT).show();
         Notificaciones notificacion = adapter.getNotificacion(position);
         Intent intent = new Intent(ListNotifications.this, NotificacionDetalle.class); //tiene que ser el activity donde se mostrará alerta
         intent.putExtra("namePaciente", namePaciente);
@@ -113,6 +111,5 @@ public class ListNotifications extends AppCompatActivity implements Notificacion
         intent.putExtra("BP1", notificacion.getMedicionBloodPressure1());
         intent.putExtra("BP2", notificacion.getMedicionBloodPressure2());
         startActivity(intent);
-        finish();
     }
 }
