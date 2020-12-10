@@ -135,8 +135,10 @@ public class MonitorHeartRate extends AppCompatActivity {
                                             Log.d(TAG, "run: primera alerta");
                                             if(minutesDiff >= calibrationMinutes){
                                                 Log.d(TAG, "run: enviar primera alerta");
-                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), (int) medicion.getMedicion());
                                                 notificacion.enviaraBD();
+                                                Log.d(TAG, "run: " + notificacion.getMedicionHeartRate());
+                                                Log.d(TAG, "run: " + medicion.getMedicion());
                                                 lastNotificationDate = alertDateTime;
                                                 isFirstAlert = false;
                                             }
@@ -144,7 +146,9 @@ public class MonitorHeartRate extends AppCompatActivity {
                                         else {
                                             if(minutesDiff >= minTimeMinutes){
                                                 Log.d(TAG, "run: alertas");
-                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), (int) medicion.getMedicion());
+                                                Log.d(TAG, "run: " + notificacion.getMedicionHeartRate());
+                                                Log.d(TAG, "run: " + medicion.getMedicion());
                                                 notificacion.enviaraBD();
                                                 lastNotificationDate = alertDateTime;
                                             }

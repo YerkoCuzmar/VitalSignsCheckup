@@ -136,6 +136,7 @@ public class MonitorTemperature extends AppCompatActivity {
                                             if(minutesDiff >= calibrationMinutes){
                                                 Log.d(TAG, "run: enviar primera alerta");
                                                 Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                Log.d(TAG, "run: " + notificacion.getMedicionTemp());
                                                 notificacion.enviaraBD();
                                                 lastNotificationDate = alertDateTime;
                                                 isFirstAlert = false;
@@ -145,6 +146,7 @@ public class MonitorTemperature extends AppCompatActivity {
                                             if(minutesDiff >= minTimeMinutes){
                                                 Log.d(TAG, "run: alertas");
                                                 Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                Log.d(TAG, "run: " + notificacion.getMedicionTemp());
                                                 notificacion.enviaraBD();
                                                 lastNotificationDate = alertDateTime;
                                             }

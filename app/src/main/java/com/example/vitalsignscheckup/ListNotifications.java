@@ -2,6 +2,7 @@ package com.example.vitalsignscheckup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -106,8 +107,9 @@ public class ListNotifications extends AppCompatActivity implements Notificacion
         intent.putExtra("date", notificacion.getDate());
         intent.putExtra("time", notificacion.getTime());
         intent.putExtra("Temp", notificacion.getMedicionTemp());
-        intent.putExtra("HR", notificacion.getMedicionStress());
-        intent.putExtra("Stress", notificacion.getMedicionHeartRate());
+        Log.d("NotificationClick", "onNotificacionClick: " + notificacion.getMedicionHeartRate());
+        intent.putExtra("HR", notificacion.getMedicionHeartRate());
+        intent.putExtra("Stress", notificacion.getMedicionStress());
         intent.putExtra("BP1", notificacion.getMedicionBloodPressure1());
         intent.putExtra("BP2", notificacion.getMedicionBloodPressure2());
         startActivity(intent);
