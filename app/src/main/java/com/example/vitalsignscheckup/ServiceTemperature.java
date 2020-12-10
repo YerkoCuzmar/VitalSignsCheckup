@@ -31,8 +31,8 @@ public class ServiceTemperature extends Service {
     double temp;
     Boolean new_temp;
 
-//    double d = 33628.0;
-    double d = 24920.0; // 50 = 8
+    double d = 33628.0;
+//    double d = 24920.0; // 50 = 8
 
     private IBinder mBinder;
     private Handler mHandler;

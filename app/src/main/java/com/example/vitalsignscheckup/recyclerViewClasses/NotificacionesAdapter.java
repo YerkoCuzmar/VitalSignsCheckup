@@ -77,7 +77,7 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
 
     public void addNotificacion(Notificaciones notificacion){
         if(!listNotificaciones.contains(notificacion)){
-            listNotificaciones.add(notificacion);
+            listNotificaciones.add(0, notificacion);
             notifyDataSetChanged();
         }
     }

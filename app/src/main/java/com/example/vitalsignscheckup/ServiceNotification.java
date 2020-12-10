@@ -28,6 +28,7 @@ import java.util.Date;
 public class ServiceNotification extends Service {
 
     public static final String CHANNEL_ID = "notificationServiceChannel";
+    public static final String TAG = "ServiceNotification";
 
     private IBinder mBinder = new MyBinder();
     private String id;
@@ -69,6 +70,7 @@ public class ServiceNotification extends Service {
 
     @Override
     public int onStartCommand(Intent intention, int flags, int idArranque) {
+        Log.d(TAG, "onStartCommand: ");
         mAuth = FirebaseAuth.getInstance();
         id = mAuth.getCurrentUser().getUid(); //obtener id del usuario
         getPacientes(id);
@@ -95,7 +97,7 @@ public class ServiceNotification extends Service {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     pacientes.add(String.valueOf(ds.getKey()));
                 }
-                getNotifications(5);
+                getNotifications();
             }
 
             @Override
@@ -105,24 +107,26 @@ public class ServiceNotification extends Service {
         });
     }
 
-    private void getNotifications(int key){
+    private void getNotifications(){
 
         int nPacientes = pacientes.size();
+        Log.d(TAG, String.valueOf(pacientes));
         int i;
         for(i = 0; i < nPacientes; i++) {
 
             final int finalI = i;
             reference = FirebaseDatabase.getInstance().getReference();
-            reference.child("Notificaciones").child(pacientes.get(i)).child(String.valueOf(key)).addChildEventListener(new ChildEventListener() {
+            reference.child("Notificaciones").child(pacientes.get(i)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                            Notificaciones notification = dataSnapshot.getValue(Notificaciones.class);
+                    Notificaciones notification = dataSnapshot.getValue(Notificaciones.class);
+                    Log.d(TAG, "onChildAdded: " + notification.getType());
                         try {
                             assert notification != null;
                             Date notificationDate = notification.getDateTime();
                             if(notificationDate.after(serviceStartDate)){
                                 Log.d("dataSnapshot", "onChildAdded: notificacion despues");
-                                getPacientesName(pacientes.get(finalI));
+                                getPacientesName(pacientes.get(finalI), notification.getType());
                             }
                             else {
                                 Log.d("dataSnapshot", "onChildAdded: notificacion antes");
@@ -157,7 +161,7 @@ public class ServiceNotification extends Service {
         }
     }
 
-    private void getPacientesName(String id){
+    private void getPacientesName(String id, final int key){
         reference = FirebaseDatabase.getInstance().getReference();  //nodo principal de la base de datos
         reference.child("Usuarios").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -165,7 +169,7 @@ public class ServiceNotification extends Service {
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     if(ds.getKey().equals("name")){
-                        crearNotificacion(String.valueOf(ds.getValue()));
+                        crearNotificacion(String.valueOf(ds.getValue()), key);
                     }
                 }
             }
@@ -177,13 +181,34 @@ public class ServiceNotification extends Service {
         });
     }
 
-    private void crearNotificacion(String name) {
+    private void crearNotificacion(String name, int type) {
         Intent notificationIntent = new Intent(this, MainActivityCuidadores.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
+        String title;
+        String text;
+        switch (type){
+            case 1:
+                title = "Alerta Temperatura";
+                break;
+            case 2:
+                title = "Alerta Ritmo Cardíaco";
+                break;
+            case 3:
+                title = "Alerta Estrés";
+                break;
+            case 4:
+                title = "Alerta Presión Sanguínea";
+                break;
+            case 5:
+                title = "Alerta SOS";
+                break;
+            default:
+                title = "Vital Signs Checkup";
+                break;
+        }
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Alerta SOS")
-                .setContentText("Su paciente " + name + " ha enviado una alerta")
+                .setContentTitle(title)
+                .setContentText(name + " requiere su asistencia!")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
                 .build();

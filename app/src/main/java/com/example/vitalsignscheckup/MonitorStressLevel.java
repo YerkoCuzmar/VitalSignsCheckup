@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
+import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorStressLevel extends AppCompatActivity {
@@ -46,6 +51,17 @@ public class MonitorStressLevel extends AppCompatActivity {
 
     private TextView stressText;
     private TextView stressParam;
+
+    private static final double minNormalValue = 0.0;
+    private static final double maxNormalValue = 10.0;
+    private static final double minValue = 0.0;
+    private static final double maxValue = 20.0;
+    private static final boolean useMinMax = false;
+
+    Date lastNotificationDate;
+    int minTimeMinutes = 2;
+    int calibrationMinutes = 1;
+    boolean isFirstAlert = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +83,8 @@ public class MonitorStressLevel extends AppCompatActivity {
         historyRV = (RecyclerView) findViewById(R.id.stressHistoryRecyclerView);
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
+
+        lastNotificationDate = new Date();
 
         stressText = (TextView) findViewById(R.id.medida_stress);
         stressParam = (TextView) findViewById(R.id.alerta_stress);
@@ -114,6 +132,35 @@ public class MonitorStressLevel extends AppCompatActivity {
                                 stressText.setText(sbp);
                                 stressParam.setText(text);
                                 medicion.enviaraBD();
+                                if (isAlertable(medicion.getMedicion())){
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+                                    String sDateTime = medicion.getDate() + " " + medicion.getTime();
+                                    Date alertDateTime;
+                                    try {
+                                        alertDateTime = sdf.parse(sDateTime);
+                                        long minutesDiff = (alertDateTime.getTime() - lastNotificationDate.getTime())/(1000*60);
+                                        if (isFirstAlert){
+                                            Log.d(TAG, "run: primera alerta");
+                                            if(minutesDiff >= calibrationMinutes){
+                                                Log.d(TAG, "run: enviar primera alerta");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                                isFirstAlert = false;
+                                            }
+                                        }
+                                        else {
+                                            if(minutesDiff >= minTimeMinutes){
+                                                Log.d(TAG, "run: alertas");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                            }
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 mService.setNewStressLevel(false);
                             }
                             handler.postDelayed(this, 100);
@@ -205,10 +252,23 @@ public class MonitorStressLevel extends AppCompatActivity {
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 
-    public void viewHistory(View view){
-        Intent viewHistoryIntent = new Intent(view.getContext(), checkHistory.class);
-        viewHistoryIntent.putExtra("origin", "stressLevel");
-        startActivity(viewHistoryIntent);
+    private boolean isInRange(double medicion){
+        if(useMinMax){
+            return medicion >= minValue && medicion <= maxValue;
+        }
+        return true;
+    };
+
+    private boolean isUnder(double medicion){
+        return medicion < minNormalValue;
+    };
+
+    private boolean isUpper(double medicion){
+        return medicion > maxNormalValue;
+    };
+
+    private boolean isAlertable(double medicion){
+        return isInRange(medicion) && (isUnder(medicion) || isUpper(medicion));
     }
 
 }

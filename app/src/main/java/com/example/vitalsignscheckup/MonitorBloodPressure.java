@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
+import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorBloodPressure extends AppCompatActivity {
@@ -45,6 +50,24 @@ public class MonitorBloodPressure extends AppCompatActivity {
     private TextView bp2Text;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
 
+    private static final double minNormalValue = 90.0;
+    private static final double minNormalValue2 = 60.0;
+
+    private static final double maxNormalValue = 120.0;
+    private static final double maxNormalValue2 = 80.0;
+
+    private static final double minValue = 40.0;
+    private static final double minValue2 = 30.0;
+
+    private static final double maxValue = 220.0;
+    private static final double maxValue2 = 160.0;
+
+    private static final boolean useMinMax = false;
+
+    Date lastNotificationDate;
+    int minTimeMinutes = 2;
+    int calibrationMinutes = 1;
+    boolean isFirstAlert = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +91,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
+        lastNotificationDate = new Date();
 
         bpText = findViewById(R.id.bp_medicion_mmhg);
         bp2Text = findViewById(R.id.bp_medicion_mmhg2);
@@ -113,6 +137,35 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                 bpText.setText(sbp);
                                 bp2Text.setText(sbp2);
                                 medicion.enviaraBD();
+                                if (isAlertable(medicion.getMedicion(), medicion.getMedicion2())){
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+                                    String sDateTime = medicion.getDate() + " " + medicion.getTime();
+                                    Date alertDateTime;
+                                    try {
+                                        alertDateTime = sdf.parse(sDateTime);
+                                        long minutesDiff = (alertDateTime.getTime() - lastNotificationDate.getTime())/(1000*60);
+                                        if (isFirstAlert){
+                                            Log.d(TAG, "run: primera alerta");
+                                            if(minutesDiff >= calibrationMinutes){
+                                                Log.d(TAG, "run: enviar primera alerta");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                                isFirstAlert = false;
+                                            }
+                                        }
+                                        else {
+                                            if(minutesDiff >= minTimeMinutes){
+                                                Log.d(TAG, "run: alertas");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                            }
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 mService.setNewBp(false);
                             }
 
@@ -204,6 +257,40 @@ public class MonitorBloodPressure extends AppCompatActivity {
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 
+    private boolean isInRange(double medicion){
+        if(useMinMax){
+            return medicion >= minValue && medicion <= maxValue;
+        }
+        return true;
+    };
 
+    private boolean isInRange2(double medicion){
+        if(useMinMax){
+            return medicion >= minValue2 && medicion <= maxValue2;
+        }
+        return true;
+    };
+
+    private boolean isUnder(double medicion){
+        return medicion < minNormalValue;
+    };
+
+    private boolean isUnder2(double medicion){
+        return medicion < minNormalValue2;
+    };
+
+    private boolean isUpper(double medicion){
+        return medicion > maxNormalValue;
+    };
+
+    private boolean isUpper2(double medicion){
+        return medicion > maxNormalValue2;
+    };
+
+    private boolean isAlertable(double medicion, double medicion2){
+        boolean alertableMed1 = isInRange(medicion)  && (isUnder(medicion) || isUpper(medicion));
+        boolean alertableMed2 = isInRange2(medicion2)  && (isUnder2(medicion2) || isUpper2(medicion2));
+        return alertableMed1 || alertableMed2;
+    }
 
 }
