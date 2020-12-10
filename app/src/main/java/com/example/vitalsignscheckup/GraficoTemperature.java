@@ -115,14 +115,7 @@ public class GraficoTemperature extends AppCompatActivity implements View.OnClic
         });*/
 
         final int[] i = {0};
-
-
-
-
-
 }
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
@@ -177,6 +170,8 @@ public class GraficoTemperature extends AppCompatActivity implements View.OnClic
 
             GraphView graph = (GraphView) findViewById(R.id.graph);
             final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+
+            graph.removeAllSeries();
 
             mDataBase.child("Mediciones").child(idPaciente).child("1").addChildEventListener(new ChildEventListener() {  //el "1" es por la temperatura
                 @Override
@@ -237,13 +232,13 @@ public class GraficoTemperature extends AppCompatActivity implements View.OnClic
             //graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
 
             graph.getViewport().setYAxisBoundsManual(true);
-            graph.getViewport().setMinY(34);
+            graph.getViewport().setMinY(30);
             graph.getViewport().setMaxY(44);
 
             //graph.getViewport().setXAxisBoundsManual(true);
 
-            //graph.getViewport().setMinX(0);
-            //graph.getViewport().setMaxX(10);
+            //graph.getViewport().setMinX(series.getLowestValueX());
+            //graph.getViewport().setMaxX(series.getHighestValueX());
 
             graph.addSeries(series);
 

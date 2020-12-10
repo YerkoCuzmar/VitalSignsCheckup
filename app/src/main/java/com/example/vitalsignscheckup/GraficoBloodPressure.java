@@ -1,10 +1,14 @@
 package com.example.vitalsignscheckup;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,19 +25,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
-public class GraficoBloodPressure extends AppCompatActivity {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+public class GraficoBloodPressure extends AppCompatActivity implements View.OnClickListener {
 
     LineGraphSeries<DataPoint> series;
     LineGraphSeries<DataPoint> series2;
     private DatabaseReference mDataBase;
     private FirebaseAuth mAuth;
     private String idPaciente;
+
+    //fechas y generar grafico
+
+    Button fechai, fechal, generar;
+    //EditText edfechai, edfechal;
+
+    private int diai, mesi, anioi;
+    private int dial, mesl, aniol;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,6 +71,17 @@ public class GraficoBloodPressure extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Gráfico Presión arterial");
 
+        fechai = (Button) findViewById(R.id.fecha_i);
+        fechal = (Button) findViewById(R.id.fecha_l);
+        generar = (Button) findViewById(R.id.generar_g);
+
+        //EditText edfechai = (EditText) findViewById(R.id.efechai);
+        //EditText edfechal = (EditText) findViewById(R.id.efechal);
+
+        fechai.setOnClickListener(this);
+        fechal.setOnClickListener(this);
+        generar.setOnClickListener(this);
+
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,99 +89,166 @@ public class GraficoBloodPressure extends AppCompatActivity {
                 finish();
             }
         });
-        double x,y;
-        x = -5.0;
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<DataPoint>();
-        series2 = new LineGraphSeries<DataPoint>();
 
-        /*for (int i = 0; i < 500; i++){
-            x = x + 0.1;
-            y = Math.sin(x);
-            series.appendData(new DataPoint(x,y), true, 500);
-        }*/
-        //graph.addSeries(series);  //RECORDAR ESTOOOOOOOOO!!!!!!!!!!!
-        //Log.d("Paciente", idPaciente);
+    }
 
-        series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+"agregar fecha y hora" + " Presión sistólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+    public void onClick(View view) {
+        if (view == fechai){
+            final Calendar c  = Calendar.getInstance();
+            diai = c.get(Calendar.DAY_OF_MONTH);
+            mesi = c.get(Calendar.MONTH);
+            anioi = c.get(Calendar.YEAR);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                    EditText edfechai=(EditText)findViewById(R.id.efechai);
+                    edfechai.setText(i2 + "/" + (i1+1)+ "/" + i);
+                }
             }
-        });
+                    , diai, mesi, anioi);
+            datePickerDialog.show();
+        }
+        if (view == fechal){
+            Log.d("Imprimiendo", "nada");
+            final Calendar c2 = Calendar.getInstance();
+            dial = c2.get(Calendar.DAY_OF_MONTH);
+            mesl = c2.get(Calendar.MONTH);
+            aniol = c2.get(Calendar.YEAR);
 
-        series2.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+"agregar fecha y hora" + " Presión diastólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                    Log.d("fechass1 ", String.valueOf(i));
+                    Log.d("fechass2 ", String.valueOf(i1));
+                    Log.d("fechass3 ", String.valueOf(i2));
+
+                    //edfechal.setText(i2 + "/" + (i1+1)+ "/" + i);
+                    EditText edfechal=(EditText)findViewById(R.id.efechal);
+                    edfechal.setText(i2 + "/" + (i1+1) + "/" + i);
+                    //Log.d("editext", edfechal.getText().toString());
+                }
             }
-        });
+                    , dial, mesl, aniol);
+            datePickerDialog.show();
+        }
+        if (view == generar){
+            EditText edfechai = (EditText)findViewById(R.id.efechai);
+            EditText edfechal = (EditText)findViewById(R.id.efechal);
 
-        final int[] i = {0};
-        mDataBase.child("Mediciones").child(idPaciente).child("4").addChildEventListener(new ChildEventListener() {  //el "1" es por la temperatura
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
-                //Log.d("medicion: ",  String.valueOf(medicion.getMedicion()));
-                //Log.d("fecha: ",  medicion.getDate());
-                //Log.d("hora: ",  medicion.getTime());
+            final String fe_i = edfechai.getText().toString();
+            final String fe_l = edfechal.getText().toString();
 
-                series.appendData(new DataPoint(i[0],medicion.getMedicion()), true, 50);
-                series2.appendData(new DataPoint(i[0], medicion.getMedicion2()),true,50 );
-                i[0] = i[0] + 1;
+            final SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
+            final SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
-            }
+            GraphView graph = (GraphView) findViewById(R.id.graph);
+            final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+            final LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            graph.removeAllSeries();
 
-            }
+            mDataBase.child("Mediciones").child(idPaciente).child("4").addChildEventListener(new ChildEventListener() {  //el "1" es por la temperatura
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Mediciones medicion = dataSnapshot.getValue(Mediciones.class);
+                    //Log.d("medicion: ",  String.valueOf(medicion.getMedicion()));
+                    //Log.d("fecha: ",  medicion.getDate());
+                    //Log.d("hora: ",  medicion.getTime());
+                    try {
+                        Date date = formato2.parse(medicion.getDate());
+                        Date date_i = formato2.parse(fe_i);
+                        Date date_l = formato2.parse(fe_l);
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                        Log.d("DATE", String.valueOf(date));
+                        Log.d("DATE_I", String.valueOf(date_i));
+                        Log.d("DATE_L", String.valueOf(date_l));
 
-            }
+                        if (date.after(date_i) && date.before(date_l)){
+                            String fecha_hora = medicion.getDate() + " " + medicion.getTime();
+                            Log.d("string", fecha_hora);
+                            Date date_hora = formato.parse(fecha_hora);
+                            Log.d("fecha", String.valueOf(date_hora));
+                            Log.d("date: ", String.valueOf(medicion.getDate()));
+                            Log.d("hora: ", String.valueOf(medicion.getTime()));
+                            series.appendData(new DataPoint(date_hora, medicion.getMedicion()), false,50);
+                            series2.appendData(new DataPoint(date_hora, medicion.getMedicion2()), false, 50);
+                        }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-            }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-            }
-        });
-        //graph.setScaleY(70);
-        //graph.setScaleX(50);
-        graph.getViewport().setScrollable(true); // enables horizontal scrolling
-        //graph.getViewport().setScrollableY(true); // enables vertical scrolling
-        //graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
-        //graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(50);
-        graph.getViewport().setMaxY(170);
+                }
 
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(10);
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-        graph.addSeries(series);
-        graph.addSeries(series2);
+                }
 
-        series.setTitle("Presión sistólica");
-        series.setColor(Color.RED);
-        series2.setColor(Color.BLUE);
-        series2.setTitle("Presión diastólica");
-        series.setDrawDataPoints(true);
-        series2.setDrawDataPoints(true);
-        series.setDataPointsRadius(15);
-        series2.setDataPointsRadius(15);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                }
+            });
+            //graph.setScaleY(70);
+            //graph.setScaleX(50);
+            graph.getViewport().setScrollable(true); // enables horizontal scrolling
+            //graph.getViewport().setScrollableY(true); // enables vertical scrolling
+            //graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+            //graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setMinY(50);
+            graph.getViewport().setMaxY(170);
+
+            //graph.getViewport().setXAxisBoundsManual(true);
+            //graph.getViewport().setMinX(0);
+            //graph.getViewport().setMaxX(10);
+
+            graph.addSeries(series);
+            graph.addSeries(series2);
+
+            series.setTitle("Presión sistólica");
+            series.setColor(Color.RED);
+            series2.setColor(Color.BLUE);
+            series2.setTitle("Presión diastólica");
+            series.setDrawDataPoints(true);
+            series2.setDrawDataPoints(true);
+            series.setDataPointsRadius(15);
+            series2.setDataPointsRadius(15);
+
+            graph.getLegendRenderer().setVisible(true);
+            graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
 
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(GraficoBloodPressure.this));
+            graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+            //graph.getGridLabelRenderer().setHumanRounding(false);
+            series.setOnDataPointTapListener(new OnDataPointTapListener() {
+                @Override
+                public void onTap(Series series, DataPointInterface dataPoint) {
+                    Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+ formato.format(dataPoint.getX()) + " Presión sistólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            series2.setOnDataPointTapListener(new OnDataPointTapListener() {
+                @Override
+                public void onTap(Series series, DataPointInterface dataPoint) {
+                    Toast.makeText(GraficoBloodPressure.this, "Fecha y hora: "+ formato.format(dataPoint.getX()) + " Presión diastólica: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
     }
 }
