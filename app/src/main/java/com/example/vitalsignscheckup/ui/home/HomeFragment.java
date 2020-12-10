@@ -55,22 +55,22 @@ public class HomeFragment extends Fragment {
         preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
         String portbvp = preferences.getString("port", null);
         Log.d(TAG, "onCreateView: " + "puertoBVP: " + portbvp);
-        Log.d(TAG, "onCreateView: " + (portbvp == ""));
+        Log.d(TAG, "onCreateView: " + (portbvp.equals("")));
 
         preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
         String portecg = preferences.getString("port", null);
         Log.d(TAG, "onCreateView: " + "puertoECG: " + portecg);
-        Log.d(TAG, "onCreateView: " + (portecg == ""));
+        Log.d(TAG, "onCreateView: " + (portecg.equals("")));
 
         preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
         String porttemp = preferences.getString("port", null);
         Log.d(TAG, "onCreateView: " + "puertoTEMP: " + porttemp);
-        Log.d(TAG, "onCreateView: " + (porttemp == ""));
+        Log.d(TAG, "onCreateView: " + (porttemp.equals("")));
 
         preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
         String porteda = preferences.getString("port", null);
         Log.d(TAG, "onCreateView: " + "puertoEDA: " + porteda);
-        Log.d(TAG, "onCreateView: " + (porteda == ""));
+        Log.d(TAG, "onCreateView: " + (porteda.equals("")));
 
         if (porttemp == null || porttemp.equals("")){
             temperatureCard.setEnabled(false);

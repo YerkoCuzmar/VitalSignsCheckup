@@ -31,15 +31,8 @@ public class ServiceTemperature extends Service {
     double temp;
     Boolean new_temp;
 
-//    double d = 33628.0;
-    double d = 24920.0; // 50 = 8
-
-    double minNormalTemp = 36.0;
-    double maxNormalTemp = 37.0;
-    double minTemp = 20.0;
-    double maxTemp = 45.0;
-
-    int minTimeMinutes = 5;
+    double d = 33628.0;
+//    double d = 24920.0; // 50 = 8
 
     private IBinder mBinder;
     private Handler mHandler;
@@ -87,8 +80,8 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-                    calcularTempSensores();
-//                    calcularTempantiguo();
+//                    calcularTempSensores();
+                    calcularTempantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
@@ -201,15 +194,4 @@ public class ServiceTemperature extends Service {
         return Math.round(avg * 100.0)/ 100.0;
     }
 
-    private boolean isInRange(double medicion){
-        return medicion >= minTemp && medicion <= maxTemp;
-    };
-
-    private boolean isUnder(double medicion){
-        return medicion < minNormalTemp;
-    };
-
-    private boolean isUpper(double medicion){
-        return medicion > maxNormalTemp;
-    };
 }

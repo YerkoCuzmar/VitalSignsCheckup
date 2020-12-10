@@ -95,7 +95,7 @@ public class ServiceNotification extends Service {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     pacientes.add(String.valueOf(ds.getKey()));
                 }
-                getNotifications(5);
+                getNotifications(1);
             }
 
             @Override

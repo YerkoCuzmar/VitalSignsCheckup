@@ -14,11 +14,11 @@ public class Notificaciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion ; 5 = SOS
     private String date;
     private String time;
-    private int medcionTemp;
-    private int medcionHeartRate;
-    private int medcionStress;
-    private int medcionBloodPressure1;
-    private int medcionBloodPressure2;
+    private double medicionTemp;
+    private int medicionHeartRate;
+    private double medicionStress;
+    private int medicionBloodPressure1;
+    private int medicionBloodPressure2;
 
     public Notificaciones(){}
 
@@ -35,6 +35,55 @@ public class Notificaciones {
         this.type = type;
         this.date = date;
         this.time = time;
+    }
+
+    public Notificaciones(int type, double medicion){
+        this.type = type;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        Date datetime = new Date();
+        this.date = dateFormat.format(datetime);
+        this.time = timeFormat.format(datetime);
+        if(this.type == 1){
+            this.medicionTemp = medicion;
+        }
+        else if(this.type == 3){
+            this.medicionStress = medicion;
+        }
+    }
+
+    public Notificaciones(int type, int medicion){
+        this.type = type;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        Date datetime = new Date();
+        this.date = dateFormat.format(datetime);
+        this.time = timeFormat.format(datetime);
+        if(this.type == 2){
+            this.medicionHeartRate = medicion;
+        }
+    }
+
+    public Notificaciones(int type, int medicion, int medicion2){
+        this.type = type;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        Date datetime = new Date();
+        this.date = dateFormat.format(datetime);
+        this.time = timeFormat.format(datetime);
+        if(this.type == 4){
+            this.medicionBloodPressure1 = medicion;
+            this.medicionBloodPressure2 = medicion2;
+        }
+    }
+
+    public Notificaciones(int type, double medicionTemp, int medicionHeartRate, int medicionStress, int medicionBloodPressure1, int medicionBloodPressure2) {
+        this.type = type;
+        this.medicionTemp = medicionTemp;
+        this.medicionHeartRate = medicionHeartRate;
+        this.medicionStress = medicionStress;
+        this.medicionBloodPressure1 = medicionBloodPressure1;
+        this.medicionBloodPressure2 = medicionBloodPressure2;
     }
 
     public int getType() {
@@ -66,6 +115,26 @@ public class Notificaciones {
         SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss", Locale.getDefault());
         return parser.parse(sDateTime);
     }
+
+    public double getMedicionTemp() { return medicionTemp; }
+
+    public void setMedicionTemp(double medicionTemp) { this.medicionTemp = medicionTemp; }
+
+    public int getMedicionHeartRate() { return medicionHeartRate; }
+
+    public void setMedicionHeartRate(int medicionHeartRate) { this.medicionHeartRate = medicionHeartRate; }
+
+    public double getMedicionStress() { return medicionStress; }
+
+    public void setMedicionStress(double medicionStress) { this.medicionStress = medicionStress; }
+
+    public int getMedicionBloodPressure1() { return medicionBloodPressure1; }
+
+    public void setMedicionBloodPressure1(int medicionBloodPressure1) { this.medicionBloodPressure1 = medicionBloodPressure1; }
+
+    public int getMedicionBloodPressure2() { return medicionBloodPressure2; }
+
+    public void setMedicionBloodPressure2(int medicionBloodPressure2) { this.medicionBloodPressure2 = medicionBloodPressure2; }
 
     public void enviaraBD() {
         final ArrayList<String> idCuidadores = new ArrayList<>();
