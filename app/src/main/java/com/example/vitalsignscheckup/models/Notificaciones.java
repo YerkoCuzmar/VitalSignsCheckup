@@ -14,11 +14,11 @@ public class Notificaciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion ; 5 = SOS
     private String date;
     private String time;
-    private int medcionTemp;
-    private int medcionHeartRate;
-    private int medcionStress;
-    private int medcionBloodPressure1;
-    private int medcionBloodPressure2;
+    private double medicionTemp;
+    private int medicionHeartRate;
+    private int medicionStress;
+    private int medicionBloodPressure1;
+    private int medicionBloodPressure2;
 
     public Notificaciones(){}
 
@@ -65,6 +65,45 @@ public class Notificaciones {
         String sDateTime = this.date + "-" + this.time;
         SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss", Locale.getDefault());
         return parser.parse(sDateTime);
+    }
+
+    public double getMedicionTemp() {
+        return medicionTemp;
+    }
+    public void setMedicionTemp(double medcionTemp) {
+        this.medicionTemp = medcionTemp;
+    }
+
+    public int getMedicionHeartRate() {
+        return medicionHeartRate;
+    }
+
+    public void setMedicionHeartRate(int medicionHeartRate) {
+        this.medicionHeartRate = medicionHeartRate;
+    }
+
+    public int getMedicionStress() {
+        return medicionStress;
+    }
+
+    public void setMedicionStress(int medicionStress) {
+        this.medicionStress = medicionStress;
+    }
+
+    public int getMedicionBloodPressure1() {
+        return medicionBloodPressure1;
+    }
+
+    public void setMedicionBloodPressure1(int medicionBloodPressure1) {
+        this.medicionBloodPressure1 = medicionBloodPressure1;
+    }
+
+    public int getMedicionBloodPressure2() {
+        return medicionBloodPressure2;
+    }
+
+    public void setMedicionBloodPressure2(int medicionBloodPressure2) {
+        this.medicionBloodPressure2 = medicionBloodPressure2;
     }
 
     public void enviaraBD() {

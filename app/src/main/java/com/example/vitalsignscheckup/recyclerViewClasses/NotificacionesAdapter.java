@@ -20,7 +20,9 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
     Notificaciones notificacion;
 
     public NotificacionesAdapter(){
+
         this.listNotificaciones = new ArrayList<>();
+        //this.mOnPacienteListener = onPacienteListener();
     }
 
     @NonNull
@@ -72,10 +74,13 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
     }
 
     public Notificaciones getNotificacion(int position){
+
         return listNotificaciones.get(position);
     }
 
-    public class ViewHolderNotificaciones extends RecyclerView.ViewHolder {
+    public class ViewHolderNotificaciones extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        OnPacienteListener onPacienteListener;
 
         ImageView notificationIcon;
         TextView textMsg;
@@ -90,7 +95,16 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAd
             textDate = itemView.findViewById(R.id.notification_date);
             textTime = itemView.findViewById(R.id.notification_time);
 
-
         }
+
+        @Override
+        public void onClick(View view) {
+            onPacienteListener.onPacienteClick(getAdapterPosition());
+        }
+
+    }
+
+    public interface OnPacienteListener{
+        void onPacienteClick(int position);
     }
 }

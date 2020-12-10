@@ -94,6 +94,7 @@ public class MainCuidadoresAdapter extends RecyclerView.Adapter<MainCuidadoresAd
     }
 
     public Pacientes getPaciente(int position){
+
         return data.get(position);
     }
 

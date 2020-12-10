@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TutorialActivity"></activity>
+        <activity android:name=".NotificacionDetalle"></activity>
+        <activity android:name=".TutorialActivity" />
         <activity android:name=".ListNotifications" />
         <activity android:name=".MainActivityCuidadorPaciente" />
 
@@ -55,10 +56,10 @@
         <activity android:name=".MisPacientesActivity" />
         <activity android:name=".ListaCuidadores" />
         <activity android:name=".ListaPacientes" />
-        <activity android:name=".GraficoTemperature"/>
-        <activity android:name=".GraficoHeartRate"/>
-        <activity android:name=".GraficoStressLevel"/>
-        <activity android:name=".GraficoBloodPressure"/>
+        <activity android:name=".GraficoTemperature" />
+        <activity android:name=".GraficoHeartRate" />
+        <activity android:name=".GraficoStressLevel" />
+        <activity android:name=".GraficoBloodPressure" />
         <activity
             android:name=".MainActivity2"
             android:theme="@style/MaterialCardTheme" />

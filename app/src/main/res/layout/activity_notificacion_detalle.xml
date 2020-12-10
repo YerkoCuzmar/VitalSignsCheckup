@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificacionDetalle">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="109dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/TEMP"
+                android:layout_width="382dp"
+                android:layout_height="wrap_content"
+                android:text="---" />
+
+            <TextView
+                android:id="@+id/HR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="----" />
+
+            <TextView
+                android:id="@+id/STRESS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-----" />
+
+            <TextView
+                android:id="@+id/BP1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="------" />
+
+            <TextView
+                android:id="@+id/BP2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="------" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
