@@ -137,7 +137,6 @@ public class HomeFragmentCuidadores extends Fragment implements MainCuidadoresAd
         intent.putExtra("pacienteId", paciente.getId()); // antes de startearlo
         intent.putExtra("pacienteName", paciente.getName()); // se le entrega info
         startActivity(intent);
-        getActivity().finish();
     }
 
 

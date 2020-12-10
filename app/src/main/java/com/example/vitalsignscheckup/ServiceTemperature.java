@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -31,7 +30,7 @@ public class ServiceTemperature extends Service {
     double temp;
     Boolean new_temp;
 
-    double d = 33628.0;
+//    double d = 33628.0;
 //    double d = 24920.0; // 50 = 8
 
     private IBinder mBinder;
@@ -144,25 +143,25 @@ public class ServiceTemperature extends Service {
     }
 
 
-    public void calcularTempantiguo() {
-
-        Log.d("data size", String.valueOf(data.size()));
-
-        Log.d("collect ", String.valueOf(COLLECT_DATA));
-
-        singleData = d;
-        if(Math.random() < 0.7){
-            if(Math.random() < 0.6){
-                d += 10;
-            } else {
-                d -= 20;
-            }
-        }
-
-        temp = transformarVaC(singleData);
-        Log.d(TAG, "calcularTempantiguo: new Temp " + temp);
-        new_temp = true;
-    }
+//    public void calcularTempantiguo() {
+//
+//        Log.d("data size", String.valueOf(data.size()));
+//
+//        Log.d("collect ", String.valueOf(COLLECT_DATA));
+//
+//        singleData = d;
+//        if(Math.random() < 0.7){
+//            if(Math.random() < 0.6){
+//                d += 10;
+//            } else {
+//                d -= 20;
+//            }
+//        }
+//
+//        temp = transformarVaC(singleData);
+//        Log.d(TAG, "calcularTempantiguo: new Temp " + temp);
+//        new_temp = true;
+//    }
 
     public double transformarVaC(Double adc){
         if(adc < 17361.0){
