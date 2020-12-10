@@ -148,7 +148,7 @@ public class MonitorBloodPressure extends AppCompatActivity {
                                             Log.d(TAG, "run: primera alerta");
                                             if(minutesDiff >= calibrationMinutes){
                                                 Log.d(TAG, "run: enviar primera alerta");
-                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), (int) medicion.getMedicion(), (int) medicion.getMedicion2());
                                                 notificacion.enviaraBD();
                                                 lastNotificationDate = alertDateTime;
                                                 isFirstAlert = false;
