@@ -84,6 +84,8 @@ public class MonitorStressLevel extends AppCompatActivity {
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
+        lastNotificationDate = new Date();
+
         stressText = (TextView) findViewById(R.id.medida_stress);
         stressParam = (TextView) findViewById(R.id.alerta_stress);
 
