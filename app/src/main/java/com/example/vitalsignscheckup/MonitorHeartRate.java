@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vitalsignscheckup.models.Mediciones;
+import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MonitorHeartRate extends AppCompatActivity {
@@ -45,6 +50,16 @@ public class MonitorHeartRate extends AppCompatActivity {
     private TextView ppmText;                       //medida de nivel de estres
     private HistoryAdapter historyAdapter;
 
+    private static final double minNormalValue = 60.0;
+    private static final double maxNormalValue = 100.0;
+    private static final double minValue = 20.0;
+    private static final double maxValue = 200.0;
+    private static final boolean useMinMax = false;
+
+    Date lastNotificationDate;
+    int minTimeMinutes = 2;
+    int calibrationMinutes = 1;
+    boolean isFirstAlert = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +83,7 @@ public class MonitorHeartRate extends AppCompatActivity {
         historyRV.setAdapter(historyAdapter);
         historyRV.setLayoutManager(new LinearLayoutManager(this));
 
+        lastNotificationDate = new Date();
 
         ppmText = findViewById(R.id.medida_heart);
 
@@ -108,6 +124,35 @@ public class MonitorHeartRate extends AppCompatActivity {
                                 Log.d(TAG, "run: new ppm " + ppm);
                                 ppmText.setText(sppm);
                                 medicion.enviaraBD();
+                                if (isAlertable(medicion.getMedicion())){
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+                                    String sDateTime = medicion.getDate() + " " + medicion.getTime();
+                                    Date alertDateTime;
+                                    try {
+                                        alertDateTime = sdf.parse(sDateTime);
+                                        long minutesDiff = (alertDateTime.getTime() - lastNotificationDate.getTime())/(1000*60);
+                                        if (isFirstAlert){
+                                            Log.d(TAG, "run: primera alerta");
+                                            if(minutesDiff >= calibrationMinutes){
+                                                Log.d(TAG, "run: enviar primera alerta");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                                isFirstAlert = false;
+                                            }
+                                        }
+                                        else {
+                                            if(minutesDiff >= minTimeMinutes){
+                                                Log.d(TAG, "run: alertas");
+                                                Notificaciones notificacion = new Notificaciones(medicion.getType(), medicion.getMedicion());
+                                                notificacion.enviaraBD();
+                                                lastNotificationDate = alertDateTime;
+                                            }
+                                        }
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 mService.setNewPpm(false);
                             }
                             handler.postDelayed(this, 1000);
@@ -195,6 +240,25 @@ public class MonitorHeartRate extends AppCompatActivity {
     private void bindService() {
         Intent serviceIntent = new Intent(this, ServiceHeartRate.class);
         bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
+    }
+
+    private boolean isInRange(double medicion){
+        if(useMinMax){
+            return medicion >= minValue && medicion <= maxValue;
+        }
+        return true;
+    };
+
+    private boolean isUnder(double medicion){
+        return medicion < minNormalValue;
+    };
+
+    private boolean isUpper(double medicion){
+        return medicion > maxNormalValue;
+    };
+
+    private boolean isAlertable(double medicion){
+        return isInRange(medicion) && (isUnder(medicion) || isUpper(medicion));
     }
 }
 

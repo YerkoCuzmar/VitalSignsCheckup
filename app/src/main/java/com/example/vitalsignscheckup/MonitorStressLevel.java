@@ -52,7 +52,7 @@ public class MonitorStressLevel extends AppCompatActivity {
     private TextView stressText;
     private TextView stressParam;
 
-    private static final double minNormalValue = 1.0;
+    private static final double minNormalValue = 0.0;
     private static final double maxNormalValue = 10.0;
     private static final double minValue = 0.0;
     private static final double maxValue = 20.0;
