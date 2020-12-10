@@ -34,6 +34,13 @@ public class ServiceTemperature extends Service {
 //    double d = 33628.0;
     double d = 24920.0; // 50 = 8
 
+    double minNormalTemp = 36.0;
+    double maxNormalTemp = 37.0;
+    double minTemp = 20.0;
+    double maxTemp = 45.0;
+
+    int minTimeMinutes = 5;
+
     private IBinder mBinder;
     private Handler mHandler;
     private Boolean isPaused;
@@ -194,4 +201,15 @@ public class ServiceTemperature extends Service {
         return Math.round(avg * 100.0)/ 100.0;
     }
 
+    private boolean isInRange(double medicion){
+        return medicion >= minTemp && medicion <= maxTemp;
+    };
+
+    private boolean isUnder(double medicion){
+        return medicion < minNormalTemp;
+    };
+
+    private boolean isUpper(double medicion){
+        return medicion > maxNormalTemp;
+    };
 }

@@ -14,6 +14,11 @@ public class Notificaciones {
     private int type; // 1 = temperatura; 2 = pulso ; 3 = estres ; 4 = presion ; 5 = SOS
     private String date;
     private String time;
+    private int medcionTemp;
+    private int medcionHeartRate;
+    private int medcionStress;
+    private int medcionBloodPressure1;
+    private int medcionBloodPressure2;
 
     public Notificaciones(){}
 

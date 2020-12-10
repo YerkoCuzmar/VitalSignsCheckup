@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,12 +20,16 @@ import com.example.vitalsignscheckup.MonitorHeartRate;
 import com.example.vitalsignscheckup.MonitorStressLevel;
 import com.example.vitalsignscheckup.MonitorTemperature;
 import com.example.vitalsignscheckup.R;
+import com.example.vitalsignscheckup.TutorialActivity;
 import com.example.vitalsignscheckup.models.Notificaciones;
 import com.google.android.material.card.MaterialCardView;
 
 //import androidx.lifecycle.ViewModelProviders;
 
 public class HomeFragment extends Fragment {
+    SharedPreferences preferences;
+    int showTutorial = 1;
+    String TAG = "PUERTOS";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,21 +42,92 @@ public class HomeFragment extends Fragment {
         MaterialCardView bloodPressureCard = (MaterialCardView) root.findViewById(R.id.bloodPressureCard);
         MaterialCardView stressLevelCard   = (MaterialCardView) root.findViewById(R.id.stressLevelCard);
 
+        ImageView temperatureDisconnected = root.findViewById(R.id.tempDisconnected);
+        ImageView heartRateDisconnected = root.findViewById(R.id.hrDisconnected);
+        ImageView bloodPressureDisconnected = root.findViewById(R.id.bpDisconnected);
+        ImageView stressLevelDisconnected = root.findViewById(R.id.stressDisconnected);
+
+        TextView bloodPressureTitle = root.findViewById(R.id.bpTitle);
+        TextView stressLevelTitle = root.findViewById(R.id.stressTitle);
+
         Button btnNotification = (Button) root.findViewById(R.id.btnNotification);
+
+        preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
+        String portbvp = preferences.getString("port", null);
+        Log.d(TAG, "onCreateView: " + "puertoBVP: " + portbvp);
+        Log.d(TAG, "onCreateView: " + (portbvp == ""));
+
+        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
+        String portecg = preferences.getString("port", null);
+        Log.d(TAG, "onCreateView: " + "puertoECG: " + portecg);
+        Log.d(TAG, "onCreateView: " + (portecg == ""));
+
+        preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
+        String porttemp = preferences.getString("port", null);
+        Log.d(TAG, "onCreateView: " + "puertoTEMP: " + porttemp);
+        Log.d(TAG, "onCreateView: " + (porttemp == ""));
+
+        preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
+        String porteda = preferences.getString("port", null);
+        Log.d(TAG, "onCreateView: " + "puertoEDA: " + porteda);
+        Log.d(TAG, "onCreateView: " + (porteda == ""));
+
+        if (porttemp == null || porttemp.equals("")){
+            temperatureCard.setEnabled(false);
+            temperatureDisconnected.setVisibility(View.VISIBLE);
+        }
+        if(portbvp == null || portbvp.equals("")){
+            heartRateCard.setEnabled(false);
+            heartRateDisconnected.setVisibility(View.VISIBLE);
+
+            bloodPressureCard.setEnabled(false);
+            bloodPressureDisconnected.setVisibility(View.VISIBLE);
+            bloodPressureTitle.setTextSize(16);
+        }
+        if(portecg == null || portecg.equals("")){
+            bloodPressureCard.setEnabled(false);
+            bloodPressureDisconnected.setVisibility(View.VISIBLE);
+            bloodPressureTitle.setTextSize(16);
+        }
+        if(porteda == null || porteda.equals("")){
+            stressLevelCard.setEnabled(false);
+            stressLevelDisconnected.setVisibility(View.VISIBLE);
+            stressLevelTitle.setTextSize(16);
+        }
+
 
         //TEMPERATURE
         temperatureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+                Intent monitorTemperatureIntent;
+                preferences = getActivity().getSharedPreferences("Tutorial", Context.MODE_PRIVATE);
+                int tempTutorial = preferences.getInt("temperature", 1);
+                if(tempTutorial == showTutorial){
+                    monitorTemperatureIntent = new Intent(view.getContext(), TutorialActivity.class);
+                    monitorTemperatureIntent.putExtra("type", 1);
+                }
+                else {
+                    monitorTemperatureIntent = new Intent(view.getContext(), MonitorTemperature.class);
+                }
                 startActivity(monitorTemperatureIntent);
 //                Toast.makeText(MainActivity.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
         });
 
+
         //HEART RATE
         heartRateCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+                Intent monitorHeartRateIntent;
+                preferences = getActivity().getSharedPreferences("Tutorial", Context.MODE_PRIVATE);
+                int heartRateTutorial = preferences.getInt("heartRate", 1);
+                if(heartRateTutorial == showTutorial){
+                    monitorHeartRateIntent = new Intent(view.getContext(), TutorialActivity.class);
+                    monitorHeartRateIntent.putExtra("type", 2);
+                }
+                else {
+                    monitorHeartRateIntent = new Intent(view.getContext(), MonitorHeartRate.class);
+                }
                 startActivity(monitorHeartRateIntent);
             }
         });
@@ -71,7 +148,16 @@ public class HomeFragment extends Fragment {
         //BLOOD PRESSURE
         bloodPressureCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+                Intent monitorBloodPressureIntent;
+                preferences = getActivity().getSharedPreferences("Tutorial", Context.MODE_PRIVATE);
+                int heartRateTutorial = preferences.getInt("bloodPressure", 1);
+                if(heartRateTutorial == showTutorial){
+                    monitorBloodPressureIntent = new Intent(view.getContext(), TutorialActivity.class);
+                    monitorBloodPressureIntent.putExtra("type", 4);
+                }
+                else {
+                    monitorBloodPressureIntent = new Intent(view.getContext(), MonitorBloodPressure.class);
+                }
                 startActivity(monitorBloodPressureIntent);
             }
         });
@@ -79,7 +165,16 @@ public class HomeFragment extends Fragment {
         //STRESS
         stressLevelCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
+                Intent monitorStressLevelIntent;
+                preferences = getActivity().getSharedPreferences("Tutorial", Context.MODE_PRIVATE);
+                int heartRateTutorial = preferences.getInt("stress", 1);
+                if(heartRateTutorial == showTutorial){
+                    monitorStressLevelIntent = new Intent(view.getContext(), TutorialActivity.class);
+                    monitorStressLevelIntent.putExtra("type", 3);
+                }
+                else {
+                    monitorStressLevelIntent = new Intent(view.getContext(), MonitorStressLevel.class);
+                }
                 startActivity(monitorStressLevelIntent);
 //                Toast.makeText(HomeFragment.this, "Funcion no disponible", Toast.LENGTH_SHORT).show();
             }
@@ -92,21 +187,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        SharedPreferences preferences = this.getActivity().getSharedPreferences("BVPConfig", Context.MODE_PRIVATE);
-        String portbvp = preferences.getString("port", null);
-        System.out.println("puertoBVP: " + portbvp);
-
-        preferences = this.getActivity().getSharedPreferences("ECGConfig", Context.MODE_PRIVATE);
-        String portecg = preferences.getString("port", null);
-        System.out.println("puertoECG: " + portecg);
-
-        preferences = this.getActivity().getSharedPreferences("TempConfig", Context.MODE_PRIVATE);
-        String porttemp = preferences.getString("port", null);
-        System.out.println("puertoTEMP: " + porttemp);
-
-        preferences = this.getActivity().getSharedPreferences("EDAConfig", Context.MODE_PRIVATE);
-        String porteda = preferences.getString("port", null);
-        System.out.println("puertoTEMP: " + porttemp);
 
         return root;
     }
