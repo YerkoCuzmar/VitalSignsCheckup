@@ -197,7 +197,7 @@ public class ServiceNotification extends Service {
                 title = "Alerta Estrés";
                 break;
             case 4:
-                title = "Alerta Pulso Sanguíneo";
+                title = "Alerta Presión Sanguínea";
                 break;
             case 5:
                 title = "Alerta SOS";
