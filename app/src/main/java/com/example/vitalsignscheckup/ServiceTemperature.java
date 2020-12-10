@@ -80,8 +80,8 @@ public class ServiceTemperature extends Service {
 
                 @Override
                 public void run() {
-//                    calcularTempSensores();
-                    calcularTempantiguo();
+                    calcularTempSensores();
+//                    calcularTempantiguo();
                     mHandler.postDelayed(this, 1000);
                 }
             };
